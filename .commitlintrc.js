@@ -28,6 +28,17 @@ module.exports = {
         // Used for automated releases-only
         'release',
       ],
-    ]
+    ],
+    'scope-enum': [
+      2,
+      'always',
+      [
+        // Dependency-related changes
+        'deps',
+        // Stitches-related changes
+        'stitches',
+      ],
+    ],
+    'scope-empty': [1, 'never'],
   },
 };
