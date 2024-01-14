@@ -3,6 +3,8 @@ import { extname } from 'node:path';
 import { parse } from '@swc/wasm';
 import type * as SWC from '@swc/wasm';
 import { CSS } from '../../../core';
+import Stitches from '../../../core/types/stitches';
+import ReactStitches from '../../../react/types/stitches';
 import { stitchesError } from '../../../stitches-error';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visit } from '../../ast/visit';
@@ -11,10 +13,10 @@ import { Extractor } from '../../types';
 import { extractVariablesAndImports } from './vars';
 
 export type State = {
-  // TODO improve type performance
-  stitches: any;
+  stitches: Stitches;
   ast: SWC.Program;
   id: string;
+  code: string;
   configFileList: string[];
   loaders: string[];
 };
@@ -87,6 +89,7 @@ export const extractorCore: Extractor = {
       id,
       configFileList,
       stitches,
+      code,
     });
 
     const registerStitchesCall = (
@@ -131,8 +134,7 @@ export const extractorCore: Extractor = {
           render = stitches.globalCss(origin.args[0] as CSS[]);
           break;
         case 'styled':
-          // @ts-expect-error React version specific
-          render = stitches.styled(
+          render = (stitches as ReactStitches).styled(
             ...origin.args.map((arg: any, index) => {
               const maybeParent = origin.parents.find((p) => p.index === index);
               if (maybeParent) {
@@ -147,7 +149,7 @@ export const extractorCore: Extractor = {
 
               return arg;
             }),
-          );
+          ) as (args: any[]) => any;
           break;
       }
 
@@ -182,8 +184,14 @@ export const extractorCore: Extractor = {
 
         return expressionToJSON(exprOrSpread.expression);
       });
+      if (origin.kind === 'styled') console.log(renderArgs);
 
-      const value = render(
+      const value = (
+        origin.kind === 'styled'
+          ? // @ts-expect-error
+            render.render
+          : render
+      )(
         ...renderArgs.map((arg, index) => {
           const maybeParent = origin.parents.find((p) => p.index === index);
           if (maybeParent) {
@@ -255,6 +263,7 @@ export const extractorCore: Extractor = {
               id: maybeImport.resolved,
               configFileList,
               stitches,
+              code,
             });
 
             maybeOrigin = foreignVariables.find(
@@ -298,6 +307,7 @@ export const extractorCore: Extractor = {
               id: maybeImport.resolved,
               configFileList,
               stitches,
+              code,
             });
 
             maybeOrigin = foreignVariables.find(
@@ -325,6 +335,100 @@ export const extractorCore: Extractor = {
           expression: callExpr,
           span: DUMMY_SP,
         }),
+      visitJSXElement: async (jsxEl) => {
+        const { opening } = jsxEl;
+        const openingName = opening.name;
+        if (openingName.type !== 'Identifier') return;
+
+        let maybeOrigin = variables.find(
+          (c) =>
+            c.name === openingName.value && c.ctxt === openingName.span.ctxt,
+        );
+
+        if (
+          !maybeOrigin &&
+          Array.from(imports).some(
+            (i) =>
+              i.ctxt === openingName.span.ctxt && i.value === openingName.value,
+          )
+        ) {
+          const maybeImport = imports.find(
+            (i) =>
+              i.ctxt === openingName.span.ctxt && i.value === openingName.value,
+          );
+          if (!maybeImport) return;
+
+          try {
+            const { variables: foreignVariables } = extractVariablesAndImports({
+              ast: await fileToAST(maybeImport.resolved),
+              loaders,
+              id: maybeImport.resolved,
+              configFileList,
+              stitches,
+              code,
+            });
+
+            maybeOrigin = foreignVariables.find(
+              (c) => c.name === openingName.value && c.exported === true,
+            );
+          } catch {}
+        }
+        if (!maybeOrigin) return;
+
+        const cssArg = opening.attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' &&
+            attr.name.type === 'Identifier' &&
+            attr.name.value === 'css',
+        );
+
+        const { kind, args, parents } = maybeOrigin;
+
+        registerStitchesCall(
+          [
+            {
+              spread: cssArg?.type === 'SpreadElement' ? DUMMY_SP : undefined,
+              expression: {
+                type: 'ObjectExpression',
+                span: {
+                  start: 6,
+                  end: 27,
+                  ctxt: 0,
+                },
+                properties:
+                  cssArg?.type === 'JSXAttribute' && cssArg?.value
+                    ? [
+                        {
+                          type: 'KeyValueProperty',
+                          key: {
+                            type: 'Identifier',
+                            span: {
+                              start: 10,
+                              end: 13,
+                              ctxt: 0,
+                            },
+                            value: 'css',
+                            optional: false,
+                          },
+                          value:
+                            cssArg?.type === 'JSXAttribute' && cssArg?.value
+                              ? cssArg.value.type === 'JSXExpressionContainer'
+                                ? cssArg.value.expression
+                                : (cssArg.value as any)
+                              : {},
+                        },
+                      ]
+                    : [],
+              },
+            },
+          ],
+          {
+            kind,
+            args,
+            parents,
+          },
+        );
+      },
     });
 
     return tokens;

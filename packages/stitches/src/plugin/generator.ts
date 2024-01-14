@@ -93,7 +93,9 @@ export class StitchesGenerator {
 
   async generate(
     input: string | Set<string> | string[],
-    options: GenerateOptions = {},
+    options: GenerateOptions = {
+      minify: this.config.envMode === 'build',
+    },
   ): Promise<{
     css: string;
     matched: Set<string>;

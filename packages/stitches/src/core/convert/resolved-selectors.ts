@@ -17,7 +17,7 @@ export const toResolvedSelectors = (
                       ? `:is(${parentSelector})`
                       : parentSelector,
                   )
-                : parentSelector + ' ' + selector,
+                : `${parentSelector} ${selector}`,
             ),
           );
 
