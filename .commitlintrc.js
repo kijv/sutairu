@@ -13,7 +13,7 @@ module.exports = {
         'docs',
         // A new feature
         'feat',
-        //A bug fix
+        // A bug fix
         'fix',
         // A code change that improves performance
         'perf',
