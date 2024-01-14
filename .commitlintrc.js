@@ -29,18 +29,5 @@ module.exports = {
         'release',
       ],
     ],
-    'scope-enum': [
-      2,
-      'always',
-      [
-        // Dependency-related changes
-        'deps',
-        // Biome-related changes
-        'biome',
-        // Stitches-related changes
-        'stitches',
-      ],
-    ],
-    'scope-empty': [1, 'never'],
   },
 };

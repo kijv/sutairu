@@ -1,7 +1,7 @@
 import path from 'node:path';
 import jiti from 'jiti';
 import { State } from '.';
-import { visit } from '../../ast/visit';
+import { visitSync } from '../../ast/visit';
 
 export const extractImports = ({ ast, loaders, id }: State) => {
   const require = jiti(import.meta.url);
@@ -13,7 +13,7 @@ export const extractImports = ({ ast, loaders, id }: State) => {
     resolved: string;
   }[] = [];
 
-  visit(ast, {
+  visitSync(ast, {
     visitImportDeclaration(importDecl) {
       try {
         let pass = loaders.includes(importDecl.source.value);
@@ -21,6 +21,7 @@ export const extractImports = ({ ast, loaders, id }: State) => {
         let resolved = path.isAbsolute(importDecl.source.value)
           ? importDecl.source.value
           : path.resolve(path.dirname(id), importDecl.source.value);
+        pass = loaders.includes(resolved);
 
         if (!pass) {
           try {
