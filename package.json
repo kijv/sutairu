@@ -15,7 +15,7 @@
     "test:watch": "vitest"
   },
   "lint-staged": {
-    "*": "biome check . --apply-unsafe --linter-enabled false"
+    "*": "biome check . --apply-unsafe --linter-enabled false --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "devDependencies": {
     "@antfu/ni": "^0.21.12",

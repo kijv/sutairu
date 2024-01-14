@@ -6,7 +6,10 @@ import type { UserConfig } from './plugin/config/types';
 import { createStitches as react_createStitches } from './react';
 import ReactStitches from './react/types/stitches';
 
-export type * from './core';
+export type {
+  ScaleValue,
+  PropertyValue,
+} from './core';
 
 export function defineConfig<
   Prefix extends string = '',

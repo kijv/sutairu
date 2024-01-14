@@ -6,8 +6,6 @@ import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visitSync } from '../../ast/visit';
 import { extractImports } from './imports';
 
-// biome-ignore lint/suspicious/noExplicitAny: Generic type depends on any for inference
-type ArrayItem<T extends any[]> = T extends (infer U)[] ? U : never;
 type NotNull<T> = T extends null | undefined ? never : T;
 
 /** These functions insert styles into the sheet */
@@ -27,7 +25,7 @@ export interface Variable {
     args: unknown[];
   }[];
   ctxt: number;
-  kind: ArrayItem<typeof STYLE_FUNCTIONS>;
+  kind: string;
   args: unknown[];
   name: string;
   exported?: boolean;
@@ -115,7 +113,7 @@ export const extractVariablesAndImports = ({
         ctxt: callExpr.callee.span.ctxt,
       });
     } else if (STYLE_FUNCTIONS.includes(calleValue)) {
-      const parents: ArrayItem<typeof variables>['parents'] = [];
+      const parents: Variable['parents'] = [];
       variables.push({
         parents: [],
         ctxt: callExpr.callee.span.ctxt,
@@ -380,5 +378,8 @@ export const extractVariablesAndImports = ({
     },
   });
 
-  return { variables, imports };
+  return {
+    variables,
+    imports,
+  };
 };

@@ -29,7 +29,6 @@ import { createKeyframesFunction } from './features/keyframes';
 import { createCreateThemeFunction } from './features/theme';
 import { createSheet } from './sheet';
 import { CreateStitches } from './types/config';
-import type * as CSSUtil from './types/css-util';
 import type Stitches from './types/stitches';
 import { createMemo } from './utils/create-memo';
 

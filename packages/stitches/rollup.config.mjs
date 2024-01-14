@@ -1,4 +1,3 @@
-import path from 'node:path';
 // @ts-check
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';

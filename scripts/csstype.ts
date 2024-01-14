@@ -233,7 +233,7 @@ class ModifiedString extends String {
 
   get withFixedNestingSelectors() {
     return this.replace(/Pseudos =[\W\w]+?;/g, (fragment: string) =>
-      fragment.replace(/":/g, '"&:').replace(/  \| "&:matches"\n/, ''),
+      fragment.replace(/":/g, '"&:').replace(/ {2}\| "&:matches"\n/, ''),
     ).replace(/AdvancedPseudos =[\W\w]+?;/g, (fragment: string) =>
       fragment.replace(/"&[^"]+/g, '$&('),
     );
@@ -299,7 +299,7 @@ class ModifiedString extends String {
   }
 
   get withoutBrowserComments() {
-    return this.replace(/(?<=   )\* [-_|][\W\w]+?(?=\*\/)/g, '');
+    return this.replace(/(?<= {3})\* [-_|][\W\w]+?(?=\*\/)/g, '');
   }
 
   get withoutImplicitGlobals() {
@@ -359,7 +359,7 @@ class ModifiedString extends String {
         .replace(/\n? *\| *"-[^"]+"/g, '')
         .replace(/"-[^"]+" *\| *\n?/g, '')
         .replace(/\n? *\| *"-[^\n]+(?=\n)/g, '')
-        .replace(/\n    MozFontFeatureSettings?: FontFeatureSettings;/, '')
+        .replace(/\n {4}MozFontFeatureSettings?: FontFeatureSettings;/, '')
     );
   }
 }

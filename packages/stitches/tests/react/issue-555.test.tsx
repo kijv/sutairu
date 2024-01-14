@@ -11,7 +11,7 @@ const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
     Rendered = renderer.create(React.createElement(...args));
   });
 
-  const json = Rendered!.toJSON();
+  const json = Rendered?.toJSON();
   const { props } = json;
 
   for (const prop in props) {
