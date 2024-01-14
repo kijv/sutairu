@@ -394,7 +394,7 @@ describe('Conditional variants', () => {
     expect(
       component.render({ size: { '@bp1': 'small', '@bp2': 'large' } }).props
         .className,
-    ).toBe(`c-PJLV c-PJLV-fHtTAQ-size-small c-PJLV-XwbVw-size-large`);
+    ).toBe('c-PJLV c-PJLV-fHtTAQ-size-small c-PJLV-XwbVw-size-large');
     expect(toString()).toBe(
       '--sxs{--sxs:4 c-PJLV-fHtTAQ-size-small c-PJLV-XwbVw-size-large}@layer resonevar{' +
         '@media (max-width: 767px){.c-PJLV-fHtTAQ-size-small{font-size:16px}}' +

@@ -5,18 +5,15 @@ import { parse, parseSync } from '@swc/wasm';
 import type * as SWC from '@swc/wasm';
 import { CSS } from '../../../core';
 import Stitches from '../../../core/types/stitches';
-import ReactStitches, {
-  StyledFunctionType,
-} from '../../../react/types/stitches';
+import ReactStitches from '../../../react/types/stitches';
 import { StyledComponent } from '../../../react/types/styled-component';
 import { stitchesError } from '../../../stitches-error';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
-import { visit, visitSync } from '../../ast/visit';
+import { visitSync } from '../../ast/visit';
 import { JS_TYPES_RE } from '../../constants';
 import { Extractor } from '../../types';
-import { Import } from './imports';
 import { jsonArguments } from './utils';
-import { Variable, extractVariablesAndImports } from './vars';
+import { EXTENDABLE_STYLE_FUNCTIONS, extractVariablesAndImports } from './vars';
 
 function removeDups<T>(array: T[]): T[] {
   return [...new Set(array)];
@@ -291,7 +288,6 @@ export const extractorCore: Extractor = {
         origin.args = args;
         origin.parents = parents;
       } else if (callee.type === 'CallExpression') {
-        // TODO add support for direct calls (ex. css(...)())
         const { callee: innerCallee } = callee;
 
         // createTheme
@@ -341,6 +337,167 @@ export const extractorCore: Extractor = {
             origin.args = args;
             origin.parents = parents;
           }
+        }
+        // inline calling
+        else if (callee.type === 'CallExpression') {
+          if (innerCallee.type !== 'Identifier') return;
+
+          origin.kind = innerCallee.value;
+          origin.args = callee.arguments.flatMap((exprOrSpread, index) => {
+            if (exprOrSpread.spread) {
+              stitchesError('No support for spreads in functions');
+            }
+
+            const { expression } = exprOrSpread;
+
+            if (
+              expression.type === 'Identifier' &&
+              EXTENDABLE_STYLE_FUNCTIONS.includes(innerCallee.value)
+            ) {
+              const maybeParent = variables.find(
+                (i) =>
+                  i.name === expression.value &&
+                  i.ctxt === expression.span.ctxt,
+              );
+              if (maybeParent) {
+                origin.parents.push({
+                  kind: maybeParent.kind,
+                  index,
+                  args: maybeParent.args,
+                });
+              }
+            } else if (exprOrSpread.expression.type === 'ObjectExpression') {
+              exprOrSpread.expression = visitSync(
+                exprOrSpread.expression,
+                {
+                  visitComputed(node) {
+                    const { expression } = node;
+                    if (expression.type !== 'TemplateLiteral') return;
+
+                    const { start } = expression.span;
+
+                    const replaced: {
+                      start: number;
+                      end: number;
+                      value: string;
+                    }[] = [];
+                    // put these in order based on their span.start and span.end
+                    const order = [];
+
+                    for (const expr of expression.expressions) {
+                      if (expr.type !== 'Identifier') continue;
+
+                      const maybeMatch = variables.find(
+                        (v) =>
+                          v.name === expr.value && v.ctxt === expr.span.ctxt,
+                      );
+                      if (!maybeMatch) continue;
+
+                      const { args, kind } = maybeMatch;
+
+                      if (kind === 'keyframes' && !!stitches) {
+                        const replacement = stitches
+                          .keyframes(args[0] as CSS)
+                          .toString();
+                        const { start, end } = expr.span;
+                        replaced.push({ start, end, value: replacement });
+                      } else if (kind === 'css') {
+                        const replacement = stitches
+                          .css(...(args as CSS[]))
+                          .toString();
+                        const { start, end } = expr.span;
+                        replaced.push({ start, end, value: replacement });
+                      } else continue;
+                    }
+
+                    for (const quasi of expression.quasis) {
+                      order[quasi.span.start - start] = {
+                        type: 'StringLiteral',
+                        span: DUMMY_SP,
+                        value: quasi.cooked,
+                      };
+                    }
+                    for (const replace of replaced) {
+                      order[replace.start - start] = {
+                        type: 'StringLiteral',
+                        span: DUMMY_SP,
+                        value: replace.value,
+                      };
+                    }
+
+                    return {
+                      type: 'StringLiteral',
+                      span: DUMMY_SP,
+                      // @ts-expect-error
+                      value: order.flatMap(expressionToJSON).join(''),
+                    };
+                  },
+                  visitTemplateLiteral(expression) {
+                    const { start } = expression.span;
+
+                    const replaced: {
+                      start: number;
+                      end: number;
+                      value: string;
+                    }[] = [];
+                    // put these in order based on their span.start and span.end
+                    const order = [];
+
+                    for (const expr of expression.expressions) {
+                      if (expr.type !== 'Identifier') continue;
+
+                      const maybeMatch = variables.find(
+                        (v) =>
+                          v.name === expr.value && v.ctxt === expr.span.ctxt,
+                      );
+                      if (!maybeMatch) continue;
+
+                      const { args, kind } = maybeMatch;
+
+                      if (kind === 'keyframes') {
+                        const replacement = stitches
+                          .keyframes(args[0] as CSS)
+                          .toString();
+                        const { start, end } = expr.span;
+                        replaced.push({ start, end, value: replacement });
+                      } else if (kind === 'css') {
+                        const replacement = stitches
+                          .css(...(args as CSS[]))
+                          .toString();
+                        const { start, end } = expr.span;
+                        replaced.push({ start, end, value: replacement });
+                      } else continue;
+                    }
+
+                    for (const quasi of expression.quasis) {
+                      order[quasi.span.start - start] = {
+                        type: 'StringLiteral',
+                        span: DUMMY_SP,
+                        value: quasi.cooked,
+                      };
+                    }
+                    for (const replace of replaced) {
+                      order[replace.start - start] = {
+                        type: 'StringLiteral',
+                        span: DUMMY_SP,
+                        value: replace.value,
+                      };
+                    }
+
+                    return {
+                      type: 'StringLiteral',
+                      span: DUMMY_SP,
+                      // @ts-expect-error
+                      value: order.flatMap(expressionToJSON).join(''),
+                    };
+                  },
+                },
+                true,
+              );
+            }
+
+            return expressionToJSON(exprOrSpread.expression);
+          });
         }
       } else if (callee.type === 'MemberExpression') {
         const { property, object } = callee;

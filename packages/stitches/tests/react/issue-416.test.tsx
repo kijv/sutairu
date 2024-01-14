@@ -64,7 +64,7 @@ describe('Issue #416: Composition versus Descendancy', async () => {
       });
     }
 
-    const [boxA, boxB, genY, boxZ] = wrapper!.toJSON().children;
+    const [boxA, boxB, genY, boxZ] = wrapper?.toJSON().children;
 
     const baselineClass = 'c-PJLV';
     const variantAClass = 'c-PJLV-kgptgY-foo-bar';

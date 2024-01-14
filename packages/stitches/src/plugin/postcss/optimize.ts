@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import postcss, { Container, Root } from 'postcss';
+import postcss, { Container } from 'postcss';
 import discardEmpty from 'postcss-discard-empty';
 import nested from 'postcss-nested';
 import prettify from './plugins/prettify';
