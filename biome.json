@@ -36,9 +36,7 @@
 	"javascript": {
 		"formatter": {
 			"lineEnding": "lf",
-			"indentWidth": 2,
 			"lineWidth": 80,
-			"indentStyle": "space",
 			"quoteStyle": "single"
 		}
 	}

@@ -5,6 +5,6 @@ export * from './postcss/plugin';
 export default postcss;
 
 if (typeof module !== 'undefined') {
-  module.exports = postcss;
-  module.exports.defineConfig = defineConfig;
+	module.exports = postcss;
+	module.exports.defineConfig = defineConfig;
 }

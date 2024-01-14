@@ -24,8 +24,8 @@ SOFTWARE.
 
 /** Returns a string with the given prefix followed by the given values. */
 export type Prefixed<K extends string, T> = `${K}${Extract<
-  T,
-  boolean | number | string
+	T,
+	boolean | number | string
 >}`;
 
 /** Returns an object from the given object assigned with the values of another given object. */
@@ -33,14 +33,14 @@ export type Assign<T1 = {}, T2 = {}> = Omit<T1, keyof T2> & T2;
 
 /** Returns a widened value from the given value. */
 export type Widen<T> = T extends number
-  ? `${T}` | T
-  : T extends 'true'
-    ? boolean | T
-    : T extends 'false'
-      ? boolean | T
-      : T extends `${number}`
-        ? number | T
-        : T;
+	? `${T}` | T
+	: T extends 'true'
+	  ? boolean | T
+	  : T extends 'false'
+		  ? boolean | T
+		  : T extends `${number}`
+			  ? number | T
+			  : T;
 
 /** Narrowed string. */
 export type NarrowString = string & Record<never, never>;
@@ -53,5 +53,5 @@ export type NarrowFunction = (...args: any[]) => unknown;
 
 /** Widened object. */
 export type WideObject = {
-  [name in number | string]: boolean | number | string | undefined | WideObject;
+	[name in number | string]: boolean | number | string | undefined | WideObject;
 };
