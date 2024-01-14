@@ -22,7 +22,7 @@ describe('Serialization', () => {
 
   test('Components implicitly return their selector', () => {
     expect(String(myComponent)).toBe(myComponentSelector);
-    expect('' + myComponent).toBe(myComponentSelector);
+    expect(`${myComponent}`).toBe(myComponentSelector);
     expect(`${myComponent}`).toBe(myComponentSelector);
   });
 
@@ -33,7 +33,7 @@ describe('Serialization', () => {
 
   test('Themes implicitly return their className', () => {
     expect(String(myTheme)).toBe(myThemeClass);
-    expect('' + myTheme).toBe(myThemeClass);
+    expect(`${myTheme}`).toBe(myThemeClass);
     expect(`${myTheme}`).toBe(myThemeClass);
   });
 
@@ -52,7 +52,7 @@ describe('Serialization', () => {
 
   test('Sheets implicitly return their cssText', () => {
     expect(String(sheet)).toBe(sheetCssText);
-    expect('' + sheet).toBe(sheetCssText);
+    expect(`${sheet}`).toBe(sheetCssText);
     expect(`${sheet}`).toBe(sheetCssText);
   });
 

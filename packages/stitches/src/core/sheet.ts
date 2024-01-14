@@ -272,7 +272,7 @@ export const createSheet = (root: DocumentOrShadowRoot) => {
           cache: new Set([i]),
         };
       }
-      addApplyToGroup(rules[name!]!);
+      if (name && rules[name]) addApplyToGroup(rules[name]!);
     }
   };
 
@@ -282,7 +282,7 @@ export const createSheet = (root: DocumentOrShadowRoot) => {
 };
 
 const addApplyToGroup = (group: RuleGroup) => {
-  const groupingRule = group.group;
+  const groupingRule = group?.group;
 
   let index = groupingRule?.cssRules?.length;
 

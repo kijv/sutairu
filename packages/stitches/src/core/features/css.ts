@@ -517,7 +517,7 @@ const getTargetVariantsToAdd = (
     targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || [];
 
     targetVariantsToAdd[vOrder]?.push([
-      isCompoundVariant ? 'cv' : `${vName}-${vMatch[vName!]}`,
+      isCompoundVariant ? 'cv' : `${vName}-${vName?.[vName]}`,
       vStyle,
       isResponsive,
     ]);

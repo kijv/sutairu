@@ -11,7 +11,7 @@ const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
     Rendered = renderer.create(React.createElement(...typePropsThenChildren));
   });
 
-  return Rendered!.toJSON();
+  return Rendered?.toJSON();
 };
 
 describe('Issue #450', () => {
@@ -110,7 +110,7 @@ describe('Issue #450', () => {
         Rendered = renderer.create(React.createElement(type, props));
       });
 
-      return Rendered!.toJSON();
+      return Rendered?.toJSON();
     };
 
     const tileComponentClass = 'c-kTjQBa';

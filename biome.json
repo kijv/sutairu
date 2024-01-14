@@ -26,7 +26,8 @@
 				"noParameterAssign": "warn"
 			},
 			"nursery": {
-				"useGroupedTypeImport": "error"
+				"useGroupedTypeImport": "error",
+				"noUnusedImports": "error"
 			}
 		}
 	},

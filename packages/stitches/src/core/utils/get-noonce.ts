@@ -1,7 +1,7 @@
 declare global {
   interface Window {
-    __webpack_nonce__: unknown;
-    nonce: unknown;
+    __webpack_nonce__: string;
+    nonce: string;
   }
 }
 
