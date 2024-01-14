@@ -3,15 +3,17 @@ import jiti from 'jiti';
 import { State } from '.';
 import { visitSync } from '../../ast/visit';
 
+export interface Import {
+  loader: string;
+  ctxt: number;
+  source: string;
+  value?: string;
+  resolved: string;
+}
+
 export const extractImports = ({ ast, loaders, id }: State) => {
   const require = jiti(import.meta.url);
-  const imports: {
-    loader: string;
-    ctxt: number;
-    source: string;
-    value?: string;
-    resolved: string;
-  }[] = [];
+  const imports: Import[] = [];
 
   visitSync(ast, {
     visitImportDeclaration(importDecl) {
