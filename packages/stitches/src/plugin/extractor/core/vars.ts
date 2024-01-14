@@ -20,6 +20,19 @@ export const STYLE_FUNCTIONS = [
 ];
 export const EXTENDABLE_STYLE_FUNCTIONS = ['css', 'styled'];
 
+export interface Variable {
+  parents: {
+    kind: string;
+    index: number;
+    args: unknown[];
+  }[];
+  ctxt: number;
+  kind: ArrayItem<typeof STYLE_FUNCTIONS>;
+  args: unknown[];
+  name: string;
+  exported?: boolean;
+}
+
 /**
  * Extracts variables from a given AST,
  * we don't do anything with them except
@@ -49,18 +62,7 @@ export const extractVariablesAndImports = ({
     value: string;
     ctxt: number;
   }[] = [];
-  const variables: {
-    parents: {
-      kind: string;
-      index: number;
-      args: unknown[];
-    }[];
-    ctxt: number;
-    kind: ArrayItem<typeof STYLE_FUNCTIONS>;
-    args: unknown[];
-    name: string;
-    exported?: boolean;
-  }[] = [];
+  const variables: Variable[] = [];
 
   const getCallExpr = (varDecl: SWC.VariableDeclaration) => {
     const decl = varDecl.declarations

@@ -14,8 +14,9 @@ import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visit, visitSync } from '../../ast/visit';
 import { JS_TYPES_RE } from '../../constants';
 import { Extractor } from '../../types';
+import { Import } from './imports';
 import { jsonArguments } from './utils';
-import { extractVariablesAndImports } from './vars';
+import { Variable, extractVariablesAndImports } from './vars';
 
 function removeDups<T>(array: T[]): T[] {
   return [...new Set(array)];
@@ -28,34 +29,6 @@ export type State = {
   code: string;
   configFileList: string[];
   loaders: string[];
-};
-
-const fileToAST = async (file: string) => {
-  const fileContent = await readFile(file, 'utf8');
-  const ext = extname(file);
-  const tsx = ext.endsWith('tsx');
-  const ts = ext.endsWith('ts');
-  const jsx = ext.endsWith('jsx');
-
-  return parse(fileContent, {
-    syntax: tsx || ts ? 'typescript' : 'ecmascript',
-    jsx,
-    tsx,
-  });
-};
-
-const fileToASTSync = (file: string) => {
-  const fileContent = readFileSync(file, 'utf8');
-  const ext = extname(file);
-  const tsx = ext.endsWith('tsx');
-  const ts = ext.endsWith('ts');
-  const jsx = ext.endsWith('jsx');
-
-  return parseSync(fileContent, {
-    syntax: tsx || ts ? 'typescript' : 'ecmascript',
-    jsx,
-    tsx,
-  });
 };
 
 export const extractorCore: Extractor = {
@@ -321,6 +294,7 @@ export const extractorCore: Extractor = {
         // TODO add support for direct calls (ex. css(...)())
         const { callee: innerCallee } = callee;
 
+        // createTheme
         if (
           innerCallee.type === 'Identifier' &&
           innerCallee.value === 'String' &&
@@ -405,7 +379,7 @@ export const extractorCore: Extractor = {
             );
           } catch {}
         }
-        // for createTheme
+        // createTheme
         if (!maybeOrigin && property.value === 'toString') {
           maybeOrigin = variables.find(
             (c) => c.name === object.value && c.ctxt === object.span.ctxt,
@@ -659,4 +633,32 @@ export const extractorCore: Extractor = {
 
     return tokens;
   },
+};
+
+const fileToAST = async (file: string) => {
+  const fileContent = await readFile(file, 'utf8');
+  const ext = extname(file);
+  const tsx = ext.endsWith('tsx');
+  const ts = ext.endsWith('ts');
+  const jsx = ext.endsWith('jsx');
+
+  return parse(fileContent, {
+    syntax: tsx || ts ? 'typescript' : 'ecmascript',
+    jsx,
+    tsx,
+  });
+};
+
+const fileToASTSync = (file: string) => {
+  const fileContent = readFileSync(file, 'utf8');
+  const ext = extname(file);
+  const tsx = ext.endsWith('tsx');
+  const ts = ext.endsWith('ts');
+  const jsx = ext.endsWith('jsx');
+
+  return parseSync(fileContent, {
+    syntax: tsx || ts ? 'typescript' : 'ecmascript',
+    jsx,
+    tsx,
+  });
 };
