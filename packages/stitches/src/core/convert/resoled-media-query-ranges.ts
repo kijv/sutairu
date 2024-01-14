@@ -1,5 +1,5 @@
 // biome-ignore lint/correctness/noEmptyCharacterClassInRegex: This is neccessary for the regex to work.
-const  mqunit = /([\d.]+)([^]*)/;
+const mqunit = /([\d.]+)([^]*)/;
 
 /** Returns a media query with polyfilled ranges. */
 export const toResolvedMediaQueryRanges = (media: string) =>
