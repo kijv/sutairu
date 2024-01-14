@@ -18,6 +18,7 @@
     "*": "biome check . --apply-unsafe --linter-enabled false"
   },
   "devDependencies": {
+    "@antfu/ni": "^0.21.12",
     "@biomejs/biome": "^1.4.1",
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^17.7.1",
