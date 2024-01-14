@@ -116,6 +116,7 @@ function stitches(options: StitchesPostcssPluginOptions = {}) {
             const content = await readFile(file, 'utf8');
             const { matched } = await stitches.generate(content, {
               id: file,
+              minify: process.env.NODE_ENV === 'production',
             });
 
             fileClassMap.set(file, matched);

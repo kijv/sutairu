@@ -1,5 +1,6 @@
 import * as SWC from '@swc/wasm';
 import { State } from '.';
+import { CSS } from '../../../core';
 import { stitchesError } from '../../../stitches-error';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visitSync } from '../../ast/visit';
@@ -34,6 +35,7 @@ export const extractVariablesAndImports = ({
   loaders,
   id,
   configFileList,
+  code,
 }: State) => {
   const imports = extractImports({
     ast,
@@ -41,6 +43,7 @@ export const extractVariablesAndImports = ({
     id,
     configFileList,
     stitches,
+    code,
   });
   const inlineLoaders: {
     loader: string;
@@ -105,9 +108,6 @@ export const extractVariablesAndImports = ({
     // if we see `defineConfig` and their values being used in the
     // same file, use that to ensure variables are of correct origin
     if (calleValue === 'defineConfig' && loaders.includes(id)) {
-      const reactLoaders = loaders.filter(
-        (l) => l.endsWith('react.cjs') || l.endsWith('react.mjs'),
-      );
       inlineLoaders.push({
         loader: id,
         ctxt: callExpr.callee.span.ctxt,
@@ -171,12 +171,14 @@ export const extractVariablesAndImports = ({
 
                     if (kind === 'keyframes' && !!stitches) {
                       const replacement = stitches
-                        .keyframes(args[0])
+                        .keyframes(args[0] as CSS)
                         .toString();
                       const { start, end } = expr.span;
                       replaced.push({ start, end, value: replacement });
                     } else if (kind === 'css') {
-                      const replacement = stitches.css(...args).toString();
+                      const replacement = stitches
+                        .css(...(args as CSS[]))
+                        .toString();
                       const { start, end } = expr.span;
                       replaced.push({ start, end, value: replacement });
                     } else continue;
@@ -227,12 +229,14 @@ export const extractVariablesAndImports = ({
 
                     if (kind === 'keyframes') {
                       const replacement = stitches
-                        .keyframes(args[0])
+                        .keyframes(args[0] as CSS)
                         .toString();
                       const { start, end } = expr.span;
                       replaced.push({ start, end, value: replacement });
                     } else if (kind === 'css') {
-                      const replacement = stitches.css(...args).toString();
+                      const replacement = stitches
+                        .css(...(args as CSS[]))
+                        .toString();
                       const { start, end } = expr.span;
                       replaced.push({ start, end, value: replacement });
                     } else continue;
