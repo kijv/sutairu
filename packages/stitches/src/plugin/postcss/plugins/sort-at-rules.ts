@@ -23,20 +23,20 @@ SOFTWARE.
 */
 
 const minMaxWidth =
-	/(!?\(\s*min(-device-)?-width)(.|\n)+\(\s*max(-device)?-width/i;
+  /(!?\(\s*min(-device-)?-width)(.|\n)+\(\s*max(-device)?-width/i;
 const minWidth = /\(\s*min(-device)?-width/i;
 const maxMinWidth =
-	/(!?\(\s*max(-device)?-width)(.|\n)+\(\s*min(-device)?-width/i;
+  /(!?\(\s*max(-device)?-width)(.|\n)+\(\s*min(-device)?-width/i;
 const maxWidth = /\(\s*max(-device)?-width/i;
 
 const isMinWidth = _testQuery(minMaxWidth, maxMinWidth, minWidth);
 const isMaxWidth = _testQuery(maxMinWidth, minMaxWidth, maxWidth);
 
 const minMaxHeight =
-	/(!?\(\s*min(-device)?-height)(.|\n)+\(\s*max(-device)?-height/i;
+  /(!?\(\s*min(-device)?-height)(.|\n)+\(\s*max(-device)?-height/i;
 const minHeight = /\(\s*min(-device)?-height/i;
 const maxMinHeight =
-	/(!?\(\s*max(-device)?-height)(.|\n)+\(\s*min(-device)?-height/i;
+  /(!?\(\s*max(-device)?-height)(.|\n)+\(\s*min(-device)?-height/i;
 const maxHeight = /\(\s*max(-device)?-height/i;
 
 const isMinHeight = _testQuery(minMaxHeight, maxMinHeight, minHeight);
@@ -52,44 +52,44 @@ const maxValue = Number.MAX_VALUE;
  * Copy from original source `function inspectLength (length)`
  */
 function getQueryLength(query: string) {
-	let length = /(-?\d*\.?\d+)(ch|em|ex|px|rem)/.exec(query);
+  let length = /(-?\d*\.?\d+)(ch|em|ex|px|rem)/.exec(query);
 
-	if (length === null && (isMinWidth(query) || isMinHeight(query))) {
-		length = /(\d)/.exec(query);
-	}
+  if (length === null && (isMinWidth(query) || isMinHeight(query))) {
+    length = /(\d)/.exec(query);
+  }
 
-	//@ts-expect-error - will fix later
-	if (length === '0') {
-		return 0;
-	}
+  //@ts-expect-error - will fix later
+  if (length === '0') {
+    return 0;
+  }
 
-	if (length === null) {
-		return maxValue;
-	}
+  if (length === null) {
+    return maxValue;
+  }
 
-	let number: number | string = length[1] as number | string;
-	const unit = length[2];
+  let number: number | string = length[1] as number | string;
+  const unit = length[2];
 
-	switch (unit) {
-		case 'ch':
-			number = parseFloat(number.toString()) * 8.8984375;
-			break;
+  switch (unit) {
+    case 'ch':
+      number = parseFloat(number.toString()) * 8.8984375;
+      break;
 
-		case 'em':
-		case 'rem':
-			number = parseFloat(number.toString()) * 16;
-			break;
+    case 'em':
+    case 'rem':
+      number = parseFloat(number.toString()) * 16;
+      break;
 
-		case 'ex':
-			number = parseFloat(number.toString()) * 8.296875;
-			break;
+    case 'ex':
+      number = parseFloat(number.toString()) * 8.296875;
+      break;
 
-		case 'px':
-			number = parseFloat(number.toString());
-			break;
-	}
+    case 'px':
+      number = parseFloat(number.toString());
+      break;
+  }
 
-	return +number;
+  return +number;
 }
 
 /**
@@ -101,23 +101,23 @@ function getQueryLength(query: string) {
  * @return {Function}
  */
 function _testQuery(
-	doubleTestTrue: RegExp,
-	doubleTestFalse: RegExp,
-	singleTest: RegExp,
+  doubleTestTrue: RegExp,
+  doubleTestFalse: RegExp,
+  singleTest: RegExp,
 ) {
-	/**
-	 * @param {string} query
-	 * @return {boolean}
-	 */
-	return (query: string) => {
-		if (doubleTestTrue.test(query)) {
-			return true;
-		}
-		if (doubleTestFalse.test(query)) {
-			return false;
-		}
-		return singleTest.test(query);
-	};
+  /**
+   * @param {string} query
+   * @return {boolean}
+   */
+  return (query: string) => {
+    if (doubleTestTrue.test(query)) {
+      return true;
+    }
+    if (doubleTestFalse.test(query)) {
+      return false;
+    }
+    return singleTest.test(query);
+  };
 }
 
 /**
@@ -127,88 +127,88 @@ function _testQuery(
  * @return {number|null}
  */
 function _testIsPrint(a: string, b: string) {
-	const isPrintA = isPrint.test(a);
-	const isPrintOnlyA = isPrintOnly.test(a);
+  const isPrintA = isPrint.test(a);
+  const isPrintOnlyA = isPrintOnly.test(a);
 
-	const isPrintB = isPrint.test(b);
-	const isPrintOnlyB = isPrintOnly.test(b);
+  const isPrintB = isPrint.test(b);
+  const isPrintOnlyB = isPrintOnly.test(b);
 
-	if (isPrintA && isPrintB) {
-		if (!isPrintOnlyA && isPrintOnlyB) {
-			return 1;
-		}
-		if (isPrintOnlyA && !isPrintOnlyB) {
-			return -1;
-		}
-		return a.localeCompare(b);
-	}
-	if (isPrintA) {
-		return 1;
-	}
-	if (isPrintB) {
-		return -1;
-	}
+  if (isPrintA && isPrintB) {
+    if (!isPrintOnlyA && isPrintOnlyB) {
+      return 1;
+    }
+    if (isPrintOnlyA && !isPrintOnlyB) {
+      return -1;
+    }
+    return a.localeCompare(b);
+  }
+  if (isPrintA) {
+    return 1;
+  }
+  if (isPrintB) {
+    return -1;
+  }
 
-	return null;
+  return null;
 }
 
 function createSort(config: { unitlessMqAlwaysFirst?: boolean } = {}) {
-	const { unitlessMqAlwaysFirst } = config;
+  const { unitlessMqAlwaysFirst } = config;
 
-	return function sortCSSmq(a: string, b: string) {
-		const testIsPrint = _testIsPrint(a, b);
-		if (testIsPrint !== null) {
-			return testIsPrint;
-		}
+  return function sortCSSmq(a: string, b: string) {
+    const testIsPrint = _testIsPrint(a, b);
+    if (testIsPrint !== null) {
+      return testIsPrint;
+    }
 
-		const minA = isMinWidth(a) || isMinHeight(a);
-		const maxA = isMaxWidth(a) || isMaxHeight(a);
+    const minA = isMinWidth(a) || isMinHeight(a);
+    const maxA = isMaxWidth(a) || isMaxHeight(a);
 
-		const minB = isMinWidth(b) || isMinHeight(b);
-		const maxB = isMaxWidth(b) || isMaxHeight(b);
+    const minB = isMinWidth(b) || isMinHeight(b);
+    const maxB = isMaxWidth(b) || isMaxHeight(b);
 
-		if (unitlessMqAlwaysFirst && ((!minA && !maxA) || (!minB && !maxB))) {
-			if (!minA && !maxA && !minB && !maxB) {
-				return a.localeCompare(b);
-			}
-			return !minB && !maxB ? 1 : -1;
-		}
-		if (minA && maxB) {
-			return -1;
-		}
-		if (maxA && minB) {
-			return 1;
-		}
+    if (unitlessMqAlwaysFirst && ((!minA && !maxA) || (!minB && !maxB))) {
+      if (!minA && !maxA && !minB && !maxB) {
+        return a.localeCompare(b);
+      }
+      return !minB && !maxB ? 1 : -1;
+    }
+    if (minA && maxB) {
+      return -1;
+    }
+    if (maxA && minB) {
+      return 1;
+    }
 
-		const lengthA = getQueryLength(a);
-		const lengthB = getQueryLength(b);
+    const lengthA = getQueryLength(a);
+    const lengthB = getQueryLength(b);
 
-		if (lengthA === maxValue && lengthB === maxValue) {
-			return a.localeCompare(b);
-		}
-		if (lengthA === maxValue) {
-			return 1;
-		}
-		if (lengthB === maxValue) {
-			return -1;
-		}
+    if (lengthA === maxValue && lengthB === maxValue) {
+      return a.localeCompare(b);
+    }
+    if (lengthA === maxValue) {
+      return 1;
+    }
+    if (lengthB === maxValue) {
+      return -1;
+    }
 
-		if (lengthA > lengthB) {
-			if (maxA) {
-				return -1;
-			}
-			return 1;
-		}
+    if (lengthA > lengthB) {
+      if (maxA) {
+        return -1;
+      }
+      return 1;
+    }
 
-		if (lengthA < lengthB) {
-			if (maxA) {
-				return 1;
-			}
-			return -1;
-		}
+    if (lengthA < lengthB) {
+      if (maxA) {
+        return 1;
+      }
+      return -1;
+    }
 
-		return a.localeCompare(b);
-	};
+    return a.localeCompare(b);
+  };
 }
 
 export const sortAtRules = createSort();

@@ -12,7 +12,7 @@ const root = document.getElementById('root')!;
 root.classList.add(styles.root());
 
 ReactDOM.createRoot(root).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );

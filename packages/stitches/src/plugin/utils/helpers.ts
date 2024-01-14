@@ -25,15 +25,15 @@ SOFTWARE.
 export const cssIdRE = /\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/;
 
 export function notNull<T>(value: T | null | undefined): value is T {
-	return value != null;
+  return value != null;
 }
 
 export function noop() {}
 
 export function getPath(id: string) {
-	return id.replace(/\?.*$/, '');
+  return id.replace(/\?.*$/, '');
 }
 
 export function isCssId(id: string) {
-	return cssIdRE.test(id);
+  return cssIdRE.test(id);
 }

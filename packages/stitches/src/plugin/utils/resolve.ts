@@ -7,9 +7,9 @@ import { fileURLToPath } from 'url';
  * @example dir(import.meta)
  */
 export function dir(meta: {
-	url: string;
+  url: string;
 }) {
-	return path.dirname(fileURLToPath(meta.url));
+  return path.dirname(fileURLToPath(meta.url));
 }
 
 /**
@@ -20,7 +20,7 @@ export function dir(meta: {
  * @example resolve(import.meta, 'folder', 'file.txt')
  */
 export function resolve(base: { url: string } | string, ...paths: string[]) {
-	return typeof base === 'object' && base?.url
-		? path.resolve(dir(base), ...paths)
-		: path.resolve(...paths);
+  return typeof base === 'object' && base?.url
+    ? path.resolve(dir(base), ...paths)
+    : path.resolve(...paths);
 }

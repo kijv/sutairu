@@ -27,38 +27,38 @@ import { P, match } from 'ts-pattern';
 import { sortAtRules } from './sort-at-rules';
 
 export default function sortMediaQueries(): TransformCallback {
-	const inner = (root: Container) => {
-		root.nodes.sort((a, b) => {
-			return match({ a, b })
-				.with(
-					{
-						a: { type: 'atrule', name: 'media' },
-						b: { type: 'atrule', name: 'media' },
-					},
-					({ a, b }) => {
-						return sortAtRules(a.params, b.params);
-					},
-				)
-				.with({ a: { type: 'atrule', name: 'media' }, b: P.any }, () => {
-					return 1;
-				})
-				.with({ a: P.any, b: { type: 'atrule', name: 'media' } }, () => {
-					return -1;
-				})
-				.otherwise(() => {
-					return 0;
-				});
-		});
+  const inner = (root: Container) => {
+    root.nodes.sort((a, b) => {
+      return match({ a, b })
+        .with(
+          {
+            a: { type: 'atrule', name: 'media' },
+            b: { type: 'atrule', name: 'media' },
+          },
+          ({ a, b }) => {
+            return sortAtRules(a.params, b.params);
+          },
+        )
+        .with({ a: { type: 'atrule', name: 'media' }, b: P.any }, () => {
+          return 1;
+        })
+        .with({ a: P.any, b: { type: 'atrule', name: 'media' } }, () => {
+          return -1;
+        })
+        .otherwise(() => {
+          return 0;
+        });
+    });
 
-		// recursive sort
-		for (const node of root.nodes) {
-			if ('nodes' in node) {
-				inner(node);
-			}
-		}
-	};
+    // recursive sort
+    for (const node of root.nodes) {
+      if ('nodes' in node) {
+        inner(node);
+      }
+    }
+  };
 
-	return inner;
+  return inner;
 }
 
 sortMediaQueries.postcssPlugin = 'panda-sort-mq';

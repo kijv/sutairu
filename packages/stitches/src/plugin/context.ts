@@ -27,130 +27,130 @@ import type { LoadConfigResult, LoadConfigSource } from 'unconfig';
 import { createStitches } from '../core';
 import { loadConfig } from './config';
 import type {
-	StitchesPluginContext,
-	UserConfig,
-	UserConfigDefaults,
+  StitchesPluginContext,
+  UserConfig,
+  UserConfigDefaults,
 } from './config/types';
 import { defaultPipelineExclude, defaultPipelineInclude } from './defaults';
 import { createGenerator } from './generator';
 import { BetterMap } from './utils/map';
 
 export function createContext<Config extends UserConfig = UserConfig>(
-	configOrPath?: Config | string,
-	defaults: UserConfigDefaults = {},
-	extraConfigSources: LoadConfigSource[] = [],
-	resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
+  configOrPath?: Config | string,
+  defaults: UserConfigDefaults = {},
+  extraConfigSources: LoadConfigSource[] = [],
+  resolveConfigResult: (config: LoadConfigResult<Config>) => void = () => {},
 ): StitchesPluginContext<Config> {
-	let root = process.cwd();
-	let rawConfig = {} as Config;
-	let configFileList: string[] = [];
-	const stitches = createGenerator(configFileList, rawConfig, defaults);
-	let rollupFilter = createFilter(
-		defaultPipelineInclude,
-		defaultPipelineExclude,
-		{ resolve: typeof configOrPath === 'string' ? configOrPath : root },
-	);
+  let root = process.cwd();
+  let rawConfig = {} as Config;
+  let configFileList: string[] = [];
+  const stitches = createGenerator(configFileList, rawConfig, defaults);
+  let rollupFilter = createFilter(
+    defaultPipelineInclude,
+    defaultPipelineExclude,
+    { resolve: typeof configOrPath === 'string' ? configOrPath : root },
+  );
 
-	const invalidations: Array<() => void> = [];
-	const reloadListeners: Array<() => void> = [];
+  const invalidations: Array<() => void> = [];
+  const reloadListeners: Array<() => void> = [];
 
-	const modules = new BetterMap<string, string>();
-	const tokens = new Set<string>();
-	const tasks: Promise<void>[] = [];
-	const affectedModules = new Set<string>();
+  const modules = new BetterMap<string, string>();
+  const tokens = new Set<string>();
+  const tasks: Promise<void>[] = [];
+  const affectedModules = new Set<string>();
 
-	let ready = reloadConfig();
+  let ready = reloadConfig();
 
-	async function reloadConfig() {
-		const result = await loadConfig(root, configOrPath, extraConfigSources);
-		resolveConfigResult(result);
+  async function reloadConfig() {
+    const result = await loadConfig(root, configOrPath, extraConfigSources);
+    resolveConfigResult(result);
 
-		rawConfig = result.config;
-		configFileList = result.sources;
-		stitches.setConfig(rawConfig);
-		stitches.config.envMode = 'dev';
-		rollupFilter =
-			!rawConfig.content?.include && !rawConfig.content?.exclude
-				? () => false
-				: createFilter(rawConfig.content.include, rawConfig.content.exclude, {
-						resolve: typeof configOrPath === 'string' ? configOrPath : root,
-				  });
-		stitches.core = rawConfig as any;
-		tokens.clear();
-		modules.map((code, id) => stitches.applyExtractors(code, id, tokens));
-		invalidate();
-		dispatchReload();
+    rawConfig = result.config;
+    configFileList = result.sources;
+    stitches.setConfig(rawConfig);
+    stitches.config.envMode = 'dev';
+    rollupFilter =
+      !rawConfig.content?.include && !rawConfig.content?.exclude
+        ? () => false
+        : createFilter(rawConfig.content.include, rawConfig.content.exclude, {
+            resolve: typeof configOrPath === 'string' ? configOrPath : root,
+          });
+    stitches.core = rawConfig as any;
+    tokens.clear();
+    modules.map((code, id) => stitches.applyExtractors(code, id, tokens));
+    invalidate();
+    dispatchReload();
 
-		return result;
-	}
+    return result;
+  }
 
-	async function updateRoot(newRoot: string) {
-		if (newRoot !== root) {
-			root = newRoot;
-			ready = reloadConfig();
-		}
-		return await ready;
-	}
+  async function updateRoot(newRoot: string) {
+    if (newRoot !== root) {
+      root = newRoot;
+      ready = reloadConfig();
+    }
+    return await ready;
+  }
 
-	function invalidate() {
-		for (const cb of invalidations) {
-			cb();
-		}
-	}
+  function invalidate() {
+    for (const cb of invalidations) {
+      cb();
+    }
+  }
 
-	function dispatchReload() {
-		for (const cb of reloadListeners) {
-			cb();
-		}
-	}
+  function dispatchReload() {
+    for (const cb of reloadListeners) {
+      cb();
+    }
+  }
 
-	async function extract(code: string, id?: string) {
-		if (id) modules.set(id, code);
-		const len = tokens.size;
-		await stitches.applyExtractors(code, id, tokens);
-		if (tokens.size > len) invalidate();
-	}
+  async function extract(code: string, id?: string) {
+    if (id) modules.set(id, code);
+    const len = tokens.size;
+    await stitches.applyExtractors(code, id, tokens);
+    if (tokens.size > len) invalidate();
+  }
 
-	function filter(code: string, id: string) {
-		return rollupFilter(id.replace(/\?v=\w+$/, ''));
-	}
+  function filter(code: string, id: string) {
+    return rollupFilter(id.replace(/\?v=\w+$/, ''));
+  }
 
-	async function getConfig() {
-		await ready;
-		return rawConfig;
-	}
+  async function getConfig() {
+    await ready;
+    return rawConfig;
+  }
 
-	async function flushTasks() {
-		const _tasks = [...tasks];
-		await Promise.all(_tasks);
-		tasks.splice(0, _tasks.length);
-	}
+  async function flushTasks() {
+    const _tasks = [...tasks];
+    await Promise.all(_tasks);
+    tasks.splice(0, _tasks.length);
+  }
 
-	return {
-		get ready() {
-			return ready;
-		},
-		tokens,
-		modules,
-		affectedModules,
-		tasks,
-		flushTasks,
-		invalidate,
-		onInvalidate(fn: () => void) {
-			invalidations.push(fn);
-		},
-		filter,
-		reloadConfig,
-		onReload(fn: () => void) {
-			reloadListeners.push(fn);
-		},
-		stitches,
-		extract,
-		getConfig,
-		get root() {
-			return root;
-		},
-		updateRoot,
-		getConfigFileList: () => configFileList,
-	};
+  return {
+    get ready() {
+      return ready;
+    },
+    tokens,
+    modules,
+    affectedModules,
+    tasks,
+    flushTasks,
+    invalidate,
+    onInvalidate(fn: () => void) {
+      invalidations.push(fn);
+    },
+    filter,
+    reloadConfig,
+    onReload(fn: () => void) {
+      reloadListeners.push(fn);
+    },
+    stitches,
+    extract,
+    getConfig,
+    get root() {
+      return root;
+    },
+    updateRoot,
+    getConfigFileList: () => configFileList,
+  };
 }

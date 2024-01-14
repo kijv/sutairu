@@ -29,32 +29,32 @@ import prettify from './plugins/prettify';
 import sortMediaQueries from './plugins/sort-mq';
 
 interface OptimizeOptions {
-	minify?: boolean;
+  minify?: boolean;
 }
 
 export function optimizeCss(
-	code: string | Container,
-	options: OptimizeOptions = {},
+  code: string | Container,
+  options: OptimizeOptions = {},
 ) {
-	const { minify = false } = options;
+  const { minify = false } = options;
 
-	// prettier-ignore
-	const plugins = [discardEmpty(), nested(), sortMediaQueries()];
+  // prettier-ignore
+  const plugins = [discardEmpty(), nested(), sortMediaQueries()];
 
-	if (!minify) {
-		plugins.push(prettify());
-	}
+  if (!minify) {
+    plugins.push(prettify());
+  }
 
-	const { css } = postcss(plugins).process(code);
-	return css;
+  const { css } = postcss(plugins).process(code);
+  return css;
 }
 
 export function expandNestedCss(code: string) {
-	const { css } = postcss([nested(), prettify()]).process(code);
-	return css;
+  const { css } = postcss([nested(), prettify()]).process(code);
+  return css;
 }
 
 export function prettifyCss(code: string) {
-	const { css } = postcss([prettify()]).process(code);
-	return css;
+  const { css } = postcss([prettify()]).process(code);
+  return css;
 }
