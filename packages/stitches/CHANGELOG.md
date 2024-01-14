@@ -1,5 +1,12 @@
 # @jujst/stitches
 
+## 0.1.3
+
+### Patch Changes
+
+- 526b670: Add support for inline function calling (ex. `css()()`)
+- d7dbff5: Add createTheme support with PostCSS plugin
+
 ## 0.1.2
 
 ### Patch Changes
