@@ -1,0 +1,51 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  changeset:
+    name: "Changeset Status"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run changeset status
+        run: pnpm changeset status --since=main
+
+  commitlint:
+    name: "Commitlint"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run commitlint check
+        run: pnpm commitlint -f ${{ github.event.pull_request.base.sha }}
+        
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        # Lint errors are fine, we just want formatting errors
+        run: biome ci . --linter-enabled false
