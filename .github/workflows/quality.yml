@@ -8,7 +8,7 @@ on:
 
 jobs:
   changeset:
-    name: "Changeset Status"
+    name: "changeset status"
     runs-on: ubuntu-latest
     steps:
       - name: Check out

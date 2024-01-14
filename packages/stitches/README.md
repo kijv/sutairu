@@ -29,6 +29,7 @@ import { defineConfig } from '@jujst/stitches/config';
 
 const stitches = defineConfig({
   react: /* set this to true to use @stitches/react */,
+  /* usual stitches config goes here... */
 });
 
 // It is important to export the variables like this
