@@ -2,11 +2,11 @@
   "name": "@jujst/stitches",
   "version": "0.1.0",
   "bugs": {
-    "url": "https://github.com/kijv/oss/issues"
+    "url": "https://github.com/jujitsustudio/stitches/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kijv/oss.git",
+    "url": "git+https://github.com/jujitsustudio/stitches.git",
     "directory": "packages/stitches"
   },
   "license": "MIT",

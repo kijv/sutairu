@@ -28,15 +28,12 @@ module.exports = {
 import { defineConfig } from '@jujst/stitches/config';
 
 const stitches = defineConfig({
-  media: {
-    'motion-no-pref': '(prefers-reduced-motion: no-preference)',
-    light: '(prefers-color-scheme: light)',
-  },
+  react: /* set this to true to use @stitches/react */,
 });
 
+// It is important to export the variables like this
 export const { css, globalCss, keyframes, getCssText, theme } = stitches;
 export default stitches;
-
 ```
 
 ## Acknowledgements
