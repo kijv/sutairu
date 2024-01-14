@@ -34,91 +34,91 @@ import type { ResolvedConfig, UserConfig, UserConfigDefaults } from './types';
 let lastSeenConfig: LoadConfigResult<UserConfig> | ResolvedConfig;
 
 export async function loadConfig<U extends UserConfig>(
-	cwd = process.cwd(),
-	configOrPath: string | U = cwd,
-	extraConfigSources: LoadConfigSource[] = [],
-	defaults: UserConfigDefaults = {},
+  cwd = process.cwd(),
+  configOrPath: string | U = cwd,
+  extraConfigSources: LoadConfigSource[] = [],
+  defaults: UserConfigDefaults = {},
 ): Promise<LoadConfigResult<U>> {
-	let inlineConfig = {} as U;
-	if (typeof configOrPath !== 'string') {
-		inlineConfig = configOrPath;
-		if (inlineConfig.configFile === false) {
-			return {
-				config: inlineConfig as U,
-				sources: [],
-			};
-		}
-		configOrPath = inlineConfig.configFile || process.cwd();
-	}
+  let inlineConfig = {} as U;
+  if (typeof configOrPath !== 'string') {
+    inlineConfig = configOrPath;
+    if (inlineConfig.configFile === false) {
+      return {
+        config: inlineConfig as U,
+        sources: [],
+      };
+    }
+    configOrPath = inlineConfig.configFile || process.cwd();
+  }
 
-	const resolved = resolve(configOrPath);
+  const resolved = resolve(configOrPath);
 
-	let isFile = false;
-	if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
-		isFile = true;
-		cwd = dirname(resolved);
-	}
+  let isFile = false;
+  if (fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
+    isFile = true;
+    cwd = dirname(resolved);
+  }
 
-	const loader = createLoader<U>({
-		sources: isFile
-			? [
-					{
-						files: resolved,
-						extensions: [],
-					},
-			  ]
-			: [
-					{
-						files: ['stitches.config'],
-						extensions: ['js', 'cjs', 'mjs', 'ts', 'cts', 'mts'],
-						rewrite(obj) {
-							return {
-								...obj,
-								// @ts-expect-error Other options moved here during runtime
-								...obj[INTERNAL_CONFIG],
-							};
-						},
-					},
-					...extraConfigSources,
-			  ],
-		cwd,
-		defaults: inlineConfig,
-	});
+  const loader = createLoader<U>({
+    sources: isFile
+      ? [
+          {
+            files: resolved,
+            extensions: [],
+          },
+        ]
+      : [
+          {
+            files: ['stitches.config'],
+            extensions: ['js', 'cjs', 'mjs', 'ts', 'cts', 'mts'],
+            rewrite(obj) {
+              return {
+                ...obj,
+                // @ts-expect-error Other options moved here during runtime
+                ...obj[INTERNAL_CONFIG],
+              };
+            },
+          },
+          ...extraConfigSources,
+        ],
+    cwd,
+    defaults: inlineConfig,
+  });
 
-	const result = await loader.load();
-	result.config = Object.assign(defaults, result.config || inlineConfig);
-	if (result.config.configDeps) {
-		result.sources = [
-			...result.sources,
-			...result.config.configDeps.map((i) => resolve(cwd, i)),
-		];
-	}
+  const result = await loader.load();
+  result.config = Object.assign(defaults, result.config || inlineConfig);
+  if (result.config.configDeps) {
+    result.sources = [
+      ...result.sources,
+      ...result.config.configDeps.map((i) => resolve(cwd, i)),
+    ];
+  }
 
-	lastSeenConfig = result;
+  lastSeenConfig = result;
 
-	return result;
+  return result;
 }
 
 export function resolveConfig(
-	userConfig: UserConfig = {},
-	defaults: UserConfigDefaults = {},
+  userConfig: UserConfig = {},
+  defaults: UserConfigDefaults = {},
 ): ResolvedConfig {
-	const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults;
+  const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults;
 
-	const sources = [config];
+  const sources = [config];
 
-	const resolved: ResolvedConfig<any> = {
-		...(config.react ?? false ? react_createStitches : createStitches)({
-			// @ts-expect-error We do this because this function is used for using the PostCSS plugin
-			root: null,
-		}),
-		...config,
-		envMode: config.envMode || 'build',
-	};
+  const resolved: ResolvedConfig<any> = {
+    ...(config.react ?? false ? react_createStitches : createStitches)({
+      // @ts-expect-error We do this because this function is used for using the PostCSS plugin
+      root: null,
+    }),
+    ...config,
+    envMode: config.envMode || 'build',
+  };
 
-	for (const p of sources) p?.configResolved?.(resolved);
+  for (const p of sources) p?.configResolved?.(resolved);
 
-	lastSeenConfig = resolved;
+  lastSeenConfig = resolved;
 
-	return resolved as ResolvedConfig;
+  return resolved as ResolvedConfig;
 }

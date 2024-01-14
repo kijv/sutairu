@@ -31,78 +31,78 @@ export { Native };
 
 /** CSS style declaration object. */
 export interface CSSProperties
-	extends Native.StandardLonghandProperties,
-		Native.StandardShorthandProperties,
-		Native.SvgProperties {}
+  extends Native.StandardLonghandProperties,
+    Native.StandardShorthandProperties,
+    Native.SvgProperties {}
 
 type ValueByPropertyName<PropertyName> =
-	PropertyName extends keyof CSSProperties
-		? CSSProperties[PropertyName]
-		: never;
+  PropertyName extends keyof CSSProperties
+    ? CSSProperties[PropertyName]
+    : never;
 
 type TokenByPropertyName<PropertyName, Theme, ThemeMap> =
-	PropertyName extends keyof ThemeMap
-		? TokenByScaleName<ThemeMap[PropertyName], Theme>
-		: never;
+  PropertyName extends keyof ThemeMap
+    ? TokenByScaleName<ThemeMap[PropertyName], Theme>
+    : never;
 
 type TokenByScaleName<ScaleName, Theme> = ScaleName extends keyof Theme
-	? Util.Prefixed<'$', keyof Theme[ScaleName]>
-	: never;
+  ? Util.Prefixed<'$', keyof Theme[ScaleName]>
+  : never;
 
 type CSS_Utils<P, Theme, ThemeMap> = P extends any[]
-	?
-			| ($$PropertyValue extends keyof P[0]
-					?
-							| ValueByPropertyName<P[0][$$PropertyValue]>
-							| TokenByPropertyName<P[0][$$PropertyValue], Theme, ThemeMap>
-							| Native.Globals
-							| ThemeUtil.ScaleValue
-							| undefined
-					: $$ScaleValue extends keyof P[0]
-					  ?
-								| TokenByScaleName<P[0][$$ScaleValue], Theme>
-								| { scale: P[0][$$ScaleValue] }
-								| undefined
-					  : never)[]
-			| P
-	: $$PropertyValue extends keyof P
-	  ?
-				| ValueByPropertyName<P[$$PropertyValue]>
-				| TokenByPropertyName<P[$$PropertyValue], Theme, ThemeMap>
-				| Native.Globals
-				| undefined
-	  : $$ScaleValue extends keyof P
-		  ?
-					| TokenByScaleName<P[$$ScaleValue], Theme>
-					| { scale: P[$$ScaleValue] }
-					| undefined
-		  : never;
+  ?
+      | ($$PropertyValue extends keyof P[0]
+          ?
+              | ValueByPropertyName<P[0][$$PropertyValue]>
+              | TokenByPropertyName<P[0][$$PropertyValue], Theme, ThemeMap>
+              | Native.Globals
+              | ThemeUtil.ScaleValue
+              | undefined
+          : $$ScaleValue extends keyof P[0]
+            ?
+                | TokenByScaleName<P[0][$$ScaleValue], Theme>
+                | { scale: P[0][$$ScaleValue] }
+                | undefined
+            : never)[]
+      | P
+  : $$PropertyValue extends keyof P
+    ?
+        | ValueByPropertyName<P[$$PropertyValue]>
+        | TokenByPropertyName<P[$$PropertyValue], Theme, ThemeMap>
+        | Native.Globals
+        | undefined
+    : $$ScaleValue extends keyof P
+      ?
+          | TokenByScaleName<P[$$ScaleValue], Theme>
+          | { scale: P[$$ScaleValue] }
+          | undefined
+      : never;
 
 type CSSPropertiesWithTheme<Theme, ThemeMap> = {
-	[K in keyof CSSProperties]?:
-		| CSSProperties[K]
-		| TokenByPropertyName<K, Theme, ThemeMap>;
+  [K in keyof CSSProperties]?:
+    | CSSProperties[K]
+    | TokenByPropertyName<K, Theme, ThemeMap>;
 };
 
 type CSSUtils<Utils> = {
-	// @ts-expect-error
-	[K in keyof Utils]?: ReturnType<Utils[K]>;
+  // @ts-expect-error
+  [K in keyof Utils]?: ReturnType<Utils[K]>;
 };
 
 type CSSMediaQueries<Media, Theme, ThemeMap, Utils> = {
-	[K in keyof Media as `@${string & K}`]?: CSS<Media, Theme, ThemeMap, Utils>;
+  [K in keyof Media as `@${string & K}`]?: CSS<Media, Theme, ThemeMap, Utils>;
 };
 
 export type CSS<
-	Media = {},
-	Theme = {},
-	ThemeMap = DefaultThemeMap,
-	Utils = {},
+  Media = {},
+  Theme = {},
+  ThemeMap = DefaultThemeMap,
+  Utils = {},
 > = CSSPropertiesWithTheme<Theme, ThemeMap> &
-	CSSUtils<Utils> &
-	CSSMediaQueries<Media, Theme, ThemeMap, Utils> & {
-		[key: string]: any; // Catch-all for additional properties
-	};
+  CSSUtils<Utils> &
+  CSSMediaQueries<Media, Theme, ThemeMap, Utils> & {
+    [key: string]: any; // Catch-all for additional properties
+  };
 // export type CSS<
 //   Media = {},
 //   Theme = {},
@@ -194,8 +194,8 @@ export type $$ThemeValue = typeof $$ThemeValue;
 
 // https://github.com/microsoft/TypeScript/issues/37888#issuecomment-846638356
 export type WithPropertyValue<T> = {
-	readonly [K in $$PropertyValue]: T;
+  readonly [K in $$PropertyValue]: T;
 };
 export type WithScaleValue<T> = {
-	readonly [K in $$ScaleValue]: T;
+  readonly [K in $$ScaleValue]: T;
 };

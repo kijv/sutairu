@@ -25,33 +25,33 @@ SOFTWARE.
 import type { Container, TransformCallback } from 'postcss';
 
 function prettifyNode(node: Container, indent = 0) {
-	node.each?.((child, i) => {
-		// skip prettify for sxs
-		if ('selector' in child && child.selector === '--sxs') {
-			child.selector = '\n--sxs';
-		} else if (
-			!('selector' in child && child?.selector === '--sxs') &&
-			!('prop' in child && child?.prop === '--sxs') &&
-			(!child.raws.before ||
-				!child.raws.before.trim() ||
-				child.raws.before.includes('\n'))
-		) {
-			child.raws.before = `\n${
-				node.type !== 'rule' && i > 0 ? '\n' : ''
-			}${'  '.repeat(indent)}`;
-			child.raws.after = `\n${'  '.repeat(indent)}`;
-		}
-		prettifyNode(child as any, indent + 1);
-	});
+  node.each?.((child, i) => {
+    // skip prettify for sxs
+    if ('selector' in child && child.selector === '--sxs') {
+      child.selector = '\n--sxs';
+    } else if (
+      !('selector' in child && child?.selector === '--sxs') &&
+      !('prop' in child && child?.prop === '--sxs') &&
+      (!child.raws.before ||
+        !child.raws.before.trim() ||
+        child.raws.before.includes('\n'))
+    ) {
+      child.raws.before = `\n${
+        node.type !== 'rule' && i > 0 ? '\n' : ''
+      }${'  '.repeat(indent)}`;
+      child.raws.after = `\n${'  '.repeat(indent)}`;
+    }
+    prettifyNode(child as any, indent + 1);
+  });
 }
 
 export default function prettify(): TransformCallback {
-	return (root) => {
-		prettifyNode(root);
-		if (root.first) {
-			root.first.raws.before = '';
-		}
-	};
+  return (root) => {
+    prettifyNode(root);
+    if (root.first) {
+      root.first.raws.before = '';
+    }
+  };
 }
 
 prettify.postcssPlugin = 'panda-prettify';

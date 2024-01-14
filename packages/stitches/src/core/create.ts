@@ -37,64 +37,64 @@ const createCssMap = createMemo();
 
 /** Returns a library used to create styles. */
 export const createStitches: CreateStitches = (config) => {
-	let didRun = false;
+  let didRun = false;
 
-	const instance = createCssMap(config || {}, (initConfig) => {
-		didRun = true;
+  const instance = createCssMap(config || {}, (initConfig) => {
+    didRun = true;
 
-		initConfig = (typeof initConfig === 'object' && initConfig) || {};
+    initConfig = (typeof initConfig === 'object' && initConfig) || {};
 
-		const prefix = 'prefix' in initConfig ? String(initConfig.prefix) : '';
-		const media =
-			(typeof initConfig.media === 'object' && initConfig.media) || {};
-		const root =
-			typeof initConfig.root === 'object'
-				? initConfig.root || null
-				: globalThis.document || null;
-		const theme =
-			(typeof initConfig.theme === 'object' && initConfig.theme) || {};
-		const themeMap = (typeof initConfig.themeMap === 'object' &&
-			initConfig.themeMap) || {
-			...defaultThemeMap,
-		};
-		const utils =
-			(typeof initConfig.utils === 'object' && initConfig.utils) || {};
+    const prefix = 'prefix' in initConfig ? String(initConfig.prefix) : '';
+    const media =
+      (typeof initConfig.media === 'object' && initConfig.media) || {};
+    const root =
+      typeof initConfig.root === 'object'
+        ? initConfig.root || null
+        : globalThis.document || null;
+    const theme =
+      (typeof initConfig.theme === 'object' && initConfig.theme) || {};
+    const themeMap = (typeof initConfig.themeMap === 'object' &&
+      initConfig.themeMap) || {
+      ...defaultThemeMap,
+    };
+    const utils =
+      (typeof initConfig.utils === 'object' && initConfig.utils) || {};
 
-		const config = {
-			prefix,
-			media,
-			theme,
-			themeMap,
-			utils,
-			root,
-		} as Stitches['config'];
+    const config = {
+      prefix,
+      media,
+      theme,
+      themeMap,
+      utils,
+      root,
+    } as Stitches['config'];
 
-		const sheet = createSheet(root);
+    const sheet = createSheet(root);
 
-		const returnValue = {
-			css: createCssFunction(config, sheet),
-			globalCss: createGlobalCssFunction(config, sheet),
-			keyframes: createKeyframesFunction(config, sheet),
-			createTheme: createCreateThemeFunction(config, sheet),
-			reset() {
-				sheet.reset();
-				returnValue.theme.toString();
-			},
-			theme: {},
-			sheet,
-			config,
-			prefix,
-			getCssText: sheet.toString,
-			toString: sheet.toString,
-		};
+    const returnValue = {
+      css: createCssFunction(config, sheet),
+      globalCss: createGlobalCssFunction(config, sheet),
+      keyframes: createKeyframesFunction(config, sheet),
+      createTheme: createCreateThemeFunction(config, sheet),
+      reset() {
+        sheet.reset();
+        returnValue.theme.toString();
+      },
+      theme: {},
+      sheet,
+      config,
+      prefix,
+      getCssText: sheet.toString,
+      toString: sheet.toString,
+    };
 
-		// biome-ignore lint/suspicious/noAssignInExpressions: Needed to create theme
-		String((returnValue.theme = returnValue.createTheme(theme)));
+    // biome-ignore lint/suspicious/noAssignInExpressions: Needed to create theme
+    String((returnValue.theme = returnValue.createTheme(theme)));
 
-		return returnValue;
-	});
+    return returnValue;
+  });
 
-	if (!didRun) instance.reset();
+  if (!didRun) instance.reset();
 
-	return instance;
+  return instance;
 };

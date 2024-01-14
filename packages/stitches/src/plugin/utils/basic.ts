@@ -23,5 +23,5 @@ SOFTWARE.
 */
 
 export function isString(s: any): s is string {
-	return typeof s === 'string';
+  return typeof s === 'string';
 }

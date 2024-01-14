@@ -25,9 +25,9 @@ SOFTWARE.
 import { version } from '../../package.json';
 import { resolveConfig } from './config';
 import type {
-	ResolvedConfig,
-	UserConfig,
-	UserConfigDefaults,
+  ResolvedConfig,
+  UserConfig,
+  UserConfigDefaults,
 } from './config/types';
 import { extractorCore } from './extractor/core';
 import { optimizeCss } from './postcss/optimize';
@@ -36,97 +36,97 @@ import { isString } from './utils/basic';
 import { createNanoEvents } from './utils/events';
 
 export class StitchesGenerator {
-	public extractors: Extractor[] = [extractorCore];
-	public version = version;
-	public core: any;
-	public config: ResolvedConfig;
-	public parentOrders = new Map<string, number>();
-	public events = createNanoEvents<{
-		config: (config: ResolvedConfig) => void;
-	}>();
+  public extractors: Extractor[] = [extractorCore];
+  public version = version;
+  public core: any;
+  public config: ResolvedConfig;
+  public parentOrders = new Map<string, number>();
+  public events = createNanoEvents<{
+    config: (config: ResolvedConfig) => void;
+  }>();
 
-	constructor(
-		public configFileList: string[],
-		public userConfig: UserConfig = {},
-		public defaults: UserConfigDefaults = {},
-	) {
-		this.config = resolveConfig(userConfig, defaults);
-		this.core = this.config as any;
-		this.events.emit('config', this.config);
-	}
+  constructor(
+    public configFileList: string[],
+    public userConfig: UserConfig = {},
+    public defaults: UserConfigDefaults = {},
+  ) {
+    this.config = resolveConfig(userConfig, defaults);
+    this.core = this.config as any;
+    this.events.emit('config', this.config);
+  }
 
-	setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults): void {
-		if (!userConfig) return;
-		if (defaults) this.defaults = defaults;
-		this.userConfig = userConfig;
-		this.parentOrders.clear();
-		this.config = resolveConfig(userConfig, this.defaults);
-		this.events.emit('config', this.config);
-	}
+  setConfig(userConfig?: UserConfig, defaults?: UserConfigDefaults): void {
+    if (!userConfig) return;
+    if (defaults) this.defaults = defaults;
+    this.userConfig = userConfig;
+    this.parentOrders.clear();
+    this.config = resolveConfig(userConfig, this.defaults);
+    this.events.emit('config', this.config);
+  }
 
-	async applyExtractors(
-		code: string,
-		id?: string,
-		extracted: Set<string> = new Set(),
-	): Promise<Set<string>> {
-		const context: ExtractorContext = {
-			original: code,
-			code,
-			id,
-			extracted,
-			envMode: this.config.envMode,
-			stitches: this.core,
-			configFileList: this.configFileList,
-		};
+  async applyExtractors(
+    code: string,
+    id?: string,
+    extracted: Set<string> = new Set(),
+  ): Promise<Set<string>> {
+    const context: ExtractorContext = {
+      original: code,
+      code,
+      id,
+      extracted,
+      envMode: this.config.envMode,
+      stitches: this.core,
+      configFileList: this.configFileList,
+    };
 
-		for (const extractor of this.extractors) {
-			const result = await extractor.extract?.(context);
+    for (const extractor of this.extractors) {
+      const result = await extractor.extract?.(context);
 
-			if (!result) continue;
+      if (!result) continue;
 
-			for (const token of result) extracted.add(token);
-		}
+      for (const token of result) extracted.add(token);
+    }
 
-		return extracted;
-	}
+    return extracted;
+  }
 
-	async generate(
-		input: string | Set<string> | string[],
-		options: GenerateOptions = {
-			minify: this.config.envMode === 'build',
-		},
-	): Promise<{
-		css: string;
-		matched: Set<string>;
-	}> {
-		const { id } = options;
+  async generate(
+    input: string | Set<string> | string[],
+    options: GenerateOptions = {
+      minify: this.config.envMode === 'build',
+    },
+  ): Promise<{
+    css: string;
+    matched: Set<string>;
+  }> {
+    const { id } = options;
 
-		const matched = new Set<string>();
-		isString(input)
-			? await this.applyExtractors(input, id, matched)
-			: Array.isArray(input)
-			  ? new Set<string>(input)
-			  : input;
+    const matched = new Set<string>();
+    isString(input)
+      ? await this.applyExtractors(input, id, matched)
+      : Array.isArray(input)
+        ? new Set<string>(input)
+        : input;
 
-		const css = optimizeCss(this.core.getCssText(), options);
+    const css = optimizeCss(this.core.getCssText(), options);
 
-		return {
-			css,
-			matched,
-		};
-	}
+    return {
+      css,
+      matched,
+    };
+  }
 }
 
 export function createGenerator<
-	Prefix extends string = '',
-	Media extends {} = {},
-	Theme extends {} = {},
-	ThemeMap extends {} = {},
-	Utils extends {} = {},
+  Prefix extends string = '',
+  Media extends {} = {},
+  Theme extends {} = {},
+  ThemeMap extends {} = {},
+  Utils extends {} = {},
 >(
-	configFileList: string[],
-	config?: UserConfig,
-	defaults?: UserConfigDefaults,
+  configFileList: string[],
+  config?: UserConfig,
+  defaults?: UserConfigDefaults,
 ) {
-	return new StitchesGenerator(configFileList, config, defaults);
+  return new StitchesGenerator(configFileList, config, defaults);
 }

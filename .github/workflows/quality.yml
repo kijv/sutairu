@@ -34,4 +34,4 @@ jobs:
           version: latest
       - name: Run Biome
         # Lint errors are fine, we just want formatting errors
-        run: biome ci . --linter-enabled false
+        run: biome format --changed

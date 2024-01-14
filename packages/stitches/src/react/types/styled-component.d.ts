@@ -24,10 +24,10 @@ SOFTWARE.
 
 import type * as React from 'react';
 import {
-	$$StyledComponentMedia,
-	$$StyledComponentProps,
-	$$StyledComponentType,
-	TransformProps,
+  $$StyledComponentMedia,
+  $$StyledComponentProps,
+  $$StyledComponentType,
+  TransformProps,
 } from '../../core/types/styled-component';
 import type * as Util from '../../core/types/util';
 
@@ -35,85 +35,85 @@ export type IntrinsicElementsKeys = keyof JSX.IntrinsicElements;
 
 /** Returns a new Styled Component. */
 export interface StyledComponent<
-	Type = 'span',
-	Props = {},
-	Media = {},
-	CSS = {},
+  Type = 'span',
+  Props = {},
+  Media = {},
+  CSS = {},
 > extends React.ForwardRefExoticComponent<
-		Util.Assign<
-			Type extends IntrinsicElementsKeys | React.ComponentType<any>
-				? React.ComponentPropsWithRef<Type>
-				: never,
-			TransformProps<Props, Media> & { css?: CSS }
-		>
-	> {
-	(
-		props: Util.Assign<
-			Type extends IntrinsicElementsKeys | React.ComponentType<any>
-				? React.ComponentPropsWithRef<Type>
-				: {},
-			TransformProps<Props, Media> & {
-				as?: never;
-				css?: CSS;
-			}
-		>,
-	): React.ReactElement | null;
+    Util.Assign<
+      Type extends IntrinsicElementsKeys | React.ComponentType<any>
+        ? React.ComponentPropsWithRef<Type>
+        : never,
+      TransformProps<Props, Media> & { css?: CSS }
+    >
+  > {
+  (
+    props: Util.Assign<
+      Type extends IntrinsicElementsKeys | React.ComponentType<any>
+        ? React.ComponentPropsWithRef<Type>
+        : {},
+      TransformProps<Props, Media> & {
+        as?: never;
+        css?: CSS;
+      }
+    >,
+  ): React.ReactElement | null;
 
-	<
-		C extends CSS,
-		As extends string | React.ComponentType<any> = Type extends
-			| string
-			| React.ComponentType<any>
-			? Type
-			: any,
-		InnerProps = Type extends StyledComponent<any, infer IP, any, any>
-			? IP
-			: {},
-	>(
-		props: Util.Assign<
-			React.ComponentPropsWithRef<
-				As extends IntrinsicElementsKeys | React.ComponentType<any> ? As : never
-			>,
-			TransformProps<Util.Assign<InnerProps, Props>, Media> & {
-				as?: As;
-				css?: {
-					[K in keyof C]: K extends keyof CSS ? CSS[K] : never;
-				};
-			}
-		>,
-	): React.ReactElement | null;
+  <
+    C extends CSS,
+    As extends string | React.ComponentType<any> = Type extends
+      | string
+      | React.ComponentType<any>
+      ? Type
+      : any,
+    InnerProps = Type extends StyledComponent<any, infer IP, any, any>
+      ? IP
+      : {},
+  >(
+    props: Util.Assign<
+      React.ComponentPropsWithRef<
+        As extends IntrinsicElementsKeys | React.ComponentType<any> ? As : never
+      >,
+      TransformProps<Util.Assign<InnerProps, Props>, Media> & {
+        as?: As;
+        css?: {
+          [K in keyof C]: K extends keyof CSS ? CSS[K] : never;
+        };
+      }
+    >,
+  ): React.ReactElement | null;
 
-	className: string;
-	selector: string;
+  className: string;
+  selector: string;
 
-	[$$StyledComponentType]: Type;
-	[$$StyledComponentProps]: Props;
-	[$$StyledComponentMedia]: Media;
+  [$$StyledComponentType]: Type;
+  [$$StyledComponentProps]: Props;
+  [$$StyledComponentMedia]: Media;
 }
 
 /** Returns a new CSS Component. */
 export interface CssComponent<Type = 'span', Props = {}, Media = {}, CSS = {}> {
-	(
-		props?: TransformProps<Props, Media> & {
-			css?: CSS;
-		} & {
-			[name in number | string]: any;
-		},
-	): string & {
-		className: string;
-		selector: string;
-		props: {};
-	};
+  (
+    props?: TransformProps<Props, Media> & {
+      css?: CSS;
+    } & {
+      [name in number | string]: any;
+    },
+  ): string & {
+    className: string;
+    selector: string;
+    props: {};
+  };
 
-	className: string;
-	selector: string;
+  className: string;
+  selector: string;
 
-	[$$StyledComponentType]: Type;
-	[$$StyledComponentProps]: Props;
-	[$$StyledComponentMedia]: Media;
+  [$$StyledComponentType]: Type;
+  [$$StyledComponentProps]: Props;
+  [$$StyledComponentMedia]: Media;
 }
 
 export type {
-	StyledComponentType,
-	StyledComponentProps,
+  StyledComponentType,
+  StyledComponentProps,
 } from '../../core/types/styled-component';

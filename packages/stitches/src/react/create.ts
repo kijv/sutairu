@@ -28,11 +28,11 @@ import { CreateStitches } from './types/config';
 
 // @ts-expect-error
 export const createStitches: CreateStitches = (init) => {
-	// @ts-expect-error
-	const instance = createStitchesCore(init);
+  // @ts-expect-error
+  const instance = createStitchesCore(init);
 
-	// @ts-expect-error
-	instance.styled = createStyledFunction(instance.config, instance.sheet);
+  // @ts-expect-error
+  instance.styled = createStyledFunction(instance.config, instance.sheet);
 
-	return instance;
+  return instance;
 };
