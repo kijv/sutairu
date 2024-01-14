@@ -1,9 +1,12 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      acknowledge:
+        description: 'I understand that this action will publish everything on canary to the latest tag'
+        required: true
+        type: boolean
 
 permissions: {}
 jobs:
@@ -13,6 +16,7 @@ jobs:
     permissions:
       contents: write # to create release (changesets/action)
       pull-requests: write # to create pull request (changesets/action)
+      id-token: write
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +25,8 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+          ref: 'main'
+          token: ${{ secrets.RELEASE_BOT_PAT }}
       - uses: pnpm/action-setup@v2.4.0
       - name: Setup Node.js
         uses: actions/setup-node@v4
