@@ -3,8 +3,8 @@
 ## So what's different?
 
 * 100% backwards compatible with @stitches/core and @stitches/react
-* PostCSS plugin to extract CSS on the server-side
-* Added modern CSS properties
+* PostCSS plugin to extract CSS on the server
+* Additional modern CSS properties
 
 ## Installation
 
