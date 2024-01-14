@@ -23,40 +23,40 @@ SOFTWARE.
 */
 
 export const VIRTUAL_ENTRY_ALIAS = [
-  /^(?:virtual:)?stitches(?::(.+))?\.css(\?.*)?$/,
+	/^(?:virtual:)?stitches(?::(.+))?\.css(\?.*)?$/,
 ];
 export const LAYER_MARK_ALL = '__ALL__';
 
 export const RESOLVED_ID_WITH_QUERY_RE =
-  /[\/\\]__jujst_stitches(?:(_.*?))?\.css(\?.*)?$/;
+	/[\/\\]__jujst_stitches(?:(_.*?))?\.css(\?.*)?$/;
 export const RESOLVED_ID_RE = /[\/\\]__jujst_stitches(?:(_.*?))?\.css$/;
 
 export function resolveId(id: string) {
-  if (id.match(RESOLVED_ID_WITH_QUERY_RE)) return id;
+	if (id.match(RESOLVED_ID_WITH_QUERY_RE)) return id;
 
-  for (const alias of VIRTUAL_ENTRY_ALIAS) {
-    const match = id.match(alias);
-    if (match) {
-      return match[1]
-        ? `/__jujst_stitches_${match[1]}.css`
-        : '/__jujst_stitches.css';
-    }
-  }
+	for (const alias of VIRTUAL_ENTRY_ALIAS) {
+		const match = id.match(alias);
+		if (match) {
+			return match[1]
+				? `/__jujst_stitches_${match[1]}.css`
+				: '/__jujst_stitches.css';
+		}
+	}
 }
 
 export function resolveLayer(id: string) {
-  const match = id.match(RESOLVED_ID_RE);
-  if (match) return match[1] || LAYER_MARK_ALL;
+	const match = id.match(RESOLVED_ID_RE);
+	if (match) return match[1] || LAYER_MARK_ALL;
 }
 
 export const LAYER_PLACEHOLDER_RE =
-  /(\\?")?#--jujst-stitches--\s*{\s*layer\s*:\s*(.+?);?\s*}/g;
+	/(\\?")?#--jujst-stitches--\s*{\s*layer\s*:\s*(.+?);?\s*}/g;
 export function getLayerPlaceholder(layer: string) {
-  return `#--jujstv-stitches--{layer:${layer}}`;
+	return `#--jujstv-stitches--{layer:${layer}}`;
 }
 
 export const HASH_PLACEHOLDER_RE =
-  /#--jujst-stitches-hash--\s*{\s*content\s*:\s*\\*"(.+?)\\*";?\s*}/g;
+	/#--jujst-stitches-hash--\s*{\s*content\s*:\s*\\*"(.+?)\\*";?\s*}/g;
 export function getHashPlaceholder(hash: string) {
-  return `#--jujst-stitches-hash--{content:"${hash}"}`;
+	return `#--jujst-stitches-hash--{content:"${hash}"}`;
 }

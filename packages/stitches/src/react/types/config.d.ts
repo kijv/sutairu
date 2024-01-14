@@ -28,71 +28,71 @@ import type Stitches from './stitches';
 
 /** Configuration Interface */
 declare namespace ConfigType {
-  /** Prefix interface. */
-  export type Prefix<T = ''> = T extends string ? T : string;
+	/** Prefix interface. */
+	export type Prefix<T = ''> = T extends string ? T : string;
 
-  /** Media interface. */
-  export type Media<T = {}> = {
-    [name in keyof T]: T[name] extends string ? T[name] : string;
-  };
+	/** Media interface. */
+	export type Media<T = {}> = {
+		[name in keyof T]: T[name] extends string ? T[name] : string;
+	};
 
-  /** Theme interface. */
-  export type Theme<T = {}> = {
-    borderStyles?: { [token in number | string]: boolean | number | string };
-    borderWidths?: { [token in number | string]: boolean | number | string };
-    colors?: { [token in number | string]: boolean | number | string };
-    fonts?: { [token in number | string]: boolean | number | string };
-    fontSizes?: { [token in number | string]: boolean | number | string };
-    fontWeights?: { [token in number | string]: boolean | number | string };
-    letterSpacings?: { [token in number | string]: boolean | number | string };
-    lineHeights?: { [token in number | string]: boolean | number | string };
-    radii?: { [token in number | string]: boolean | number | string };
-    shadows?: { [token in number | string]: boolean | number | string };
-    sizes?: { [token in number | string]: boolean | number | string };
-    space?: { [token in number | string]: boolean | number | string };
-    transitions?: { [token in number | string]: boolean | number | string };
-    zIndices?: { [token in number | string]: boolean | number | string };
-  } & {
-    [Scale in keyof T]: {
-      [Token in keyof T[Scale]]: T[Scale][Token] extends
-        | boolean
-        | number
-        | string
-        ? T[Scale][Token]
-        : boolean | number | string;
-    };
-  };
+	/** Theme interface. */
+	export type Theme<T = {}> = {
+		borderStyles?: { [token in number | string]: boolean | number | string };
+		borderWidths?: { [token in number | string]: boolean | number | string };
+		colors?: { [token in number | string]: boolean | number | string };
+		fonts?: { [token in number | string]: boolean | number | string };
+		fontSizes?: { [token in number | string]: boolean | number | string };
+		fontWeights?: { [token in number | string]: boolean | number | string };
+		letterSpacings?: { [token in number | string]: boolean | number | string };
+		lineHeights?: { [token in number | string]: boolean | number | string };
+		radii?: { [token in number | string]: boolean | number | string };
+		shadows?: { [token in number | string]: boolean | number | string };
+		sizes?: { [token in number | string]: boolean | number | string };
+		space?: { [token in number | string]: boolean | number | string };
+		transitions?: { [token in number | string]: boolean | number | string };
+		zIndices?: { [token in number | string]: boolean | number | string };
+	} & {
+		[Scale in keyof T]: {
+			[Token in keyof T[Scale]]: T[Scale][Token] extends
+				| boolean
+				| number
+				| string
+				? T[Scale][Token]
+				: boolean | number | string;
+		};
+	};
 
-  /** ThemeMap interface. */
-  export type ThemeMap<T = {}> = {
-    [Property in keyof T]: T[Property] extends string ? T[Property] : string;
-  };
+	/** ThemeMap interface. */
+	export type ThemeMap<T = {}> = {
+		[Property in keyof T]: T[Property] extends string ? T[Property] : string;
+	};
 
-  /** Utility interface. */
-  export type Utils<T = {}> = {
-    [Property in keyof T]: T[Property] extends (value: infer V) => {}
-      ?
-          | T[Property]
-          | ((value: V) => {
-              [K in keyof CSSUtil.CSSProperties]?: CSSUtil.CSSProperties[K] | V;
-            })
-      : never;
-  };
+	/** Utility interface. */
+	export type Utils<T = {}> = {
+		[Property in keyof T]: T[Property] extends (value: infer V) => {}
+			?
+					| T[Property]
+					| ((value: V) => {
+							[K in keyof CSSUtil.CSSProperties]?: CSSUtil.CSSProperties[K] | V;
+					  })
+			: never;
+	};
 }
 
 /** Returns a function used to create a new Stitches interface. */
 export type CreateStitches = {
-  <
-    Prefix extends string = '',
-    Media extends {} = {},
-    Theme extends {} = {},
-    ThemeMap extends {} = DefaultThemeMap,
-    Utils extends {} = {},
-  >(config?: {
-    prefix?: ConfigType.Prefix<Prefix>;
-    media?: ConfigType.Media<Media>;
-    theme?: ConfigType.Theme<Theme>;
-    themeMap?: ConfigType.ThemeMap<ThemeMap>;
-    utils?: ConfigType.Utils<Utils>;
-  }): Stitches<Prefix, Media, Theme, ThemeMap, Utils>;
+	<
+		Prefix extends string = '',
+		Media extends {} = {},
+		Theme extends {} = {},
+		ThemeMap extends {} = DefaultThemeMap,
+		Utils extends {} = {},
+	>(config?: {
+		prefix?: ConfigType.Prefix<Prefix>;
+		media?: ConfigType.Media<Media>;
+		theme?: ConfigType.Theme<Theme>;
+		themeMap?: ConfigType.ThemeMap<ThemeMap>;
+		utils?: ConfigType.Utils<Utils>;
+	}): Stitches<Prefix, Media, Theme, ThemeMap, Utils>;
 };

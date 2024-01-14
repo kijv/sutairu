@@ -25,24 +25,24 @@ SOFTWARE.
 import { toTailDashed } from './convert/tail-dashed';
 
 export class ThemeToken {
-  constructor(
-    public token = '',
-    public value = '',
-    public scale = '',
-    public prefix = '',
-  ) {}
+	constructor(
+		public token = '',
+		public value = '',
+		public scale = '',
+		public prefix = '',
+	) {}
 
-  get computedValue() {
-    return `var(${this.variable})`;
-  }
+	get computedValue() {
+		return `var(${this.variable})`;
+	}
 
-  get variable() {
-    return `--${toTailDashed(this.prefix)}${toTailDashed(this.scale)}${
-      this.token
-    }`;
-  }
+	get variable() {
+		return `--${toTailDashed(this.prefix)}${toTailDashed(this.scale)}${
+			this.token
+		}`;
+	}
 
-  toString() {
-    return this.computedValue;
-  }
+	toString() {
+		return this.computedValue;
+	}
 }

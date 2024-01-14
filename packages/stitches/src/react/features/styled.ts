@@ -33,73 +33,73 @@ const createCssFunctionMap = createMemo();
 
 /** Returns a function that applies component styles. */
 export const createStyledFunction = (
-  config: Stitches['config'],
-  sheet: SheetGroup,
+	config: Stitches['config'],
+	sheet: SheetGroup,
 ) =>
-  createCssFunctionMap(config, () => {
-    const cssFunction = createCssFunction(config, sheet);
+	createCssFunctionMap(config, () => {
+		const cssFunction = createCssFunction(config, sheet);
 
-    const _styled: (...args: any[]) => unknown = (
-      args,
-      css = cssFunction,
-      { displayName, shouldForwardStitchesProp } = {},
-    ) => {
-      const cssComponent = css(...args);
-      const DefaultType = cssComponent[internal].type;
-      const shouldForwardAs = shouldForwardStitchesProp?.('as');
+		const _styled: (...args: any[]) => unknown = (
+			args,
+			css = cssFunction,
+			{ displayName, shouldForwardStitchesProp } = {},
+		) => {
+			const cssComponent = css(...args);
+			const DefaultType = cssComponent[internal].type;
+			const shouldForwardAs = shouldForwardStitchesProp?.('as');
 
-      const styledComponent = React.forwardRef(
-        (props: Record<string, unknown>, ref) => {
-          const Type = props?.as && !shouldForwardAs ? props?.as : DefaultType;
+			const styledComponent = React.forwardRef(
+				(props: Record<string, unknown>, ref) => {
+					const Type = props?.as && !shouldForwardAs ? props?.as : DefaultType;
 
-          const { props: forwardProps, deferredInjector } = cssComponent(props);
+					const { props: forwardProps, deferredInjector } = cssComponent(props);
 
-          if (!shouldForwardAs) {
-            forwardProps.as = undefined;
-          }
+					if (!shouldForwardAs) {
+						forwardProps.as = undefined;
+					}
 
-          forwardProps.ref = ref;
+					forwardProps.ref = ref;
 
-          if (deferredInjector) {
-            return React.createElement(
-              React.Fragment,
-              null,
-              React.createElement(Type, forwardProps),
-              React.createElement(deferredInjector, null),
-            );
-          }
+					if (deferredInjector) {
+						return React.createElement(
+							React.Fragment,
+							null,
+							React.createElement(Type, forwardProps),
+							React.createElement(deferredInjector, null),
+						);
+					}
 
-          return React.createElement(Type, forwardProps);
-        },
-      );
+					return React.createElement(Type, forwardProps);
+				},
+			);
 
-      // biome-ignore lint/suspicious/noShadowRestrictedNames: Need for including in template literals
-      const toString = () => cssComponent.selector;
+			// biome-ignore lint/suspicious/noShadowRestrictedNames: Need for including in template literals
+			const toString = () => cssComponent.selector;
 
-      // @ts-expect-error Stitches specfic API
-      styledComponent.className = cssComponent.className;
-      styledComponent.displayName =
-        displayName ||
-        `Styled.${
-          DefaultType?.displayName || DefaultType?.name || DefaultType
-        }`;
-      // @ts-expect-error Stitches specfic API
-      styledComponent.selector = cssComponent.selector;
-      styledComponent.toString = toString;
-      // @ts-expect-error Stitches specfic API
-      styledComponent[internal] = cssComponent[internal];
+			// @ts-expect-error Stitches specfic API
+			styledComponent.className = cssComponent.className;
+			styledComponent.displayName =
+				displayName ||
+				`Styled.${
+					DefaultType?.displayName || DefaultType?.name || DefaultType
+				}`;
+			// @ts-expect-error Stitches specfic API
+			styledComponent.selector = cssComponent.selector;
+			styledComponent.toString = toString;
+			// @ts-expect-error Stitches specfic API
+			styledComponent[internal] = cssComponent[internal];
 
-      return styledComponent;
-    };
+			return styledComponent;
+		};
 
-    const styled = (...args: unknown[]) => _styled(args);
+		const styled = (...args: unknown[]) => _styled(args);
 
-    styled.withConfig =
-      (componentConfig: unknown) =>
-      (...args: unknown[]) => {
-        const cssWithConfig = cssFunction.withConfig(componentConfig);
-        return _styled(args, cssWithConfig, componentConfig);
-      };
+		styled.withConfig =
+			(componentConfig: unknown) =>
+			(...args: unknown[]) => {
+				const cssWithConfig = cssFunction.withConfig(componentConfig);
+				return _styled(args, cssWithConfig, componentConfig);
+			};
 
-    return styled;
-  });
+		return styled;
+	});

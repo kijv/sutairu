@@ -7,21 +7,6 @@ on:
       - "main"
 
 jobs:
-  changeset:
-    name: "changeset status"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Install
-        uses: ./.github/composite-actions/install
-
-      - name: Run changeset status
-        run: pnpm changeset status --since=main
-
   commitlint:
     name: "Commitlint"
     runs-on: ubuntu-latest

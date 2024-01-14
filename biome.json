@@ -38,7 +38,7 @@
 			"lineEnding": "lf",
 			"indentWidth": 2,
 			"lineWidth": 80,
-			"indentStyle": "space",
+			"indentStyle": "tab",
 			"quoteStyle": "single"
 		}
 	}
