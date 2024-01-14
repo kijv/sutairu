@@ -7,5 +7,13 @@ const stitches = defineConfig({
   },
 });
 
-export const { css, globalCss, keyframes, getCssText, theme } = stitches;
+export const { css, globalCss, keyframes, getCssText, theme, createTheme } =
+  stitches;
 export default stitches;
+
+export const darkTheme = stitches.createTheme('dark-theme', {
+  colors: {
+    hiContrast: 'white',
+    loContrast: 'black',
+  },
+});

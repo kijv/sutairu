@@ -1,4 +1,5 @@
 import type Stitches from '../core/types/stitches';
+import ReactStitches from '../react/types/stitches';
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];
@@ -15,7 +16,7 @@ export type Awaitable<T> = T | Promise<T>;
 
 export interface ExtractorContext {
   readonly original: string;
-  stitches: Stitches;
+  stitches: Stitches | ReactStitches;
   code: string;
   id?: string;
   extracted: Set<string>;

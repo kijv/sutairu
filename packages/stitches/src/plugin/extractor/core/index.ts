@@ -1,19 +1,28 @@
+import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
-import { parse } from '@swc/wasm';
+import { parse, parseSync } from '@swc/wasm';
 import type * as SWC from '@swc/wasm';
 import { CSS } from '../../../core';
 import Stitches from '../../../core/types/stitches';
-import ReactStitches from '../../../react/types/stitches';
+import ReactStitches, {
+  StyledFunctionType,
+} from '../../../react/types/stitches';
+import { StyledComponent } from '../../../react/types/styled-component';
 import { stitchesError } from '../../../stitches-error';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
-import { visit } from '../../ast/visit';
+import { visit, visitSync } from '../../ast/visit';
 import { JS_TYPES_RE } from '../../constants';
 import { Extractor } from '../../types';
+import { jsonArguments } from './utils';
 import { extractVariablesAndImports } from './vars';
 
+function removeDups<T>(array: T[]): T[] {
+  return [...new Set(array)];
+}
+
 export type State = {
-  stitches: Stitches;
+  stitches: Stitches | ReactStitches;
   ast: SWC.Program;
   id: string;
   code: string;
@@ -29,6 +38,20 @@ const fileToAST = async (file: string) => {
   const jsx = ext.endsWith('jsx');
 
   return parse(fileContent, {
+    syntax: tsx || ts ? 'typescript' : 'ecmascript',
+    jsx,
+    tsx,
+  });
+};
+
+const fileToASTSync = (file: string) => {
+  const fileContent = readFileSync(file, 'utf8');
+  const ext = extname(file);
+  const tsx = ext.endsWith('tsx');
+  const ts = ext.endsWith('ts');
+  const jsx = ext.endsWith('jsx');
+
+  return parseSync(fileContent, {
     syntax: tsx || ts ? 'typescript' : 'ecmascript',
     jsx,
     tsx,
@@ -79,9 +102,9 @@ export const extractorCore: Extractor = {
       }
     });
 
-    loaders = [...loaders, ...cjsResolved, ...mjsResolved].filter(
-      Boolean,
-    ) as string[];
+    loaders = removeDups(
+      [...loaders, ...cjsResolved, ...mjsResolved].filter(Boolean) as string[],
+    );
 
     const { variables, imports } = extractVariablesAndImports({
       ast,
@@ -106,7 +129,11 @@ export const extractorCore: Extractor = {
     ) => {
       if (!origin.kind) return;
 
-      let render;
+      let render:
+        | ReturnType<typeof stitches.keyframes>
+        | ReturnType<typeof stitches.createTheme>
+        | StyledComponent
+        | undefined;
 
       switch (origin.kind) {
         case 'css':
@@ -149,7 +176,13 @@ export const extractorCore: Extractor = {
 
               return arg;
             }),
-          ) as (args: any[]) => any;
+          );
+          break;
+        case 'createTheme':
+          render = stitches.createTheme(
+            origin.args[0] as string,
+            origin.args[1] as {},
+          );
           break;
       }
 
@@ -184,7 +217,13 @@ export const extractorCore: Extractor = {
 
         return expressionToJSON(exprOrSpread.expression);
       });
-      if (origin.kind === 'styled') console.log(renderArgs);
+
+      if (origin.kind === 'createTheme') {
+        String(render);
+        return tokens.push(
+          (render as ReturnType<typeof stitches.createTheme>).className,
+        );
+      }
 
       const value = (
         origin.kind === 'styled'
@@ -211,10 +250,11 @@ export const extractorCore: Extractor = {
       tokens.push(value.className);
     };
 
-    const visitExpressionStatement = async (
+    const visitExpressionStatement = (
       exprStmnt: SWC.ExpressionStatement | SWC.JSXExpressionContainer,
     ) => {
       const { expression } = exprStmnt;
+
       if (expression.type !== 'CallExpression') return;
 
       const { callee } = expression;
@@ -258,7 +298,7 @@ export const extractorCore: Extractor = {
 
           try {
             const { variables: foreignVariables } = extractVariablesAndImports({
-              ast: await fileToAST(maybeImport.resolved),
+              ast: fileToASTSync(maybeImport.resolved),
               loaders,
               id: maybeImport.resolved,
               configFileList,
@@ -279,6 +319,55 @@ export const extractorCore: Extractor = {
         origin.parents = parents;
       } else if (callee.type === 'CallExpression') {
         // TODO add support for direct calls (ex. css(...)())
+        const { callee: innerCallee } = callee;
+
+        if (
+          innerCallee.type === 'Identifier' &&
+          innerCallee.value === 'String' &&
+          callee.arguments.length === 1
+        ) {
+          const firstArg = jsonArguments(callee.arguments)[0];
+          if (typeof firstArg === 'string') {
+            let maybeOrigin = variables.find(
+              (c) => c.name === firstArg && c.ctxt === innerCallee.span.ctxt,
+            );
+
+            if (
+              !maybeOrigin &&
+              Array.from(imports).some(
+                (i) => i.ctxt === innerCallee.span.ctxt && i.value === firstArg,
+              )
+            ) {
+              const maybeImport = imports.find(
+                (i) => i.ctxt === innerCallee.span.ctxt && i.value === firstArg,
+              );
+              if (!maybeImport) return;
+
+              try {
+                const { variables: foreignVariables } =
+                  extractVariablesAndImports({
+                    ast: fileToASTSync(maybeImport.resolved),
+                    loaders,
+                    id: maybeImport.resolved,
+                    configFileList,
+                    stitches,
+                    code,
+                  });
+
+                maybeOrigin = foreignVariables.find(
+                  (c) => c.name === firstArg && c.exported === true,
+                );
+              } catch {}
+            }
+
+            if (!maybeOrigin) return;
+
+            const { kind, args, parents } = maybeOrigin;
+            origin.kind = kind;
+            origin.args = args;
+            origin.parents = parents;
+          }
+        }
       } else if (callee.type === 'MemberExpression') {
         const { property, object } = callee;
 
@@ -289,6 +378,7 @@ export const extractorCore: Extractor = {
           (c) => c.name === property.value && c.ctxt === property.span.ctxt,
         );
 
+        // TODO cleanup this code duplication
         if (
           !maybeOrigin &&
           Array.from(imports).some(
@@ -302,7 +392,7 @@ export const extractorCore: Extractor = {
 
           try {
             const { variables: foreignVariables } = extractVariablesAndImports({
-              ast: await fileToAST(maybeImport.resolved),
+              ast: fileToASTSync(maybeImport.resolved),
               loaders,
               id: maybeImport.resolved,
               configFileList,
@@ -315,6 +405,41 @@ export const extractorCore: Extractor = {
             );
           } catch {}
         }
+        // for createTheme
+        if (!maybeOrigin && property.value === 'toString') {
+          maybeOrigin = variables.find(
+            (c) => c.name === object.value && c.ctxt === object.span.ctxt,
+          );
+
+          if (
+            !maybeOrigin &&
+            Array.from(imports).some(
+              (i) => i.ctxt === callee.span.ctxt && i.value === object.value,
+            )
+          ) {
+            const maybeImport = imports.find(
+              (i) => i.ctxt === callee.span.ctxt && i.value === object.value,
+            );
+            if (!maybeImport) return;
+
+            try {
+              const { variables: foreignVariables } =
+                extractVariablesAndImports({
+                  ast: fileToASTSync(maybeImport.resolved),
+                  loaders,
+                  id: maybeImport.resolved,
+                  configFileList,
+                  stitches,
+                  code,
+                });
+
+              maybeOrigin = foreignVariables.find(
+                (c) => c.name === object.value && c.exported === true,
+              );
+            } catch {}
+          }
+        }
+
         if (!maybeOrigin) return;
 
         const { kind, args, parents } = maybeOrigin;
@@ -326,16 +451,71 @@ export const extractorCore: Extractor = {
       registerStitchesCall(expression.arguments, origin);
     };
 
-    await visit(ast, {
+    await visitSync(ast, {
       visitExpressionStatement,
       visitJSXExpressionContainer: visitExpressionStatement,
-      visitCallExpression: (callExpr) =>
-        visitExpressionStatement({
-          type: 'ExpressionStatement',
-          expression: callExpr,
-          span: DUMMY_SP,
-        }),
-      visitJSXElement: async (jsxEl) => {
+      visitCallExpression: (callExpr) => {
+        const { callee } = callExpr;
+
+        // createTheme
+        if (callee.type === 'Identifier' && callee.value === 'String') {
+          const firstArg = callExpr.arguments[0];
+          if (!firstArg) return;
+
+          const { expression } = firstArg;
+          if (expression.type !== 'Identifier') return;
+
+          let maybeOrigin = variables.find(
+            (c) =>
+              c.name === expression.value && c.ctxt === expression.span.ctxt,
+          );
+
+          if (
+            !maybeOrigin &&
+            Array.from(imports).some(
+              (i) =>
+                i.ctxt === callExpr.span.ctxt && i.value === expression.value,
+            )
+          ) {
+            const maybeImport = imports.find(
+              (i) =>
+                i.ctxt === callExpr.span.ctxt && i.value === expression.value,
+            );
+            if (!maybeImport) return;
+
+            try {
+              const { variables: foreignVariables } =
+                extractVariablesAndImports({
+                  ast: fileToASTSync(maybeImport.resolved),
+                  loaders,
+                  id: maybeImport.resolved,
+                  configFileList,
+                  stitches,
+                  code,
+                });
+
+              maybeOrigin = foreignVariables.find(
+                (c) => c.name === expression.value && c.exported === true,
+              );
+            } catch {}
+          }
+          if (!maybeOrigin) return;
+
+          const { kind, args, parents } = maybeOrigin;
+          registerStitchesCall([], {
+            kind,
+            args,
+            parents,
+          });
+        } else
+          visitExpressionStatement({
+            type: 'ExpressionStatement',
+            expression: callExpr,
+            span: DUMMY_SP,
+          });
+      },
+      // styled
+      visitJSXElement: (jsxEl) => {
         const { opening } = jsxEl;
         const openingName = opening.name;
         if (openingName.type !== 'Identifier') return;
@@ -360,7 +540,7 @@ export const extractorCore: Extractor = {
 
           try {
             const { variables: foreignVariables } = extractVariablesAndImports({
-              ast: await fileToAST(maybeImport.resolved),
+              ast: fileToASTSync(maybeImport.resolved),
               loaders,
               id: maybeImport.resolved,
               configFileList,
@@ -428,6 +608,52 @@ export const extractorCore: Extractor = {
             parents,
           },
         );
+      },
+      // createTheme
+      visitMemberExpression: (memberExpr) => {
+        const { object, property } = memberExpr;
+        if (object.type !== 'Identifier') return;
+        if (property.type !== 'Identifier') return;
+        if (property.value !== 'className') return;
+
+        let maybeOrigin = variables.find(
+          (c) => c.name === object.value && c.ctxt === object.span.ctxt,
+        );
+
+        if (
+          !maybeOrigin &&
+          Array.from(imports).some(
+            (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
+          )
+        ) {
+          const maybeImport = imports.find(
+            (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
+          );
+          if (!maybeImport) return;
+
+          try {
+            const { variables: foreignVariables } = extractVariablesAndImports({
+              ast: fileToASTSync(maybeImport.resolved),
+              loaders,
+              id: maybeImport.resolved,
+              configFileList,
+              stitches,
+              code,
+            });
+
+            maybeOrigin = foreignVariables.find(
+              (c) => c.name === object.value && c.exported === true,
+            );
+          } catch {}
+        }
+        if (!maybeOrigin) return;
+
+        const { kind, args, parents } = maybeOrigin;
+        registerStitchesCall([], {
+          kind,
+          args,
+          parents,
+        });
       },
     });
 
