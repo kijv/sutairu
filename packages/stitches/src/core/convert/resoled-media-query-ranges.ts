@@ -1,4 +1,5 @@
-const mqunit = /([\d.]+)([^]*)/;
+// biome-ignore lint/correctness/noEmptyCharacterClassInRegex: This is neccessary for the regex to work.
+const  mqunit = /([\d.]+)([^]*)/;
 
 /** Returns a media query with polyfilled ranges. */
 export const toResolvedMediaQueryRanges = (media: string) =>
@@ -26,29 +27,19 @@ export const toResolvedMediaQueryRanges = (media: string) =>
 			const [name, value] = isP1Value ? [p2, p1] : [p1, p2];
 
 			return (
-				"(" +
-				(o1[0] === "=" ? "" : (o1[0] === ">") === isP1Value ? "max-" : "min-") +
-				name +
-				":" +
-				(o1[0] !== "=" && o1.length === 1
+				`(${o1[0] === "=" ? "" : (o1[0] === ">") === isP1Value ? "max-" : "min-"}${name}:${o1[0] !== "=" && o1.length === 1
 					? value.replace(
 							mqunit,
 							(_, v, u) => Number(v) + shift * (o1 === ">" ? 1 : -1) + u,
 					  )
-					: value) +
-				(o2
-					? ") and (" +
-					  ((o2[0] === ">" ? "min-" : "max-") +
-							name +
-							":" +
-							(o2.length === 1
+					: value}${o2
+					? `) and (${o2[0] === ">" ? "min-" : "max-"}${name}:${o2.length === 1
 								? p3.replace(
 										mqunit,
 										(_, v, u) => Number(v) + shift * (o2 === ">" ? -1 : 1) + u,
 								  )
-								: p3))
-					: "") +
-				")"
+								: p3}`
+					: ""})`
 			);
 		},
 	);
