@@ -25,6 +25,10 @@ export const extractImports = ({ ast, loaders, id }: State) => {
 
         if (!pass) {
           try {
+            resolved = require.resolve(importDecl.source.value);
+            pass = !!resolved;
+          } catch {}
+          try {
             resolved = require.resolve(resolved);
             pass = !!resolved;
           } catch {}

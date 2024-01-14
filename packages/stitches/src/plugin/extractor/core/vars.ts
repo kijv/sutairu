@@ -46,7 +46,7 @@ export const extractVariablesAndImports = ({
     code,
   });
   const inlineLoaders: {
-    loader: string;
+    value: string;
     ctxt: number;
   }[] = [];
   const variables: {
@@ -109,7 +109,7 @@ export const extractVariablesAndImports = ({
     // same file, use that to ensure variables are of correct origin
     if (calleValue === 'defineConfig' && loaders.includes(id)) {
       inlineLoaders.push({
-        loader: id,
+        value: varIdent.value,
         ctxt: callExpr.callee.span.ctxt,
       });
     } else if (STYLE_FUNCTIONS.includes(calleValue)) {
@@ -306,7 +306,8 @@ export const extractVariablesAndImports = ({
       inlineLoaders.some(
         (l) =>
           callExpr.callee.type === 'MemberExpression' &&
-          callExpr.callee.object.span.ctxt === l.ctxt,
+          callExpr.callee.object.span.ctxt === l.ctxt &&
+          callExpr.callee.object.value === l.value,
       )
     ) {
       if (varDecl.kind !== 'const') {

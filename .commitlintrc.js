@@ -35,8 +35,18 @@ module.exports = {
       [
         // Dependency-related changes
         'deps',
-        // Stitches-related changes
-        'stitches',
+        // Plugin-related changes
+        'plugin',
+        // Vite-related changes
+        'vite',
+        // Webpack-related changes
+        'webpack',
+        // PostCSS plugin-related changes
+        'postcss',
+        // Core-related changes
+        'core',
+        // React-related changes
+        'react',
       ],
     ],
     'scope-empty': [1, 'never'],
