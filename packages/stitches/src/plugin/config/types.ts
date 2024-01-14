@@ -22,10 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import type { LoadConfigResult } from 'unconfig';
-import { StitchesGenerator } from '../generator';
 import type { Prettify } from '../types';
-import { BetterMap } from '../utils/map';
 
 export type FilterPattern =
   | ReadonlyArray<string | RegExp>
@@ -128,35 +125,3 @@ export interface UserConfigDefaults<React extends boolean = boolean>
 export type ResolvedConfig<React extends boolean = boolean> = Prettify<
   Omit<UserConfig<React>, 'configResolved'>
 >;
-
-export interface StitchesPluginContext<Config extends UserConfig = UserConfig> {
-  ready: Promise<LoadConfigResult<Config>>;
-  stitches: StitchesGenerator;
-  /** All tokens scanned */
-  tokens: Set<string>;
-  /** Map for all module's raw content */
-  modules: BetterMap<string, string>;
-  /** Module IDs that been affected by Stitches */
-  affectedModules: Set<string>;
-
-  /** Pending promises */
-  tasks: Promise<any>[];
-  /**
-   * Await all pending tasks
-   */
-  flushTasks(): Promise<any>;
-
-  filter: (code: string, id: string) => boolean;
-  extract: (code: string, id?: string) => Promise<void>;
-
-  reloadConfig: () => Promise<LoadConfigResult<Config>>;
-  getConfig: () => Promise<Config>;
-  onReload: (fn: () => void) => void;
-
-  invalidate: () => void;
-  onInvalidate: (fn: () => void) => void;
-
-  root: string;
-  updateRoot: (root: string) => Promise<LoadConfigResult<Config>>;
-  getConfigFileList: () => string[];
-}
