@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@antfu/ni':
+        specifier: ^0.21.12
+        version: 0.21.12
       '@biomejs/biome':
         specifier: ^1.4.1
         version: 1.4.1
