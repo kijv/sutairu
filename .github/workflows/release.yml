@@ -1,12 +1,9 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      acknowledge:
-        description: 'I understand that this action will publish everything on canary to the latest tag'
-        required: true
-        type: boolean
+  push:
+    branches:
+      - main
 
 permissions: {}
 jobs:
@@ -40,6 +37,8 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
+          commit: "release: version packages"
+          title: "release: version packages"
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm changeset:release
           version: pnpm changeset:version

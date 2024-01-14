@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 import { version } from '../../package.json';
-import { type DefaultThemeMap, createStitches } from '../core';
 import { resolveConfig } from './config';
 import type {
   ResolvedConfig,
