@@ -33,6 +33,7 @@
     "esno": "^4.0.0",
     "fast-glob": "^3.3.2",
     "husky": "^8.0.3",
+    "rimraf": "^5.0.5",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "semantic-release": "^21.1.2",

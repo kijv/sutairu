@@ -121,9 +121,7 @@ export const extractVariablesAndImports = ({
         name: varIdent.value,
         args: callExpr.arguments.flatMap((exprOrSpread, index) => {
           if (exprOrSpread.spread) {
-            stitchesError(
-              'No support for spreads in functions',
-            );
+            stitchesError('No support for spreads in functions');
           }
 
           const { expression } = exprOrSpread;

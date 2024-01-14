@@ -26,9 +26,7 @@ export function objectLiteralToJSON(object_lit: ObjectExpression) {
         break;
       }
       case 'SpreadElement':
-        stitchesError(
-          'Function arguments cannot contain spreads',
-        );
+        stitchesError('Function arguments cannot contain spreads');
         break;
     }
   }

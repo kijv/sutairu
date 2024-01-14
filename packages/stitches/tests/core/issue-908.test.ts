@@ -31,7 +31,7 @@ describe('Issue #908', () => {
   test('Getting hydratable stylesheet', () => {
     const { getCssText } = createStitches({
       root: {
-      // @ts-expect-error This is hidden from types
+        // @ts-expect-error This is hidden from types
         styleSheets: [createStylesheet(styleRule, layerRule)],
       },
     });

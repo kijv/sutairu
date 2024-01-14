@@ -161,9 +161,7 @@ export const extractorCore: Extractor = {
 
       const renderArgs = args.flatMap((exprOrSpread, index) => {
         if (exprOrSpread.spread) {
-          stitchesError(
-            'No support for spreads in functions',
-          );
+          stitchesError('No support for spreads in functions');
         }
 
         const { expression } = exprOrSpread;
