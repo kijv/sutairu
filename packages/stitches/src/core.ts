@@ -1,8 +1,8 @@
 import type Stitches from './core/types/stitches';
 import { getCachedConfig } from './core/utils/cached-config';
 
-import type * as Config from './core/types/config.js';
-import type * as CSSUtil from './core/types/css-util.js';
+import type * as Config from './core/types/config';
+import type * as CSSUtil from './core/types/css-util';
 import type * as StyledComponent from './core/types/styled-component';
 
 export type {
@@ -84,4 +84,5 @@ export const globalCss: Stitches['globalCss'] = (...args) =>
   getCachedConfig().globalCss(...args);
 export const keyframes: Stitches['keyframes'] = (...args) =>
   getCachedConfig().keyframes(...args);
+// @ts-expect-error
 export const css: Stitches['css'] = (...args) => getCachedConfig().css(...args);

@@ -25,8 +25,8 @@ SOFTWARE.
 import { toCssRules } from '../convert/css-rules';
 import { toHash } from '../convert/hash';
 import { toTailDashed } from '../convert/tail-dashed';
-import { SheetGroup, createRulesInjectionDeferrer } from '../sheet';
-import Stitches from '../types/stitches';
+import { type SheetGroup, createRulesInjectionDeferrer } from '../sheet';
+import type Stitches from '../types/stitches';
 import { createMemo } from '../utils/create-memo';
 import { define } from '../utils/define';
 import { hasNames } from '../utils/has-names';
@@ -445,38 +445,43 @@ const getPreparedDataFromComposers = (composers: Set<any>) => {
 };
 
 const getTargetVariantsToAdd = (
-  _targetVariants: [any, Record<string, any>, any][],
-  variantProps: any,
-  media: any,
+  targetVariants: Array<
+    [Record<string, unknown>, Record<string, unknown>, boolean]
+  >,
+  variantProps: Record<string, unknown>,
+  media: Record<string, unknown>,
   isCompoundVariant = false,
 ) => {
-  const targetVariantsToAdd: [string, Record<string, any>, boolean][][] = [];
+  const targetVariantsToAdd: Array<
+    [string, Record<string, unknown>, boolean][]
+  > = [];
 
-  targetVariants: for (let [vMatch, vStyle, vEmpty] of _targetVariants) {
+  // biome-ignore lint/suspicious/noLabelVar: This is okay to do
+  targetVariants: for (let [vMatch, vStyle, vEmpty] of targetVariants) {
     // skip empty variants
     if (vEmpty) continue;
 
     /** Position the variant should be inserted into. */
     let vOrder = 0;
 
-    let vName;
+    let vName: string | undefined;
 
     let isResponsive = false;
     for (vName in vMatch) {
       const vPair = vMatch[vName];
 
-      const pPair = variantProps[vName];
+      const pPair = variantProps[vName] as string | Record<string, unknown>;
 
       // exact matches
       if (pPair === vPair) continue;
-
+      // responsive matches
       if (typeof pPair === 'object' && pPair) {
-        /**  Whether the responsive variant is matched. */
-        let didMatch: boolean;
+        /** Whether the responsive variant is matched. */
+        let didMatch: boolean | undefined;
 
         let qOrder = 0;
         // media queries matching the same variant
-        let matchedQueries;
+        let matchedQueries: string[] | undefined;
         for (const query in pPair) {
           if (vPair === String(pPair[query])) {
             if (query !== '@initial') {
@@ -484,10 +489,10 @@ const getTargetVariantsToAdd = (
               // if not, we remove the @media from the beginning and push it to the matched queries which then will be resolved a few lines down
               // when we finish working on this variant and want wrap the vStyles with the matchedQueries
               const cleanQuery = query.slice(1);
-              matchedQueries = matchedQueries || ([] as string[]);
-              matchedQueries.push(
+              // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+              (matchedQueries = matchedQueries || ([] as string[])).push(
                 cleanQuery in media
-                  ? media[cleanQuery]
+                  ? (media[cleanQuery] as string)
                   : query.replace(/^@media ?/, ''),
               );
               isResponsive = true;
@@ -499,25 +504,23 @@ const getTargetVariantsToAdd = (
 
           ++qOrder;
         }
-
-        // biome-ignore lint/complexity/useOptionalChain:
-        if (matchedQueries && matchedQueries.length) {
+        if (matchedQueries?.length) {
           vStyle = {
             [`@media ${matchedQueries.join(', ')}`]: vStyle,
           };
         }
 
-        // @ts-expect-error
         if (!didMatch) continue targetVariants;
       }
 
       // non-matches
       else continue targetVariants;
     }
-    targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || [];
-
-    targetVariantsToAdd[vOrder]?.push([
-      isCompoundVariant ? 'cv' : `${vName}-${vName?.[vName]}`,
+    // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+    (targetVariantsToAdd[vOrder] =
+      targetVariantsToAdd[vOrder] ||
+      ([] as unknown as [string, Record<string, unknown>, boolean][])).push([
+      isCompoundVariant ? 'cv' : `${vName}-${vMatch?.[vName as string]}`,
       vStyle,
       isResponsive,
     ]);

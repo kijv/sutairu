@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { Prettify } from '../../plugin/types';
+import type { Prettify } from '../../postcss/types';
 
 const borderStyles = 'borderStyles';
 const borderWidths = 'borderWidths';
