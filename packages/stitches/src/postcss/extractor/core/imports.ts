@@ -1,5 +1,7 @@
 import path from 'node:path';
 import jiti from 'jiti';
+import tsconfig from 'tsconfig';
+import tsconfigPaths from 'tsconfig-paths';
 import type { State } from '.';
 import { visitSync } from '../../ast/visit';
 
@@ -11,8 +13,25 @@ export interface Import {
   resolved: string;
 }
 
-export const extractImports = ({ ast, loaders, id }: State) => {
-  const require = jiti(import.meta.url);
+export const extractImports = ({ ast, loaders, id, code }: State) => {
+  const { config: typescriptConfig } = tsconfig.loadSync(path.dirname(id));
+  let cleanup = () => {};
+
+  if (
+    typeof typescriptConfig === 'object' &&
+    typescriptConfig.compilerOptions?.paths
+  ) {
+    cleanup = tsconfigPaths.register({
+      baseUrl:
+        typescriptConfig.compilerOptions.baseUrl ||
+        path.dirname(
+          loaders.filter((l) => l.endsWith('stitches.config.ts'))[0] as string,
+        ),
+      paths: typescriptConfig.compilerOptions.paths,
+    });
+  }
+
+  const require = jiti(id);
   const imports: Import[] = [];
 
   visitSync(ast, {
@@ -72,5 +91,6 @@ export const extractImports = ({ ast, loaders, id }: State) => {
     },
   });
 
+  cleanup();
   return imports;
 };

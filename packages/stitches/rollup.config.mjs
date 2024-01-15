@@ -28,11 +28,13 @@ const plugins = [
 
 const external = [
   // postcss
+  '@swc/wasm',
   'jiti',
   'unconfig',
   'postcss',
   'postcss-discard-empty',
   'postcss-nested',
+  'tsconfig-paths',
   // react
   'react',
 ];

@@ -3,17 +3,12 @@ import { normalize } from 'node:path';
 import fg from 'fast-glob';
 import postcss, { type Result, type Root } from 'postcss';
 import { loadConfig } from './config';
-import type { UserConfig } from './config/types';
 import { defaultFilesystemGlobs } from './defaults';
 import { type StitchesGenerator, createGenerator } from './generator';
 import { stitchesError } from './stitches-error';
 import type { StitchesPostcssPluginOptions } from './types';
 
 export * from './types';
-
-export function defineConfig(config: UserConfig) {
-  return config;
-}
 
 function stitches(options: StitchesPostcssPluginOptions = {}) {
   const { cwd = process.cwd(), configOrPath } = options;
@@ -152,3 +147,7 @@ stitches.postcss = true;
 stitches.default = stitches;
 
 export default stitches;
+
+if (typeof module !== 'undefined') {
+  module.exports = stitches;
+}

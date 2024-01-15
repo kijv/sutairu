@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { DefaultThemeMap } from '../default/theme-map';
+import type { DefaultThemeMap } from '../default/theme-map';
 import type * as Native from './css';
 import type * as ThemeUtil from './theme';
 import type * as Util from './util';
@@ -49,44 +49,19 @@ type TokenByScaleName<ScaleName, Theme> = ScaleName extends keyof Theme
   ? Util.Prefixed<'$', keyof Theme[ScaleName]>
   : never;
 
-type CSS_Utils<P, Theme, ThemeMap> = P extends any[]
-  ?
-      | ($$PropertyValue extends keyof P[0]
-          ?
-              | ValueByPropertyName<P[0][$$PropertyValue]>
-              | TokenByPropertyName<P[0][$$PropertyValue], Theme, ThemeMap>
-              | Native.Globals
-              | ThemeUtil.ScaleValue
-              | undefined
-          : $$ScaleValue extends keyof P[0]
-            ?
-                | TokenByScaleName<P[0][$$ScaleValue], Theme>
-                | { scale: P[0][$$ScaleValue] }
-                | undefined
-            : never)[]
-      | P
-  : $$PropertyValue extends keyof P
-    ?
-        | ValueByPropertyName<P[$$PropertyValue]>
-        | TokenByPropertyName<P[$$PropertyValue], Theme, ThemeMap>
-        | Native.Globals
-        | undefined
-    : $$ScaleValue extends keyof P
-      ?
-          | TokenByScaleName<P[$$ScaleValue], Theme>
-          | { scale: P[$$ScaleValue] }
-          | undefined
-      : never;
-
 type CSSPropertiesWithTheme<Theme, ThemeMap> = {
   [K in keyof CSSProperties]?:
-    | CSSProperties[K]
-    | TokenByPropertyName<K, Theme, ThemeMap>;
+    | ValueByPropertyName<K>
+    | TokenByPropertyName<K, Theme, ThemeMap>
+    | Native.Globals
+    | ThemeUtil.ScaleValue
+    | Util.NarrowIndex;
 };
 
 type CSSUtils<Utils> = {
-  // @ts-expect-error
-  [K in keyof Utils]?: ReturnType<Utils[K]>;
+  [K in keyof Utils]?: Utils[K] extends (arg: infer P) => any
+    ? ReturnType<Utils[K]>
+    : never;
 };
 
 type CSSMediaQueries<Media, Theme, ThemeMap, Utils> = {
@@ -101,7 +76,12 @@ export type CSS<
 > = CSSPropertiesWithTheme<Theme, ThemeMap> &
   CSSUtils<Utils> &
   CSSMediaQueries<Media, Theme, ThemeMap, Utils> & {
-    [key: string]: any; // Catch-all for additional properties
+    [key: string]:
+      | string
+      | number
+      | undefined
+      | CSS<Media, Theme, ThemeMap, Utils>
+      | {};
   };
 // export type CSS<
 //   Media = {},
