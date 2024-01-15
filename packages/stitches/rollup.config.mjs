@@ -27,15 +27,18 @@ const plugins = [
 ];
 
 const external = [
-  'vite',
-  'react',
-  'magic-string',
+  // postcss
+  'jiti',
   'unconfig',
   'postcss',
   'postcss-discard-empty',
   'postcss-nested',
-  'jiti',
-  '@swc/wasm',
+  'ts-pattern',
+  // react
+  'react',
+  // core
+  'safe-json-stringify',
+  'csstype',
 ];
 
 export default defineConfig([
@@ -64,7 +67,7 @@ export default defineConfig([
     ],
     plugins: [
       ...plugins,
-      bundleSizeLimit(process.env.NODE_ENV === 'production' ? 163 : 500),
+      bundleSizeLimit(process.env.MINIFY === 'true' ? 163 : 500),
     ],
     external: [...external],
   },
@@ -87,6 +90,11 @@ export default defineConfig([
   },
 ]);
 
+/**
+ * Guard the bundle size
+ *
+ * @param limit size in kB
+ */
 function bundleSizeLimit(limit) {
   return {
     name: 'bundle-limit',
@@ -98,6 +106,7 @@ function bundleSizeLimit(limit) {
         'utf-8',
       );
       const kb = size / 1000;
+      console.log(kb);
       if (kb > limit) {
         throw new Error(
           `Bundle size exceeded ${limit} kB, current size is ${kb.toFixed(

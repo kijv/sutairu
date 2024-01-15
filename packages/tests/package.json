@@ -1,0 +1,19 @@
+{
+  "name": "@repo/tests",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@jujst/stitches": "workspace:^",
+    "@vitejs/plugin-react": "^4.2.1",
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.47",
+    "@types/react-test-renderer": "^18.0.7"
+  }
+}

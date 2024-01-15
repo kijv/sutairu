@@ -2,11 +2,11 @@ import { readFile, stat } from 'node:fs/promises';
 import { normalize } from 'node:path';
 import fg from 'fast-glob';
 import postcss, { Result, Root } from 'postcss';
-import { loadConfig } from '../plugin/config';
-import { UserConfig } from '../plugin/config/types';
-import { defaultFilesystemGlobs } from '../plugin/defaults';
-import { StitchesGenerator, createGenerator } from '../plugin/generator';
-import { stitchesError } from '../stitches-error';
+import { loadConfig } from './config';
+import { UserConfig } from './config/types';
+import { defaultFilesystemGlobs } from './defaults';
+import { StitchesGenerator, createGenerator } from './generator';
+import { stitchesError } from './stitches-error';
 import { StitchesPostcssPluginOptions } from './types';
 
 export * from './types';

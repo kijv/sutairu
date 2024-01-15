@@ -445,14 +445,15 @@ const getPreparedDataFromComposers = (composers: Set<any>) => {
 };
 
 const getTargetVariantsToAdd = (
-  _targetVariants: [any, Record<string, any>, any][],
+  targetVariants: any,
   variantProps: any,
   media: any,
   isCompoundVariant = false,
 ) => {
-  const targetVariantsToAdd: [string, Record<string, any>, boolean][][] = [];
+  const targetVariantsToAdd: any[] = [];
 
-  targetVariants: for (let [vMatch, vStyle, vEmpty] of _targetVariants) {
+  // biome-ignore lint/suspicious/noLabelVar: This is okay to do
+  targetVariants: for (let [vMatch, vStyle, vEmpty] of targetVariants) {
     // skip empty variants
     if (vEmpty) continue;
 
@@ -465,14 +466,14 @@ const getTargetVariantsToAdd = (
     for (vName in vMatch) {
       const vPair = vMatch[vName];
 
-      const pPair = variantProps[vName];
+      let pPair = variantProps[vName];
 
       // exact matches
       if (pPair === vPair) continue;
-
+      // responsive matches
       if (typeof pPair === 'object' && pPair) {
-        /**  Whether the responsive variant is matched. */
-        let didMatch: boolean;
+        /** Whether the responsive variant is matched. */
+        let didMatch: boolean | undefined;
 
         let qOrder = 0;
         // media queries matching the same variant
@@ -484,8 +485,7 @@ const getTargetVariantsToAdd = (
               // if not, we remove the @media from the beginning and push it to the matched queries which then will be resolved a few lines down
               // when we finish working on this variant and want wrap the vStyles with the matchedQueries
               const cleanQuery = query.slice(1);
-              matchedQueries = matchedQueries || ([] as string[]);
-              matchedQueries.push(
+              (matchedQueries = matchedQueries || []).push(
                 cleanQuery in media
                   ? media[cleanQuery]
                   : query.replace(/^@media ?/, ''),
@@ -499,25 +499,20 @@ const getTargetVariantsToAdd = (
 
           ++qOrder;
         }
-
-        // biome-ignore lint/complexity/useOptionalChain:
         if (matchedQueries && matchedQueries.length) {
           vStyle = {
-            [`@media ${matchedQueries.join(', ')}`]: vStyle,
+            ['@media ' + matchedQueries.join(', ')]: vStyle,
           };
         }
 
-        // @ts-expect-error
         if (!didMatch) continue targetVariants;
       }
 
       // non-matches
       else continue targetVariants;
     }
-    targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || [];
-
-    targetVariantsToAdd[vOrder]?.push([
-      isCompoundVariant ? 'cv' : `${vName}-${vName?.[vName]}`,
+    (targetVariantsToAdd[vOrder] = targetVariantsToAdd[vOrder] || []).push([
+      isCompoundVariant ? 'cv' : `${vName}-${vMatch?.[vName as string]}`,
       vStyle,
       isResponsive,
     ]);

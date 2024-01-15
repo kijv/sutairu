@@ -1,8 +1,8 @@
 import type Stitches from './core/types/stitches';
 import { getCachedConfig } from './core/utils/cached-config';
 
-import type * as Config from './core/types/config.js';
-import type * as CSSUtil from './core/types/css-util.js';
+import type * as Config from './core/types/config';
+import type * as CSSUtil from './core/types/css-util';
 import type * as StyledComponent from './core/types/styled-component';
 
 export type {

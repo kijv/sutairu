@@ -27,9 +27,11 @@
 			},
 			"nursery": {
 				"useGroupedTypeImport": "error",
-				"noUnusedImports": "error"
+				"noUnusedImports": "error",
+				"useImportType": "error"
 			}
-		}
+		},
+		"ignore": ["./packages/stitches/src/types/css.d.ts"]
 	},
 	"formatter": {
 		"enabled": true,
