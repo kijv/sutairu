@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/react';
+import { createStitches } from '@jujst/stitches/react';
 
 const internal = Symbol.for('jujst.sxs.internal');
 

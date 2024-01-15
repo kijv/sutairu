@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 describe('Component Medias', () => {
   test('Authors can define medias applied to components', () => {

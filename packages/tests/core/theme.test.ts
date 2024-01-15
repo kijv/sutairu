@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 describe('Theme', () => {
   test('Expected behavior for the createTheme() method', () => {

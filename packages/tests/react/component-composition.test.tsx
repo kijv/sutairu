@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/react';
+import { createStitches } from '@jujst/stitches/react';
 
 describe('Composition', () => {
   test('Renders an empty component', () => {

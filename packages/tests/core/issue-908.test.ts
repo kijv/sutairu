@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 const styleRule = '--sxs { --sxs:1 lTyTw fJmROo; }';
 // @jujst/stitches uses @layer directive instead of @margin for grouping

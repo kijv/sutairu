@@ -1,5 +1,3 @@
-import type Stitches from '../core/types/stitches';
-import type ReactStitches from '../react/types/stitches';
 import type { UserConfig } from './config/types';
 
 export type Prettify<T> = {
@@ -17,7 +15,7 @@ export type Awaitable<T> = T | Promise<T>;
 
 export interface ExtractorContext {
   readonly original: string;
-  stitches: Stitches | ReactStitches;
+  stitches: any;
   code: string;
   id?: string;
   extracted: Set<string>;
@@ -33,9 +31,7 @@ export interface Extractor {
    *
    * Return `undefined` to skip this extractor.
    */
-  extract?(
-    ctx: ExtractorContext,
-  ): Awaitable<Set<string> | string[] | undefined | void>;
+  extract?(ctx: ExtractorContext): Awaitable<string[] | undefined | void>;
 }
 
 export interface GenerateOptions {

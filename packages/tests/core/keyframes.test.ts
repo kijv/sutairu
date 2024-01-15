@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 describe('Keyframes', () => {
   test('Expected behavior for the keyframes() method', () => {

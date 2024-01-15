@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 describe('Issue #943', () => {
   test('@font-face descriptors', () => {

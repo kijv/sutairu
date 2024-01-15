@@ -1,6 +1,6 @@
-import { CSS } from '../../stitches/src/core/types/css-util';
-import type * as Stitches from '../../stitches/src/react';
-import { FontFace, createStitches } from '../../stitches/src/react';
+import { CSS } from '@jujst/stitches/core/types/css-util';
+import type * as Stitches from '@jujst/stitches/react';
+import { FontFace, createStitches } from '@jujst/stitches/react';
 
 suite('Types', () => {
   const { css, globalCss, keyframes, styled, theme } = createStitches({

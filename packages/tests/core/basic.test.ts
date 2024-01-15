@@ -1,4 +1,4 @@
-import { type PropertyValue, createStitches } from '../../stitches/src/core';
+import { type PropertyValue, createStitches } from '@jujst/stitches/core';
 
 describe('Basic', () => {
   test('Existance of methods', () => {

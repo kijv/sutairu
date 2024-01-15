@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 test('Types', () => {
   const { css, globalCss, keyframes } = createStitches({

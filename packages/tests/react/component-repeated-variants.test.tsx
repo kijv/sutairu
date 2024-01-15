@@ -1,4 +1,4 @@
-import { PropertyValue, createStitches } from '../../stitches/src/react';
+import { PropertyValue, createStitches } from '@jujst/stitches/react';
 
 describe('emerson', () => {
   test('lake', () => {

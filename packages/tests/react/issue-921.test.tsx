@@ -1,4 +1,4 @@
-import { CSS, PropertyValue, createStitches } from '../../stitches/src/react';
+import { CSS, PropertyValue, createStitches } from '@jujst/stitches/react';
 
 describe('Issue #921: Fix CSS type for utils overshadowing properties', () => {
   const config = {

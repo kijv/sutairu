@@ -1,4 +1,4 @@
-import { CSS, PropertyValue, createStitches } from '../../stitches/src/core';
+import { CSS, PropertyValue, createStitches } from '@jujst/stitches/core';
 
 test('Issue #921', () => {
   const config = {

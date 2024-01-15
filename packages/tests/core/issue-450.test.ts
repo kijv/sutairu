@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 suite('Issue #450', () => {
   describe('Basic Tests', () => {

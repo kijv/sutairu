@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/react';
+import { createStitches } from '@jujst/stitches/react';
 
 describe('Issue #943', () => {
   test('@font-face descriptors', () => {

@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/react';
+import { createStitches } from '@jujst/stitches/react';
 
 describe('React Component with CSS prop', () => {
   test('Authors can create a component and pass it a css prop of overrides', () => {

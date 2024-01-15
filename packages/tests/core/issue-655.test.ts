@@ -1,4 +1,4 @@
-import { createStitches } from '../../stitches/src/core';
+import { createStitches } from '@jujst/stitches/core';
 
 describe('Issue #655', () => {
   test('Applying both variants from the one default variant', () => {

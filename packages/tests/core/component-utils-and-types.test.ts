@@ -1,4 +1,4 @@
-import { PropertyValue, createStitches } from '../../stitches/src/core';
+import { PropertyValue, createStitches } from '@jujst/stitches/core';
 
 describe('Component: Utilities & Tokens', () => {
   test('Utilities & Tokens of the same type', () => {
