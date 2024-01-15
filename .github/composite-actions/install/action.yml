@@ -28,4 +28,5 @@ runs:
         pnpm i
 
     - name: Install @antfu/ni
+      shell: bash
       run: pnpm i -g @antfu/ni
