@@ -26,3 +26,6 @@ runs:
       run: |
         corepack enable
         pnpm i
+
+    - name: Install @antfu/ni
+      run: pnpm i -g @antfu/ni
