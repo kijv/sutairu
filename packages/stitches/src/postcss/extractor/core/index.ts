@@ -1,17 +1,17 @@
 import { readFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
-import type { CSS } from '@stitches/core/src/index';
-import Stitches from '@stitches/core/types/stitches';
-import ReactStitches from '@stitches/react/types/stitches';
-import { StyledComponent } from '@stitches/react/types/styled-component';
 import { parse, parseSync } from '@swc/wasm';
 import type * as SWC from '@swc/wasm';
+import type { CSS } from '../../../core';
+import type Stitches from '../../../core/types/stitches';
+import type ReactStitches from '../../../react/types/stitches';
+import type { StyledComponent } from '../../../react/types/styled-component';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visitSync } from '../../ast/visit';
 import { JS_TYPES_RE } from '../../constants';
 import { stitchesError } from '../../stitches-error';
-import { Extractor } from '../../types';
+import type { Extractor } from '../../types';
 import { jsonArguments } from './utils';
 import { EXTENDABLE_STYLE_FUNCTIONS, extractVariablesAndImports } from './vars';
 

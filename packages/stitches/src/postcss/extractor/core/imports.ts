@@ -1,6 +1,6 @@
 import path from 'node:path';
 import jiti from 'jiti';
-import { State } from '.';
+import type { State } from '.';
 import { visitSync } from '../../ast/visit';
 
 export interface Import {

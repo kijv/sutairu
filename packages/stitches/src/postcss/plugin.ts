@@ -1,13 +1,13 @@
 import { readFile, stat } from 'node:fs/promises';
 import { normalize } from 'node:path';
 import fg from 'fast-glob';
-import postcss, { Result, Root } from 'postcss';
+import postcss, { type Result, type Root } from 'postcss';
 import { loadConfig } from './config';
-import { UserConfig } from './config/types';
+import type { UserConfig } from './config/types';
 import { defaultFilesystemGlobs } from './defaults';
-import { StitchesGenerator, createGenerator } from './generator';
+import { type StitchesGenerator, createGenerator } from './generator';
 import { stitchesError } from './stitches-error';
-import { StitchesPostcssPluginOptions } from './types';
+import type { StitchesPostcssPluginOptions } from './types';
 
 export * from './types';
 

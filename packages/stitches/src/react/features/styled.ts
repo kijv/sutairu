@@ -24,10 +24,10 @@ SOFTWARE.
 
 import React from 'react';
 import { createCssFunction } from '../../core/features/css';
-import { SheetGroup } from '../../core/sheet';
+import type { SheetGroup } from '../../core/sheet';
 import { createMemo } from '../../core/utils/create-memo';
 import { internal } from '../../core/utils/internal';
-import Stitches from '../types/stitches';
+import type Stitches from '../types/stitches';
 
 const createCssFunctionMap = createMemo();
 

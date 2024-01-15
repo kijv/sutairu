@@ -1,5 +1,5 @@
 import type * as SWC from '@swc/wasm';
-import { Awaitable } from '../types';
+import type { Awaitable } from '../types';
 
 type RemoveVisitorPrefix<S extends string> = S extends `visit${infer T}`
   ? T

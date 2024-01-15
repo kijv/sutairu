@@ -33,12 +33,8 @@ const external = [
   'postcss',
   'postcss-discard-empty',
   'postcss-nested',
-  'ts-pattern',
   // react
   'react',
-  // core
-  'safe-json-stringify',
-  'csstype',
 ];
 
 export default defineConfig([
@@ -67,7 +63,7 @@ export default defineConfig([
     ],
     plugins: [
       ...plugins,
-      bundleSizeLimit(process.env.MINIFY === 'true' ? 163 : 500),
+      bundleSizeLimit(process.env.NODE_ENV === 'production' ? 163 : 500),
     ],
     external: [...external],
   },
@@ -106,7 +102,6 @@ function bundleSizeLimit(limit) {
         'utf-8',
       );
       const kb = size / 1000;
-      console.log(kb);
       if (kb > limit) {
         throw new Error(
           `Bundle size exceeded ${limit} kB, current size is ${kb.toFixed(

@@ -84,4 +84,5 @@ export const globalCss: Stitches['globalCss'] = (...args) =>
   getCachedConfig().globalCss(...args);
 export const keyframes: Stitches['keyframes'] = (...args) =>
   getCachedConfig().keyframes(...args);
+// @ts-expect-error
 export const css: Stitches['css'] = (...args) => getCachedConfig().css(...args);

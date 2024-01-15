@@ -1,6 +1,6 @@
-import type { CSS } from '@stitches/core/src/index';
-import * as SWC from '@swc/wasm';
-import { State } from '.';
+import type * as SWC from '@swc/wasm';
+import type { State } from '.';
+import type { CSS } from '../../../core';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visitSync } from '../../ast/visit';
 import { stitchesError } from '../../stitches-error';

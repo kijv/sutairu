@@ -1,6 +1,6 @@
-import type Stitches from '@stitches/core/types/stitches';
-import ReactStitches from '@stitches/react/types/stitches';
-import { UserConfig } from './config/types';
+import type Stitches from '../core/types/stitches';
+import type ReactStitches from '../react/types/stitches';
+import type { UserConfig } from './config/types';
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];
