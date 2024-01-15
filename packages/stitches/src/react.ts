@@ -1,8 +1,6 @@
 import type Stitches from './react/types/stitches';
 import { getCachedConfig } from './react/utils/cached-config';
 
-import { CreateStitches } from './react/types/config';
-
 export type {
   $$PropertyValue,
   $$ScaleValue,
@@ -19,15 +17,15 @@ export type {
 export { createStitches } from './react/create';
 export { defaultThemeMap, type DefaultThemeMap } from './core';
 
-export const createTheme: CreateStitches = (...args) =>
+export const createTheme: Stitches['createTheme'] = (...args) =>
   getCachedConfig().createTheme(...args);
 export const globalCss: Stitches['globalCss'] = (...args) =>
   getCachedConfig().globalCss(...args);
 export const keyframes: Stitches['keyframes'] = (...args) =>
   getCachedConfig().keyframes(...args);
 
-// @ts-expect-error Too lazy to fix this
+// @ts-expect-error
 export const css: Stitches['css'] = (...args) => getCachedConfig().css(...args);
-// @ts-expect-error Too lazy to fix this
 export const styled: Stitches['styled'] = (...args) =>
+  // @ts-expect-error
   getCachedConfig().styled(...args);

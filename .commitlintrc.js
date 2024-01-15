@@ -37,6 +37,12 @@ module.exports = {
         'deps',
         // Stitches-related changes
         'stitches',
+        // PostCSS plugin-related changes
+        'postcss',
+        // Core-related changes
+        'core',
+        // React-related
+        'react',
       ],
     ],
     'scope-empty': [1, 'never'],

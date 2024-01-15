@@ -10,9 +10,9 @@ const generateType = async (packageUrl: URL) => {
   const dtsModifiedURL = packageUrl.to('types/css.d.ts');
   console.log(dtsModifiedURL.pathname);
 
-  const dtsModifiedTxt = new ModifiedString(dtsOriginalTxt).withoutVendorTyping
-
-  .withCamelCasedColors
+  const dtsModifiedTxt = new ModifiedString(
+    dtsOriginalTxt,
+  ).withoutVendorTyping.withCamelCasedColors
 
   .withAddedLicense
 
@@ -20,7 +20,8 @@ const generateType = async (packageUrl: URL) => {
 
   .withoutBrowserComments.withoutImplicitGlobals.withoutPropertyValueTyping.withoutGenericTyping.withoutNarrowingPatch.withoutNeverInChain.withoutTrailingSpace
 
-  .toString();
+    .replace('\nexport {};\n\n', '')
+    .toString();
 
   await fs.writeFile(dtsModifiedURL, dtsModifiedTxt);
 };

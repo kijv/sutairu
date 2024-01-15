@@ -27,15 +27,16 @@ const plugins = [
 ];
 
 const external = [
-  'vite',
-  'react',
-  'magic-string',
+  // postcss
+  '@swc/wasm',
+  'jiti',
   'unconfig',
   'postcss',
   'postcss-discard-empty',
   'postcss-nested',
-  'jiti',
-  '@swc/wasm',
+  'tsconfig-paths',
+  // react
+  'react',
 ];
 
 export default defineConfig([
@@ -87,6 +88,11 @@ export default defineConfig([
   },
 ]);
 
+/**
+ * Guard the bundle size
+ *
+ * @param limit size in kB
+ */
 function bundleSizeLimit(limit) {
   return {
     name: 'bundle-limit',

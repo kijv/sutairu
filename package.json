@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "changeset:release": "changeset publish",
-    "changeset:version": "changeset version && turbo build && git add --all",
+    "changeset:version": "changeset version && esno scripts/csstype.ts && turbo build && git add --all",
     "csstype": "esno scripts/csstype.ts",
     "dev": "turbo dev",
     "format": "biome check . --apply-unsafe --linter-enabled false",

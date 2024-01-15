@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { DefaultThemeMap } from '../default/theme-map';
+import type { DefaultThemeMap } from '../default/theme-map';
 import type * as CSSUtil from './css-util';
 import type Stitches from './stitches';
 

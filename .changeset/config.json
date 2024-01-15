@@ -4,5 +4,6 @@
 	"commit": false,
 	"fixed": [["@jujst/stitches"]],
 	"access": "public",
-	"baseBranch": "main"
+	"baseBranch": "main",
+	"ignore": ["@repo/*"]
 }
