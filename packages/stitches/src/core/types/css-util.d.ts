@@ -49,47 +49,36 @@ type TokenByScaleName<ScaleName, Theme> = ScaleName extends keyof Theme
   ? Util.Prefixed<'$', keyof Theme[ScaleName]>
   : never;
 
-type CSSKnownThemeProperties<Theme, ThemeMap, Utils> = {
-  [K in keyof ThemeMap as K extends keyof CSSProperties
-    ? never
-    : K extends keyof Utils
-      ? never
-      : K]?: Native.Globals | Util.NarrowIndex | undefined;
-};
-
-type CSSPropertiesWithTheme<Theme, ThemeMap, Utils> = {
-  [K in keyof CSSProperties as K extends keyof Utils ? never : K]?:
+type CSSPropertiesWithTheme<Theme, ThemeMap> = {
+  [K in keyof CSSProperties]?:
     | ValueByPropertyName<K>
     | TokenByPropertyName<K, Theme, ThemeMap>
     | Native.Globals
     | ThemeUtil.ScaleValue
-    | Util.NarrowIndex
-    | undefined;
+    | Util.NarrowIndex;
 };
 
 type CSSUtils<Theme, ThemeMap, Utils> = {
   [K in keyof Utils]?: Utils[K] extends (arg: infer P) => any
     ?
         | (P extends any[]
-            ?
-                | ($$PropertyValue extends keyof P[0]
-                    ?
-                        | ValueByPropertyName<P[0][$$PropertyValue]>
-                        | TokenByPropertyName<
-                            P[0][$$PropertyValue],
-                            Theme,
-                            ThemeMap
-                          >
-                        | Native.Globals
-                        | ThemeUtil.ScaleValue
-                        | undefined
-                    : $$ScaleValue extends keyof P[0]
-                      ?
-                          | TokenByScaleName<P[0][$$ScaleValue], Theme>
-                          | { scale: P[0][$$ScaleValue] }
-                          | undefined
-                      : never)[]
-                | P
+            ? ($$PropertyValue extends keyof P[0]
+                ?
+                    | ValueByPropertyName<P[0][$$PropertyValue]>
+                    | TokenByPropertyName<
+                        P[0][$$PropertyValue],
+                        Theme,
+                        ThemeMap
+                      >
+                    | Native.Globals
+                    | ThemeUtil.ScaleValue
+                    | undefined
+                : $$ScaleValue extends keyof P[0]
+                  ?
+                      | TokenByScaleName<P[0][$$ScaleValue], Theme>
+                      | { scale: P[0][$$ScaleValue] }
+                      | undefined
+                  : never)[]
             : $$PropertyValue extends keyof P
               ?
                   | ValueByPropertyName<P[$$PropertyValue]>
@@ -107,7 +96,7 @@ type CSSUtils<Theme, ThemeMap, Utils> = {
 };
 
 type CSSMediaQueries<Media, Theme, ThemeMap, Utils> = {
-  [K in Util.Prefixed<'@', keyof Media>]?: CSS<Media, Theme, ThemeMap, Utils>;
+  [K in keyof Media as `@${string & K}`]?: CSS<Media, Theme, ThemeMap, Utils>;
 };
 
 export type CSS<
@@ -115,7 +104,7 @@ export type CSS<
   Theme = {},
   ThemeMap = DefaultThemeMap,
   Utils = {},
-> = CSSPropertiesWithTheme<Theme, ThemeMap, Utils> &
+> = CSSPropertiesWithTheme<Theme, ThemeMap> &
   CSSUtils<Theme, ThemeMap, Utils> &
   CSSMediaQueries<Media, Theme, ThemeMap, Utils> & {
     [key: string]:

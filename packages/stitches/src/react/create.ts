@@ -28,6 +28,7 @@ import {
 } from '../core';
 import { createStyledFunction } from './features/styled';
 import type { ConfigType } from './types/config';
+import Stitches from './types/stitches';
 
 export const createStitches = <
   Prefix extends string = '',
@@ -35,17 +36,20 @@ export const createStitches = <
   Theme extends {} = {},
   ThemeMap extends {} = DefaultThemeMap,
   Utils extends {} = {},
+  Root extends DocumentOrShadowRoot = Document,
 >(init?: {
   prefix?: ConfigType.Prefix<Prefix>;
   media?: ConfigType.Media<Media>;
   theme?: ConfigType.Theme<Theme>;
   themeMap?: ConfigType.ThemeMap<ThemeMap>;
   utils?: ConfigType.Utils<Utils>;
-}) => {
+  root?: ConfigType.Root<Root>;
+}): Stitches<Prefix, Media, Theme, ThemeMap, Utils, Root> => {
   const instance = createStitchesCore(init);
 
   // @ts-expect-error
   instance.styled = createStyledFunction(instance.config, instance.sheet);
 
+  // @ts-expect-error
   return instance;
 };

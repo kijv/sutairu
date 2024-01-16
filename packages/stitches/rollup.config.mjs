@@ -35,6 +35,7 @@ const external = [
   'postcss-discard-empty',
   'postcss-nested',
   'tsconfig-paths',
+  'tsconfig',
   // react
   'react',
 ];
@@ -104,6 +105,7 @@ function bundleSizeLimit(limit) {
         'utf-8',
       );
       const kb = size / 1000;
+      console.log(`Bundle size: ${kb.toFixed(2)} kB`);
       if (kb > limit) {
         throw new Error(
           `Bundle size exceeded ${limit} kB, current size is ${kb.toFixed(

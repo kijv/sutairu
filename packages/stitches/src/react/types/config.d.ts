@@ -27,7 +27,7 @@ import type * as CSSUtil from '../../core/types/css-util';
 import type Stitches from './stitches';
 
 /** Configuration Interface */
-declare namespace ConfigType {
+export declare namespace ConfigType {
   /** Prefix interface. */
   export type Prefix<T = ''> = T extends string ? T : string;
 
