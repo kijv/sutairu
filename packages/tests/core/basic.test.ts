@@ -1,4 +1,5 @@
 import { type PropertyValue, createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Basic', () => {
   test('Existance of methods', () => {

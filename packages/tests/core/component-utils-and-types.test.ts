@@ -1,4 +1,5 @@
 import { PropertyValue, createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Component: Utilities & Tokens', () => {
   test('Utilities & Tokens of the same type', () => {

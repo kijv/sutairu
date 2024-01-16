@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, suite, test } from 'vitest';
 import { extractorCore } from '../../stitches/src/postcss/extractor/core';
 
 const emptyFile = path.join(__dirname, 'empty', 'core.ts');
@@ -53,7 +54,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`[]`);
+      expect(extracted).toMatchInlineSnapshot('[]');
     });
 
     test('toString()', async () => {
@@ -132,7 +133,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`[]`);
+      expect(extracted).toMatchInlineSnapshot('[]');
     });
 
     test('toString()', async () => {

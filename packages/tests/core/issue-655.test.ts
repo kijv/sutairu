@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Issue #655', () => {
   test('Applying both variants from the one default variant', () => {

@@ -1,4 +1,5 @@
-import { PropertyValue, createStitches } from '@jujst/stitches/core';
+import { type PropertyValue, createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Issue #788', () => {
   test('Test that a util with the name of a selector works in globalCss', () => {

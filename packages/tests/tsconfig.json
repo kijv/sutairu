@@ -1,7 +1,7 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "types": ["vitest/globals"],
-    "jsx": "react"
+    "jsx": "react",
+    "allowArbitraryExtensions": true
   }
 }

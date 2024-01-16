@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Support @import', () => {
   test('Authors can define an @import rule', () => {

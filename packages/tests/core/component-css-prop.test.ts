@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Component with CSS prop', () => {
   test('Authors can create a component and pass it a css prop of overrides', () => {

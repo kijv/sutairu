@@ -1,6 +1,7 @@
 import { createStitches } from '@jujst/stitches/react';
 import * as react from 'react';
 import * as renderer from 'react-test-renderer';
+import { describe, expect, test } from 'vitest';
 
 describe('React', () => {
   const sheet = createStitches();

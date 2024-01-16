@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Theme', () => {
   test('Expected behavior for the createTheme() method', () => {

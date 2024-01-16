@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/react';
+import { describe, expect, test } from 'vitest';
 
 const internal = Symbol.for('jujst.sxs.internal');
 

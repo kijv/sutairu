@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/react';
+import { describe, expect, test } from 'vitest';
 
 describe('Composition', () => {
   test('Renders an empty component', () => {

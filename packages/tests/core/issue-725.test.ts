@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Issue #725', () => {
   test('Minimum reproduction of bug', () => {

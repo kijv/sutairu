@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 const styleRule = '--sxs { --sxs:1 lTyTw fJmROo; }';
 // @jujst/stitches uses @layer directive instead of @margin for grouping

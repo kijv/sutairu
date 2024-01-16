@@ -1,4 +1,9 @@
-import { CSS, PropertyValue, createStitches } from '@jujst/stitches/core';
+import {
+  type CSS,
+  type PropertyValue,
+  createStitches,
+} from '@jujst/stitches/core';
+import { expectTypeOf, test } from 'vitest';
 
 test('Issue #921', () => {
   const config = {

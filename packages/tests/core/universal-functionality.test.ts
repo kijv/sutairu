@@ -1,7 +1,8 @@
-import { createStitches } from '@jujst/stitches/core';
+import { type CreateStitches, createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Configuration', () => {
-  let stitches;
+  let stitches: ReturnType<CreateStitches>;
 
   test('createStitches()', () => {
     const { css, globalCss } = createStitches();

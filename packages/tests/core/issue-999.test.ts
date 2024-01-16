@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Issue #519', () => {
   test('locally scoped token works 1 time', () => {

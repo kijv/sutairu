@@ -1,6 +1,7 @@
 import { createStitches } from '@jujst/stitches/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
+import { describe, expect, test } from 'vitest';
 
 describe('Issue #737', () => {
   {

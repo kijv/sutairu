@@ -1,4 +1,5 @@
-import { PropertyValue, createStitches } from '@jujst/stitches/core';
+import { type PropertyValue, createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Utils', () => {
   test('Authors can define utilties applied to components', () => {

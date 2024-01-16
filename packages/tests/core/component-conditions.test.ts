@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Component Medias', () => {
   test('Authors can define medias applied to components', () => {

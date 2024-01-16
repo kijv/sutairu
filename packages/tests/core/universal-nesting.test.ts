@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/core';
+import { describe, expect, test } from 'vitest';
 
 describe('Nesting', () => {
   test('Authors can define globalCss nesting rules', () => {

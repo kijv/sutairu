@@ -1,4 +1,5 @@
 import { createStitches } from '@jujst/stitches/react';
+import { describe, expect, test } from 'vitest';
 
 describe('Variants', () => {
   test('Variant given undefined will revert to the default', () => {
