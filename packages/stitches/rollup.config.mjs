@@ -92,7 +92,8 @@ export default defineConfig([
 /**
  * Guard the bundle size
  *
- * @param limit size in kB
+ * @param {number} limit size in kB
+ * @return {import('rollup').Plugin}
  */
 function bundleSizeLimit(limit) {
   return {
@@ -105,7 +106,6 @@ function bundleSizeLimit(limit) {
         'utf-8',
       );
       const kb = size / 1000;
-      console.log(`Bundle size: ${kb.toFixed(2)} kB`);
       if (kb > limit) {
         throw new Error(
           `Bundle size exceeded ${limit} kB, current size is ${kb.toFixed(

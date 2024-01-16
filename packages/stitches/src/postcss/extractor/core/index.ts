@@ -43,8 +43,6 @@ export const extractorCore: Extractor = {
     const tokens: string[] = [];
     const ast = await codeToAST(code, id);
 
-    console.log(ast);
-
     let loaders = [
       { id: '@jujst/stitches/react', actualLoader: true },
       { id: '@jujst/stitches/core', actualLoader: true },

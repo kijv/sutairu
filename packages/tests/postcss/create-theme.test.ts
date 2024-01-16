@@ -30,7 +30,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot('[]');
+      expect(extracted).toStrictEqual([]);
     });
 
     test('toString()', async () => {
@@ -43,7 +43,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot();
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
 
     test('className', async () => {
@@ -56,7 +56,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot();
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
 
     test('String primitive', async () => {
@@ -69,7 +69,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot();
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
   });
 
@@ -97,7 +97,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot('[]');
+      expect(extracted).toStrictEqual([]);
     });
 
     test('toString()', async () => {
@@ -110,11 +110,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-      [
-        "t-bdqcWd",
-      ]
-    `);
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
 
     test('className', async () => {
@@ -127,11 +123,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-      [
-        "t-bdqcWd",
-      ]
-    `);
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
 
     test('String primitive', async () => {
@@ -144,7 +136,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot();
+      expect(extracted).toStrictEqual(['t-bdqcWd']);
     });
   });
 });

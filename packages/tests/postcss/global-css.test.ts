@@ -25,7 +25,7 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['']);
   });
 
   test('variable', async () => {
@@ -47,7 +47,7 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['']);
   });
 
   test('object', async () => {
@@ -71,6 +71,6 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['']);
   });
 });

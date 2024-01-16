@@ -4,6 +4,7 @@ import { createStitches } from '../../stitches/src/core';
 import { extractorCore } from '../../stitches/src/postcss/extractor/core';
 
 const emptyFile = path.join(__dirname, 'empty', 'core.ts');
+console.log(emptyFile);
 
 describe('css() extraction', () => {
   const stitches = createStitches();
@@ -23,7 +24,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('inline with override', async () => {
@@ -41,7 +42,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('variable', async () => {
@@ -61,7 +62,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('variable with override', async () => {
@@ -81,7 +82,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('object', async () => {
@@ -103,7 +104,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('object with override', async () => {
@@ -125,6 +126,6 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 });

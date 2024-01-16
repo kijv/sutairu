@@ -23,11 +23,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('inline with override', async () => {
@@ -47,7 +43,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('variable', async () => {
@@ -67,11 +63,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('variable with override', async () => {
@@ -91,7 +83,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('object', async () => {
@@ -113,11 +105,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toStrictEqual(['c-gmqXFB']);
   });
 
   test('object with override', async () => {
@@ -139,6 +127,6 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot();
+    expect(extracted).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 });
