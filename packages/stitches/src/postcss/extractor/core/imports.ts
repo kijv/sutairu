@@ -44,8 +44,8 @@ export const extractImports = ({ ast, loaders, id, code }: State) => {
         let resolved = path.isAbsolute(importDecl.source.value)
           ? importDecl.source.value
           : path.resolve(path.dirname(id), importDecl.source.value);
-        pass = loaders.map((l) => l.id).includes(resolved);
 
+        if (!pass) pass = loaders.map((l) => l.id).includes(resolved);
         if (!pass) {
           try {
             resolved = require.resolve(importDecl.source.value);
@@ -57,6 +57,8 @@ export const extractImports = ({ ast, loaders, id, code }: State) => {
           } catch {}
           if (!pass) return;
         }
+
+        console.log(resolved);
 
         for (const specifier of importDecl.specifiers) {
           if (specifier.type === 'ImportSpecifier') {
