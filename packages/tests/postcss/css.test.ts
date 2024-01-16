@@ -4,7 +4,6 @@ import { createStitches } from '../../stitches/src/core';
 import { extractorCore } from '../../stitches/src/postcss/extractor/core';
 
 const emptyFile = path.join(__dirname, 'empty', 'core.ts');
-console.log(emptyFile);
 
 describe('css() extraction', () => {
   const stitches = createStitches();
