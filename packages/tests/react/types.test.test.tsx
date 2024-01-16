@@ -1,6 +1,8 @@
 import type * as Stitches from '@jujst/stitches/react';
 import { type FontFace, createStitches } from '@jujst/stitches/react';
 import type { e as CSS } from '@jujst/stitches/types/stitches.d';
+// biome-ignore lint/nursery/useImportType: Needed for this test
+import * as React from 'react';
 import { assertType, suite, test } from 'vitest';
 
 suite('Types', () => {

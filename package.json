@@ -11,8 +11,8 @@
     "lint": "turbo lint",
     "prepare": "husky install",
     "release": "turbo release",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "turbo test",
+    "test:watch": "turbo test:watch"
   },
   "lint-staged": {
     "*": "biome check . --apply-unsafe --linter-enabled false --no-errors-on-unmatched --files-ignore-unknown=true"
