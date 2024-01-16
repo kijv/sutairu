@@ -1,5 +1,11 @@
 # @jujst/stitches
 
+## 0.1.5
+
+### Patch Changes
+
+- 49b27bf: Fix dependecy installation (tsconfig and tsconfig-paths)
+
 ## 0.1.4
 
 ### Patch Changes
