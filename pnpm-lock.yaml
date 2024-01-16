@@ -129,9 +129,6 @@ importers:
 
   packages/tests:
     dependencies:
-      '@jujst/stitches':
-        specifier: workspace:^
-        version: link:../stitches
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.2.1(vite@5.0.11)
@@ -145,6 +142,9 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@types/node@20.11.0)
     devDependencies:
+      '@jujst/stitches':
+        specifier: workspace:^
+        version: link:../stitches
       '@types/react':
         specifier: ^18.2.47
         version: 18.2.47
