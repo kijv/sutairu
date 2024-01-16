@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { createStitches } from '../../stitches/src/core';
 
 const styleRule = '--sxs { --sxs:1 lTyTw fJmROo; }';

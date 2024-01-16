@@ -58,9 +58,40 @@ type CSSPropertiesWithTheme<Theme, ThemeMap> = {
     | Util.NarrowIndex;
 };
 
-type CSSUtils<Utils> = {
+type CSSUtils<Theme, ThemeMap, Utils> = {
   [K in keyof Utils]?: Utils[K] extends (arg: infer P) => any
-    ? ReturnType<Utils[K]>
+    ?
+        | (P extends any[]
+            ? ($$PropertyValue extends keyof P[0]
+                ?
+                    | ValueByPropertyName<P[0][$$PropertyValue]>
+                    | TokenByPropertyName<
+                        P[0][$$PropertyValue],
+                        Theme,
+                        ThemeMap
+                      >
+                    | Native.Globals
+                    | ThemeUtil.ScaleValue
+                    | undefined
+                : $$ScaleValue extends keyof P[0]
+                  ?
+                      | TokenByScaleName<P[0][$$ScaleValue], Theme>
+                      | { scale: P[0][$$ScaleValue] }
+                      | undefined
+                  : never)[]
+            : $$PropertyValue extends keyof P
+              ?
+                  | ValueByPropertyName<P[$$PropertyValue]>
+                  | TokenByPropertyName<P[$$PropertyValue], Theme, ThemeMap>
+                  | Native.Globals
+                  | undefined
+              : $$ScaleValue extends keyof P
+                ?
+                    | TokenByScaleName<P[$$ScaleValue], Theme>
+                    | { scale: P[$$ScaleValue] }
+                    | undefined
+                : never)
+        | P
     : never;
 };
 
@@ -74,7 +105,7 @@ export type CSS<
   ThemeMap = DefaultThemeMap,
   Utils = {},
 > = CSSPropertiesWithTheme<Theme, ThemeMap> &
-  CSSUtils<Utils> &
+  CSSUtils<Theme, ThemeMap, Utils> &
   CSSMediaQueries<Media, Theme, ThemeMap, Utils> & {
     [key: string]:
       | string

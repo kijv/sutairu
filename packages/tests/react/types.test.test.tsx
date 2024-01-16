@@ -1,6 +1,9 @@
-import { CSS } from '../../stitches/src/core/types/css-util';
+import type { e as CSS } from '@jujst/stitches/types/stitches.d';
+// biome-ignore lint/nursery/useImportType: Needed for this test
+import * as React from 'react';
+import { assertType, suite, test } from 'vitest';
 import type * as Stitches from '../../stitches/src/react';
-import { FontFace, createStitches } from '../../stitches/src/react';
+import { type FontFace, createStitches } from '../../stitches/src/react';
 
 suite('Types', () => {
   const { css, globalCss, keyframes, styled, theme } = createStitches({

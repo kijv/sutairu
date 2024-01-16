@@ -1,9 +1,7 @@
 import react from '@vitejs/plugin-react';
-import { defineProject } from 'vitest/config';
+import { mergeConfig } from 'vitest/config';
+import sharedConfig from '../shared.config';
 
-export default defineProject({
+export default mergeConfig(sharedConfig, {
   plugins: [react()],
-  test: {
-    globals: true,
-  },
 });

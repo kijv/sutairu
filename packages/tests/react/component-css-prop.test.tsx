@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { createStitches } from '../../stitches/src/react';
 
 describe('React Component with CSS prop', () => {

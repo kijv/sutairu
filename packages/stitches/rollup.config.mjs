@@ -35,6 +35,7 @@ const external = [
   'postcss-discard-empty',
   'postcss-nested',
   'tsconfig-paths',
+  'tsconfig',
   // react
   'react',
 ];
@@ -91,7 +92,8 @@ export default defineConfig([
 /**
  * Guard the bundle size
  *
- * @param limit size in kB
+ * @param {number} limit size in kB
+ * @return {import('rollup').Plugin}
  */
 function bundleSizeLimit(limit) {
   return {

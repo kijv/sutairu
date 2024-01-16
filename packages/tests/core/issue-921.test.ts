@@ -1,4 +1,9 @@
-import { CSS, PropertyValue, createStitches } from '../../stitches/src/core';
+import { expectTypeOf, test } from 'vitest';
+import {
+  type CSS,
+  type PropertyValue,
+  createStitches,
+} from '../../stitches/src/core';
 
 test('Issue #921', () => {
   const config = {

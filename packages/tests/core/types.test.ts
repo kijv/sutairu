@@ -1,3 +1,4 @@
+import { expectTypeOf, test } from 'vitest';
 import { createStitches } from '../../stitches/src/core';
 
 test('Types', () => {

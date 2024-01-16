@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 
+import { describe, expect, test } from 'vitest';
 import { createStitches } from '../../stitches/src/react';
 
 const RenderOf = (...args) => {

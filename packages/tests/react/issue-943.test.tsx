@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { createStitches } from '../../stitches/src/react';
 
 describe('Issue #943', () => {

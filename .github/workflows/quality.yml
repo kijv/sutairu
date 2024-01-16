@@ -35,3 +35,18 @@ jobs:
       - name: Run Biome
         # Lint errors are fine, we just want formatting errors
         run: biome ci . --linter-enabled false
+
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Test
+        run: nlx vitest run

@@ -15,6 +15,8 @@ export const STYLE_FUNCTIONS = [
   'keyframes',
   'createTheme',
   'styled',
+  // ! experimental
+  'reset',
 ];
 export const EXTENDABLE_STYLE_FUNCTIONS = ['css', 'styled'];
 
@@ -29,6 +31,7 @@ export interface Variable {
   args: unknown[];
   name: string;
   exported?: boolean;
+  object?: SWC.Identifier;
 }
 
 /**
@@ -61,6 +64,7 @@ export const extractVariablesAndImports = ({
     ctxt: number;
   }[] = [];
   const variables: Variable[] = [];
+  const tokens = new Set<string>();
 
   const getCallExpr = (varDecl: SWC.VariableDeclaration) => {
     const decl = varDecl.declarations
@@ -103,20 +107,25 @@ export const extractVariablesAndImports = ({
     calleValue: string,
     callExpr: NotNull<ReturnType<typeof getCallExpr>>,
     varIdent: SWC.Identifier,
+    object?: SWC.Identifier,
     exported = false,
   ) => {
     // if we see `defineConfig` and their values being used in the
     // same file, use that to ensure variables are of correct origin
-    if (calleValue === 'defineConfig' && loaders.includes(id)) {
+    if (
+      calleValue === 'defineConfig' &&
+      loaders.map((l) => l.id).includes(id) &&
+      varIdent.type === 'Identifier'
+    ) {
       inlineLoaders.push({
         value: varIdent.value,
-        ctxt: callExpr.callee.span.ctxt,
+        ctxt: callExpr.span.ctxt,
       });
     } else if (STYLE_FUNCTIONS.includes(calleValue)) {
       const parents: Variable['parents'] = [];
       variables.push({
         parents: [],
-        ctxt: callExpr.callee.span.ctxt,
+        ctxt: callExpr.span.ctxt,
         kind: calleValue,
         name: varIdent.value,
         args: callExpr.arguments.flatMap((exprOrSpread, index) => {
@@ -171,15 +180,17 @@ export const extractVariablesAndImports = ({
 
                     if (kind === 'keyframes' && !!stitches) {
                       const replacement = stitches
-                        .keyframes(args[0] as CSS)
+                        .keyframes(args[0] as Record<string, CSS>)
                         .toString();
                       const { start, end } = expr.span;
+                      tokens.add(replacement);
                       replaced.push({ start, end, value: replacement });
                     } else if (kind === 'css') {
                       const replacement = stitches
                         .css(...(args as CSS[]))
                         .toString();
                       const { start, end } = expr.span;
+                      tokens.add(replacement);
                       replaced.push({ start, end, value: replacement });
                     } else continue;
                   }
@@ -221,7 +232,9 @@ export const extractVariablesAndImports = ({
                     if (expr.type !== 'Identifier') continue;
 
                     const maybeMatch = variables.find(
-                      (v) => v.name === expr.value && v.ctxt === expr.span.ctxt,
+                      (v) =>
+                        v.name === expr.value &&
+                        v.ctxt === expression.span.ctxt,
                     );
                     if (!maybeMatch) continue;
 
@@ -229,15 +242,17 @@ export const extractVariablesAndImports = ({
 
                     if (kind === 'keyframes') {
                       const replacement = stitches
-                        .keyframes(args[0] as CSS)
+                        .keyframes(args[0] as Record<string, CSS>)
                         .toString();
                       const { start, end } = expr.span;
+                      tokens.add(replacement);
                       replaced.push({ start, end, value: replacement });
                     } else if (kind === 'css') {
                       const replacement = stitches
                         .css(...(args as CSS[]))
                         .toString();
                       const { start, end } = expr.span;
+                      tokens.add(replacement);
                       replaced.push({ start, end, value: replacement });
                     } else continue;
                   }
@@ -272,6 +287,7 @@ export const extractVariablesAndImports = ({
           return expressionToJSON(exprOrSpread.expression);
         }),
         exported,
+        object: object,
       });
     }
   };
@@ -280,105 +296,128 @@ export const extractVariablesAndImports = ({
     varDecl: SWC.VariableDeclaration,
     parent: unknown,
   ) {
-    const varIdent = varDecl.declarations
+    const varIdents = varDecl.declarations
       .map((decl) => decl.id)
       .map((id) =>
         id instanceof Map
           ? (Object.fromEntries(id.entries()) as SWC.Pattern)
           : id,
-      )
-      .find((id) => id.type === 'Identifier');
+      );
+    const initIsObjectExpr = varDecl.declarations
+      .map((decl) => decl.init)
+      .some((init) => init?.type === 'ObjectExpression');
+
+    const varIdent = varIdents.find((id) => id.type === 'Identifier');
 
     if (varIdent?.type !== 'Identifier') return;
 
-    const callExpr = getCallExpr(varDecl);
-    if (!callExpr) return;
+    if (!initIsObjectExpr) {
+      const callExpr = getCallExpr(varDecl);
+      if (!callExpr) return;
 
-    const calleValue =
-      callExpr.callee.type === 'Identifier'
-        ? callExpr.callee.value
-        : callExpr.callee.property.value;
+      const calleValue =
+        callExpr.callee.type === 'Identifier'
+          ? callExpr.callee.value
+          : callExpr.callee.property.value;
 
-    if (
-      Array.from(imports).some(
-        (i) => i.value === calleValue && i.ctxt === varDecl.span.ctxt,
-      ) ||
-      inlineLoaders.some(
-        (l) =>
-          callExpr.callee.type === 'MemberExpression' &&
-          callExpr.callee.object.span.ctxt === l.ctxt &&
-          callExpr.callee.object.value === l.value,
-      )
-    ) {
-      if (varDecl.kind !== 'const') {
-        return stitchesError(
-          "Can't assign to `let` or `var` when using functions with PostCSS",
+      if (
+        Array.from(imports).some(
+          (i) => i.value === calleValue && i.ctxt === varDecl.span.ctxt,
+        ) ||
+        inlineLoaders.some(
+          (l) =>
+            callExpr.callee.type === 'MemberExpression' &&
+            callExpr.callee.object.span.ctxt === l.ctxt &&
+            callExpr.callee.object.value === l.value,
+        )
+      ) {
+        if (varDecl.kind !== 'const') {
+          return stitchesError(
+            "Can't assign to `let` or `var` when using functions with PostCSS",
+          );
+        }
+
+        registerVariable(
+          calleValue,
+          callExpr,
+          varIdent,
+          undefined,
+          typeof parent === 'object' &&
+            !!parent &&
+            'type' in parent &&
+            typeof parent.type === 'string' &&
+            parent.type.startsWith('Export'),
         );
       }
+    } else if (initIsObjectExpr) {
+      const objExpr = varDecl.declarations
+        .map((decl) => decl.init)
+        .find((init) => init?.type === 'ObjectExpression');
+      if (objExpr?.type !== 'ObjectExpression') return;
 
-      registerVariable(
-        calleValue,
-        callExpr,
-        varIdent,
-        typeof parent === 'object' &&
-          !!parent &&
-          'type' in parent &&
-          typeof parent.type === 'string' &&
-          parent.type.startsWith('Export'),
-      );
+      for (const prop of objExpr.properties) {
+        if (prop.type !== 'KeyValueProperty') continue;
+
+        const keyValProp = prop as SWC.KeyValueProperty;
+
+        try {
+          const callExpr = keyValProp.value;
+
+          if (
+            callExpr.type !== 'CallExpression' ||
+            callExpr.callee.type !== 'Identifier'
+          )
+            return;
+
+          const calleeValue = callExpr.callee.value;
+          const key = keyValProp.key;
+
+          if (key.type === 'Computed') return;
+          const keyAsJSON =
+            key.type === 'Identifier' ? key.value : expressionToJSON(key);
+
+          if (
+            Array.from(imports).some(
+              (i) => i.value === calleeValue && i.ctxt === callExpr.span.ctxt,
+            )
+          ) {
+            if (keyValProp.value.type !== 'CallExpression') return;
+
+            registerVariable(
+              calleeValue,
+              callExpr as SWC.CallExpression & {
+                callee: SWC.Identifier;
+              },
+              {
+                type: 'Identifier',
+                span: DUMMY_SP,
+                value: keyAsJSON,
+                optional: false,
+              },
+              varIdent,
+              typeof parent === 'object' &&
+                !!parent &&
+                'type' in parent &&
+                typeof parent.type === 'string' &&
+                parent.type.startsWith('Export'),
+            );
+          }
+        } catch (e) {
+          // We can let silent failure happen here
+          // because this checks all kinds of objects,
+          // and we don't know if this belongs to us,
+          // so we just ignore it.
+        }
+      }
     }
   }
 
   visitSync(ast, {
     visitVariableDeclaration,
-    visitKeyValueProperty(keyValProp) {
-      try {
-        const callExpr = keyValProp.value;
-
-        if (
-          callExpr.type !== 'CallExpression' ||
-          callExpr.callee.type !== 'Identifier'
-        )
-          return;
-
-        const calleeValue = callExpr.callee.value;
-        const calleeCtxt = callExpr.callee.span.ctxt;
-        const key = keyValProp.key;
-
-        if (key.type === 'Computed') return;
-        const keyAsJSON =
-          key.type === 'Identifier' ? key.value : expressionToJSON(key);
-
-        if (
-          Array.from(imports).some(
-            (i) => i.value === calleeValue && i.ctxt === calleeCtxt,
-          )
-        ) {
-          if (keyValProp.value.type !== 'CallExpression') return;
-
-          registerVariable(
-            calleeValue,
-            callExpr as SWC.CallExpression & {
-              callee: SWC.Identifier;
-            },
-            {
-              type: 'Identifier',
-              value: keyAsJSON,
-              span: keyValProp.key.span,
-              optional: false,
-            },
-          );
-        }
-      } catch (e) {
-        // We can let silent failure happen here
-        // because this checks all kinds of objects,
-        // and we don't know if this belongs to us,
-        // so we just ignore it.
-      }
-    },
   });
 
   return {
+    tokens,
     variables,
     imports,
   };

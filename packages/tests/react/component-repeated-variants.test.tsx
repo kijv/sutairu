@@ -1,4 +1,5 @@
-import { PropertyValue, createStitches } from '../../stitches/src/react';
+import { describe, expect, test } from 'vitest';
+import { type PropertyValue, createStitches } from '../../stitches/src/react';
 
 describe('emerson', () => {
   test('lake', () => {
