@@ -1,5 +1,12 @@
 # @jujst/stitches
 
+## 0.1.4
+
+### Patch Changes
+
+- c8bbd6a: Fix createTheme and unary (ex. -1) bug in PostCSS plugin
+- c3a1d1a: Reduce bundle size
+
 ## 0.1.3
 
 ### Patch Changes
