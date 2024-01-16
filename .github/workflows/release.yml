@@ -17,21 +17,8 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-        with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
-          ref: 'main'
-          token: ${{ secrets.RELEASE_BOT_PAT }}
-      - uses: pnpm/action-setup@v2.4.0
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
+      - name: Install
+        uses: ./.github/composite-actions/install
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
