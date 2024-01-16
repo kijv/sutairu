@@ -92,6 +92,7 @@ export const extractorCore: Extractor = {
         Boolean,
       ) as State['loaders'],
     );
+    console.log(loaders);
 
     const {
       tokens: addTheseTokens,

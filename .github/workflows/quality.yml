@@ -49,8 +49,4 @@ jobs:
         uses: ./.github/composite-actions/install
 
       - name: Test
-        run: nlx vitest run --coverage.enabled true
-
-      - name: 'Report Coverage'
-        if: always() 
-        uses:  davelosert/vitest-coverage-report-action@v2
+        run: nlx vitest run
