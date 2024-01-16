@@ -1,4 +1,5 @@
-import { PropertyValue, createStitches } from '../../stitches/src/core';
+import { describe, expect, test } from 'vitest';
+import { type PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Utils', () => {
   test('Authors can define utilties applied to components', () => {

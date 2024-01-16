@@ -1,7 +1,8 @@
-import { createStitches } from '../../stitches/src/core';
+import { describe, expect, test } from 'vitest';
+import { type CreateStitches, createStitches } from '../../stitches/src/core';
 
 describe('Configuration', () => {
-  let stitches;
+  let stitches: ReturnType<CreateStitches>;
 
   test('createStitches()', () => {
     const { css, globalCss } = createStitches();

@@ -25,7 +25,9 @@ export const extractImports = ({ ast, loaders, id, code }: State) => {
       baseUrl:
         typescriptConfig.compilerOptions.baseUrl ||
         path.dirname(
-          loaders.filter((l) => l.endsWith('stitches.config.ts'))[0] as string,
+          loaders
+            .map((l) => l.id)
+            .filter((l) => l.endsWith('stitches.config.ts'))[0] as string,
         ),
       paths: typescriptConfig.compilerOptions.paths,
     });
@@ -37,13 +39,13 @@ export const extractImports = ({ ast, loaders, id, code }: State) => {
   visitSync(ast, {
     visitImportDeclaration(importDecl) {
       try {
-        let pass = loaders.includes(importDecl.source.value);
+        let pass = loaders.map((l) => l.id).includes(importDecl.source.value);
 
         let resolved = path.isAbsolute(importDecl.source.value)
           ? importDecl.source.value
           : path.resolve(path.dirname(id), importDecl.source.value);
-        pass = loaders.includes(resolved);
 
+        if (!pass) pass = loaders.map((l) => l.id).includes(resolved);
         if (!pass) {
           try {
             resolved = require.resolve(importDecl.source.value);

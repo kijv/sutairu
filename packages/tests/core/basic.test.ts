@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { type PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Basic', () => {

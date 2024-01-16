@@ -21,8 +21,12 @@ runs:
         node-version: 18
         cache: pnpm
 
+    - name: Install @antfu/ni
+      shell: bash
+      run: npm i -g @antfu/ni
+
     - name: Install dependencies
       shell: bash
       run: |
         corepack enable
-        pnpm i
+        ni --frozen-lockfile

@@ -18,6 +18,7 @@ export { createStitches } from './react/create';
 export { defaultThemeMap, type DefaultThemeMap } from './core';
 
 export const createTheme: Stitches['createTheme'] = (...args) =>
+  // @ts-expect-error
   getCachedConfig().createTheme(...args);
 export const globalCss: Stitches['globalCss'] = (...args) =>
   getCachedConfig().globalCss(...args);

@@ -23,9 +23,8 @@ SOFTWARE.
 */
 
 import { createStitches } from '../create';
-import type Stitches from '../types/stitches';
 
-let cachedConfig: Stitches;
+let cachedConfig: ReturnType<typeof createStitches>;
 
 export const getCachedConfig = () =>
   // biome-ignore lint/suspicious/noAssignInExpressions: I don't feel like this is a problem
