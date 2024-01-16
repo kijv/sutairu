@@ -60,6 +60,10 @@ export function expressionToJSON(expr: Expression): any {
       return null;
     case 'BigIntLiteral':
       return expr.value;
+    case 'UnaryExpression':
+      return expr.operator === '-'
+        ? -expressionToJSON(expr.argument)
+        : expressionToJSON(expr.argument);
     default:
       stitchesError(
         `Function arguments must be explicitly written literals. Found ${expr.type}`,
