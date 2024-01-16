@@ -1,3 +1,4 @@
-import { defineProject } from 'vitest/config';
+import { mergeConfig } from 'vitest/config';
+import sharedConfig from '../vitest.config';
 
-export default defineProject({});
+export default mergeConfig(sharedConfig, {});
