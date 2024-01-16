@@ -61,6 +61,8 @@
     "postcss-discard-empty": "^6.0.1",
     "postcss-nested": "^6.0.1",
     "react": "^18.2.0",
+    "tsconfig": "^7.0.0",
+    "tsconfig-paths": "^4.2.0",
     "unconfig": "^0.3.11"
   },
   "devDependencies": {
@@ -74,9 +76,7 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "safe-json-stringify": "^1.2.0",
-    "ts-pattern": "^5.0.6",
-    "tsconfig": "^7.0.0",
-    "tsconfig-paths": "^4.2.0"
+    "ts-pattern": "^5.0.6"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
