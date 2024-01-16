@@ -1,5 +1,5 @@
-import { createStitches } from '@jujst/stitches/core';
 import { describe, expect, suite, test } from 'vitest';
+import { createStitches } from '../../stitches/src/core';
 
 suite('Issue #450', () => {
   describe('Basic Tests', () => {

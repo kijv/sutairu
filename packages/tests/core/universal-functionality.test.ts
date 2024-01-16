@@ -1,5 +1,5 @@
-import { type CreateStitches, createStitches } from '@jujst/stitches/core';
 import { describe, expect, test } from 'vitest';
+import { type CreateStitches, createStitches } from '../../stitches/src/core';
 
 describe('Configuration', () => {
   let stitches: ReturnType<CreateStitches>;

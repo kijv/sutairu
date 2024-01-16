@@ -1,5 +1,5 @@
-import { createStitches } from '@jujst/stitches/core';
 import { expectTypeOf, test } from 'vitest';
+import { createStitches } from '../../stitches/src/core';
 
 test('Types', () => {
   const { css, globalCss, keyframes } = createStitches({

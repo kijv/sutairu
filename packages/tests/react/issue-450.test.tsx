@@ -1,7 +1,7 @@
-import { createStitches } from '@jujst/stitches/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
+import { createStitches } from '../../stitches/src/react';
 
 const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
   ...typePropsThenChildren: Parameters<typeof React.createElement<P>>

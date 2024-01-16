@@ -1,5 +1,5 @@
-import { createStitches } from '@jujst/stitches/react';
 import { describe, expect, test } from 'vitest';
+import { createStitches } from '../../stitches/src/react';
 
 describe('Serialization', () => {
   const sheet = createStitches();

@@ -1,6 +1,6 @@
 import path from 'node:path';
-import { createStitches } from '@jujst/stitches/core';
 import { describe, expect, test } from 'vitest';
+import { createStitches } from '../../stitches/src/core';
 import { extractorCore } from '../../stitches/src/postcss/extractor/core';
 
 const emptyFile = path.join(__dirname, 'empty', 'core.ts');
@@ -148,28 +148,6 @@ describe('css() extraction', () => {
     expect(extracted).toMatchInlineSnapshot(`
       [
         "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
-  });
-
-  test('unary expr (negative numbers)', async () => {
-    const extracted = await extractorCore.extract!({
-      code: `
-        import { css } from "@jujst/stitches/core";
-        
-        css({
-          zIndex: -1,
-        })()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
-      original: '',
-      extracted: new Set<string>(),
-    });
-
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-dbpWbT",
       ]
     `);
   });

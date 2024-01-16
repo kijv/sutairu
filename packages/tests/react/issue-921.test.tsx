@@ -1,9 +1,9 @@
+import { assertType, describe, test } from 'vitest';
 import {
   type CSS,
   type PropertyValue,
   createStitches,
-} from '@jujst/stitches/react';
-import { assertType, describe, test } from 'vitest';
+} from '../../stitches/src/react';
 
 describe('Issue #921: Fix CSS type for utils overshadowing properties', () => {
   const config = {

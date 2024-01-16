@@ -78,6 +78,10 @@ declare namespace ConfigType {
             })
       : never;
   };
+
+  export type Root<T = Document> = T extends DocumentOrShadowRoot
+    ? T
+    : DocumentOrShadowRoot;
 }
 
 /** Returns a function used to create a new Stitches interface. */
@@ -88,11 +92,13 @@ export type CreateStitches = {
     Theme extends {} = {},
     ThemeMap extends {} = DefaultThemeMap,
     Utils extends {} = {},
+    Root extends DocumentOrShadowRoot = Document,
   >(config?: {
     prefix?: ConfigType.Prefix<Prefix>;
     media?: ConfigType.Media<Media>;
     theme?: ConfigType.Theme<Theme>;
     themeMap?: ConfigType.ThemeMap<ThemeMap>;
     utils?: ConfigType.Utils<Utils>;
+    root?: ConfigType.Root<Root>;
   }): Stitches<Prefix, Media, Theme, ThemeMap, Utils>;
 };

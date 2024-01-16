@@ -22,13 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { createStitches as createStitchesCore } from '../core';
+import {
+  type DefaultThemeMap,
+  createStitches as createStitchesCore,
+} from '../core';
 import { createStyledFunction } from './features/styled';
-import { CreateStitches } from './types/config';
+import type { ConfigType } from './types/config';
 
-// @ts-expect-error
-export const createStitches: CreateStitches = (init) => {
-  // @ts-expect-error
+export const createStitches = <
+  Prefix extends string = '',
+  Media extends {} = {},
+  Theme extends {} = {},
+  ThemeMap extends {} = DefaultThemeMap,
+  Utils extends {} = {},
+>(init?: {
+  prefix?: ConfigType.Prefix<Prefix>;
+  media?: ConfigType.Media<Media>;
+  theme?: ConfigType.Theme<Theme>;
+  themeMap?: ConfigType.ThemeMap<ThemeMap>;
+  utils?: ConfigType.Utils<Utils>;
+}) => {
   const instance = createStitchesCore(init);
 
   // @ts-expect-error

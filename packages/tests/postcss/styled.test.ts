@@ -1,7 +1,7 @@
 import path from 'node:path';
-import { createStitches } from '@jujst/stitches/react';
 import { describe, expect, test } from 'vitest';
 import { extractorCore } from '../../stitches/src/postcss/extractor/core';
+import { createStitches } from '../../stitches/src/react';
 
 const emptyFile = path.join(__dirname, 'empty', 'react.tsx');
 

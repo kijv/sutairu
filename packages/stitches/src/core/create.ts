@@ -22,20 +22,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { defaultThemeMap } from './default/theme-map';
+import { type DefaultThemeMap, defaultThemeMap } from './default/theme-map';
 import { createCssFunction } from './features/css';
 import { createGlobalCssFunction } from './features/global-css';
 import { createKeyframesFunction } from './features/keyframes';
 import { createCreateThemeFunction } from './features/theme';
 import { createSheet } from './sheet';
-import { CreateStitches } from './types/config';
+import type { ConfigType } from './types/config';
 import type Stitches from './types/stitches';
 import { createMemo } from './utils/create-memo';
 
 const createCssMap = createMemo();
 
 /** Returns a library used to create styles. */
-export const createStitches: CreateStitches = (config) => {
+export const createStitches = <
+  Prefix extends string = '',
+  Media extends {} = {},
+  Theme extends {} = {},
+  ThemeMap extends {} = DefaultThemeMap,
+  Utils extends {} = {},
+  Root extends DocumentOrShadowRoot = Document,
+>(config?: {
+  prefix?: ConfigType.Prefix<Prefix>;
+  media?: ConfigType.Media<Media>;
+  theme?: ConfigType.Theme<Theme>;
+  themeMap?: ConfigType.ThemeMap<ThemeMap>;
+  utils?: ConfigType.Utils<Utils>;
+  root?: ConfigType.Root<Root>;
+}): Stitches<Prefix, Media, Theme, ThemeMap, Utils> => {
   let didRun = false;
 
   const instance = createCssMap(config || {}, (initConfig) => {

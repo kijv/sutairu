@@ -1,5 +1,5 @@
-import { createStitches } from '@jujst/stitches/react';
 import { describe, expect, test } from 'vitest';
+import { createStitches } from '../../stitches/src/react';
 
 describe('className prop', () => {
   test('Renders a DOM Element with a class matching the className prop', () => {

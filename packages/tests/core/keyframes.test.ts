@@ -1,5 +1,5 @@
-import { createStitches } from '@jujst/stitches/core';
 import { describe, expect, test } from 'vitest';
+import { createStitches } from '../../stitches/src/core';
 
 describe('Keyframes', () => {
   test('Expected behavior for the keyframes() method', () => {
