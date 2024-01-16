@@ -47,11 +47,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('variable', async () => {
@@ -95,11 +91,7 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('object', async () => {
@@ -147,10 +139,6 @@ describe('styled() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 });

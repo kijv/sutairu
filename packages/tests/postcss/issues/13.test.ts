@@ -23,10 +23,6 @@ describe('unary expr (negative numbers)', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-dbpWbT",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 });

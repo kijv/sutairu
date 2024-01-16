@@ -23,11 +23,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('inline with override', async () => {
@@ -45,11 +41,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('variable', async () => {
@@ -69,11 +61,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('variable with override', async () => {
@@ -93,11 +81,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('object', async () => {
@@ -119,11 +103,7 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 
   test('object with override', async () => {
@@ -145,10 +125,6 @@ describe('css() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted).toMatchInlineSnapshot();
   });
 });

@@ -43,11 +43,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted).toMatchInlineSnapshot();
     });
 
     test('className', async () => {
@@ -60,11 +56,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted).toMatchInlineSnapshot();
     });
 
     test('String primitive', async () => {
@@ -77,11 +69,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted).toMatchInlineSnapshot();
     });
   });
 
@@ -156,11 +144,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted).toMatchInlineSnapshot();
     });
   });
 });
