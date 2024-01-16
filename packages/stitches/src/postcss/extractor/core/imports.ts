@@ -58,8 +58,6 @@ export const extractImports = ({ ast, loaders, id, code }: State) => {
           if (!pass) return;
         }
 
-        console.log(resolved);
-
         for (const specifier of importDecl.specifiers) {
           if (specifier.type === 'ImportSpecifier') {
             const functionName = specifier.imported
