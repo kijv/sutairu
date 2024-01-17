@@ -25,7 +25,11 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "",
+      ]
+    `);
   });
 
   test('variable', async () => {
@@ -47,7 +51,11 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "",
+      ]
+    `);
   });
 
   test('object', async () => {
@@ -71,6 +79,10 @@ describe('globalCss() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "",
+      ]
+    `);
   });
 });

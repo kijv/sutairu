@@ -3,21 +3,23 @@ import { describe, expect, it, suite } from 'vitest';
 import { createStitches } from '../../../stitches/src/core';
 import { extractorCore } from '../../../stitches/src/postcss/extractor/core';
 
-const emptyFile = path.join(__dirname, '..', 'empty', 'core.ts');
+const sampleFile = path.join(__dirname, 'react.tsx');
 
-suite('Issue #13', () => {
-  describe('unary expr (negative numbers)', () => {
+suite('Issue #21', () => {
+  describe('themes not rendering in jsx', () => {
     const stitches = createStitches();
 
-    it('should work', async () => {
+    // TODO: Make this work
+    // Let them use `createStitches` and use defaults for PostCSS Config
+    it.fails('theme is imported', async () => {
       const extracted = await extractorCore.extract!({
         code: `
-        import { css } from "@jujst/stitches/core";
-        
-        css({
-          zIndex: -1,
-        })()`,
-        id: emptyFile,
+        import { theme } from "./stitches.config";
+
+        const Component = () => <div className={theme.className} />;
+        Component()
+        `,
+        id: sampleFile,
         stitches,
         configFileList: [],
         original: '',
@@ -25,10 +27,10 @@ suite('Issue #13', () => {
       });
 
       expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-dbpWbT",
-      ]
-    `);
+        [
+          "t-iknykm",
+        ]
+      `);
     });
   });
 });

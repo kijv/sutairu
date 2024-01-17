@@ -124,7 +124,7 @@ export const extractVariablesAndImports = ({
     } else if (STYLE_FUNCTIONS.includes(calleValue)) {
       const parents: Variable['parents'] = [];
       variables.push({
-        parents: [],
+        parents,
         ctxt: callExpr.span.ctxt,
         kind: calleValue,
         name: varIdent.value,
@@ -306,6 +306,69 @@ export const extractVariablesAndImports = ({
     const initIsObjectExpr = varDecl.declarations
       .map((decl) => decl.init)
       .some((init) => init?.type === 'ObjectExpression');
+    const idIsObjectPattern = varIdents.some(
+      (id) => id.type === 'ObjectPattern',
+    );
+
+    if (idIsObjectPattern) {
+      // Support object destructuring of return value of defineConfig
+      // const { theme, utils } = defineConfig({ ... })
+      const varIdent = varIdents.find((id) => id.type === 'ObjectPattern');
+      if (varIdent?.type !== 'ObjectPattern') return;
+
+      const varInit = varDecl.declarations
+        .map((decl) => decl.init)
+        .find((init) => init?.type === 'Identifier');
+      if (!varInit || varInit.type !== 'Identifier') return;
+
+      const varInitValue = varInit.value;
+
+      if (!inlineLoaders.some((l) => l.value === varInitValue)) return;
+      if (varIdent.properties.length === 0) return;
+
+      for (const prop of varIdent.properties) {
+        // check if it has a value, which means that is the actual name
+        // of the variable being destructured
+        if (prop.type === 'KeyValuePatternProperty') {
+          const { key, value } = prop;
+          if (key.type !== 'Identifier' || value.type !== 'Identifier')
+            continue;
+
+          const actualName = key.value;
+          const name = value.value;
+
+          if (!STYLE_FUNCTIONS.includes(actualName)) continue;
+
+          inlineLoaders.push({
+            value: name,
+            ctxt: varDecl.span.ctxt,
+          });
+        } else if (prop.type === 'AssignmentPatternProperty') {
+          const { key, value } = prop;
+
+          if (value) continue;
+          if (key.type !== 'Identifier') continue;
+
+          const name = key.value;
+          if (!STYLE_FUNCTIONS.includes(name)) continue;
+
+          inlineLoaders.push({
+            value: name,
+            ctxt: varDecl.span.ctxt,
+          });
+        } else if (
+          prop.type === 'RestElement' &&
+          prop.argument.type === 'Identifier'
+        ) {
+          inlineLoaders.push({
+            value: prop.argument.value,
+            ctxt: varDecl.span.ctxt,
+          });
+        }
+      }
+
+      return;
+    }
 
     const varIdent = varIdents.find((id) => id.type === 'Identifier');
 
@@ -325,10 +388,7 @@ export const extractVariablesAndImports = ({
           (i) => i.value === calleValue && i.ctxt === varDecl.span.ctxt,
         ) ||
         inlineLoaders.some(
-          (l) =>
-            callExpr.callee.type === 'MemberExpression' &&
-            callExpr.callee.object.span.ctxt === l.ctxt &&
-            callExpr.callee.object.value === l.value,
+          (l) => varDecl.span.ctxt === l.ctxt && calleValue === l.value,
         )
       ) {
         if (varDecl.kind !== 'const') {
