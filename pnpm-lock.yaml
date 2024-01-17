@@ -142,9 +142,6 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@types/node@20.11.0)
     devDependencies:
-      '@jujst/stitches':
-        specifier: workspace:^
-        version: link:../stitches
       '@types/react':
         specifier: ^18.2.47
         version: 18.2.47

@@ -837,6 +837,52 @@ export const extractorCore: Extractor = {
       }
     };
 
+    const visitMemberExpression = (memberExpr: SWC.MemberExpression) => {
+      const { object, property } = memberExpr;
+      if (object.type !== 'Identifier') return;
+      if (property.type !== 'Identifier') return;
+      if (property.value !== 'className') return;
+
+      let maybeOrigin = variables.find(
+        (c) => c.name === object.value && c.ctxt === memberExpr.span.ctxt,
+      );
+
+      if (
+        !maybeOrigin &&
+        Array.from(imports).some(
+          (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
+        )
+      ) {
+        const maybeImport = imports.find(
+          (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
+        );
+        if (!maybeImport) return;
+
+        try {
+          const { variables: foreignVariables } = extractVariablesAndImports({
+            ast: fileToASTSync(maybeImport.resolved),
+            loaders,
+            id: maybeImport.resolved,
+            configFileList,
+            stitches,
+            code,
+          });
+
+          maybeOrigin = foreignVariables.find(
+            (c) => c.name === object.value && c.exported === true,
+          );
+        } catch {}
+      }
+      if (!maybeOrigin) return;
+
+      const { kind, args, parents } = maybeOrigin;
+      registerStitchesCall([], {
+        kind,
+        args,
+        parents,
+      });
+    };
+
     await visitSync(ast, {
       visitExpressionStatement,
       visitJSXExpressionContainer: visitExpressionStatement,
@@ -1053,51 +1099,7 @@ export const extractorCore: Extractor = {
         );
       },
       // createTheme - theme.className
-      visitMemberExpression: (memberExpr) => {
-        const { object, property } = memberExpr;
-        if (object.type !== 'Identifier') return;
-        if (property.type !== 'Identifier') return;
-        if (property.value !== 'className') return;
-
-        let maybeOrigin = variables.find(
-          (c) => c.name === object.value && c.ctxt === memberExpr.span.ctxt,
-        );
-
-        if (
-          !maybeOrigin &&
-          Array.from(imports).some(
-            (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
-          )
-        ) {
-          const maybeImport = imports.find(
-            (i) => i.ctxt === memberExpr.span.ctxt && i.value === object.value,
-          );
-          if (!maybeImport) return;
-
-          try {
-            const { variables: foreignVariables } = extractVariablesAndImports({
-              ast: fileToASTSync(maybeImport.resolved),
-              loaders,
-              id: maybeImport.resolved,
-              configFileList,
-              stitches,
-              code,
-            });
-
-            maybeOrigin = foreignVariables.find(
-              (c) => c.name === object.value && c.exported === true,
-            );
-          } catch {}
-        }
-        if (!maybeOrigin) return;
-
-        const { kind, args, parents } = maybeOrigin;
-        registerStitchesCall([], {
-          kind,
-          args,
-          parents,
-        });
-      },
+      visitMemberExpression,
     });
 
     return removeDups(tokens);
