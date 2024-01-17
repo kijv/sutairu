@@ -28,7 +28,11 @@ describe('keyframe() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['k-fhCilR']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "k-fhCilR",
+      ]
+    `);
   });
 
   test('variable', async () => {
@@ -53,7 +57,11 @@ describe('keyframe() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['k-fhCilR']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "k-fhCilR",
+      ]
+    `);
   });
 
   test('object', async () => {
@@ -80,7 +88,11 @@ describe('keyframe() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['k-fhCilR']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "k-fhCilR",
+      ]
+    `);
   });
 
   test('using inside object should render and replace with name', async () => {
@@ -108,6 +120,11 @@ describe('keyframe() extraction', () => {
       extracted: new Set<string>(),
     });
 
-    expect(extracted).toStrictEqual(['k-fhCilR', 'c-bHkFfE']);
+    expect(extracted).toMatchInlineSnapshot(`
+      [
+        "k-fhCilR",
+        "c-bHkFfE",
+      ]
+    `);
   });
 });
