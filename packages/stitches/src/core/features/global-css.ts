@@ -24,8 +24,8 @@ SOFTWARE.
 
 import { toCssRules } from '../convert/css-rules';
 import { toHash } from '../convert/hash';
-import { SheetGroup } from '../sheet';
-import Stitches from '../types/stitches';
+import type { SheetGroup } from '../sheet';
+import type Stitches from '../types/stitches';
 import { createMemo } from '../utils/create-memo';
 import { define } from '../utils/define';
 
