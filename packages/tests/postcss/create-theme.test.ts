@@ -30,7 +30,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual([]);
+      expect(extracted).toMatchInlineSnapshot('[]');
     });
 
     test('toString()', async () => {
@@ -43,7 +43,11 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
 
     test('className', async () => {
@@ -56,7 +60,11 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
 
     test('String primitive', async () => {
@@ -69,7 +77,11 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
   });
 
@@ -97,7 +109,7 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual([]);
+      expect(extracted).toMatchInlineSnapshot('[]');
     });
 
     test('toString()', async () => {
@@ -110,7 +122,11 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
 
     test('className', async () => {
@@ -123,7 +139,11 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
 
     test('String primitive', async () => {
@@ -136,7 +156,85 @@ suite('createTheme() extraction', () => {
         extracted: new Set<string>(),
       });
 
-      expect(extracted).toStrictEqual(['t-bdqcWd']);
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
+    });
+  });
+
+  describe('called in object', async () => {
+    const def = `
+    import { createTheme } from "@jujst/stitches/core";
+
+    const theme = createTheme({
+      colors: {
+        foreground: 'red',
+        }
+    })`;
+
+    test('toString()', async () => {
+      const extracted = await extractorCore.extract!({
+        code: `${def}
+        
+        const obj = {
+          theme: theme.toString(),
+        }`,
+        id: emptyFile,
+        stitches,
+        configFileList: [],
+        original: '',
+        extracted: new Set<string>(),
+      });
+
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
+    });
+
+    test('className', async () => {
+      const extracted = await extractorCore.extract!({
+        code: `${def}
+        
+        const obj = {
+          theme: theme.className,
+        }`,
+        id: emptyFile,
+        stitches,
+        configFileList: [],
+        original: '',
+        extracted: new Set<string>(),
+      });
+
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
+    });
+
+    test('String primitive', async () => {
+      const extracted = await extractorCore.extract!({
+        code: `${def}
+        
+        const obj = {
+          theme: String(theme),
+        }`,
+        id: emptyFile,
+        stitches,
+        configFileList: [],
+        original: '',
+        extracted: new Set<string>(),
+      });
+
+      expect(extracted).toMatchInlineSnapshot(`
+        [
+          "t-bdqcWd",
+        ]
+      `);
     });
   });
 });
