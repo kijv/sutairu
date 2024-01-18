@@ -7,7 +7,7 @@
     "jsx": "preserve",
     "lib": [
       "dom",
-      "es2020"
+      "esnext"
     ],
     "moduleResolution": "node",
     "strict": true,
@@ -15,7 +15,6 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "target": "esnext",
-    "types": ["vitest/globals"]
   },
   "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]

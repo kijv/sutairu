@@ -54,7 +54,7 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1(ts-node@10.9.2)(typescript@5.3.3)
       turbo:
-        specifier: latest
+        specifier: ^1.11.2
         version: 1.11.2
       typescript:
         specifier: ^5.3.3
