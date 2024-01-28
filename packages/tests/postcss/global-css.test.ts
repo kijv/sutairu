@@ -1,41 +1,36 @@
 import path from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
-import { extractorCore } from '../../stitches/src/postcss/extractor/core';
+import { extractorAll } from '../../plugin/src/extractor';
 
-const emptyFile = path.join(__dirname, 'empty', 'core.ts');
+const root = path.join(__dirname, 'mock');
+const id = path.join(__dirname, 'mock', 'core.ts');
+const sutairuPath = path.join(__dirname, 'sutairu.config.ts');
 
 describe('globalCss() extraction', () => {
-  const stitches = createStitches();
-
   test('inline', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { globalCss } from "@jujst/stitches/core";
+        import { globalCss } from "@sutairu/core";
         
         globalCss({
           html: {
             color: 'red',
           }
         })()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['']);
   });
 
   test('variable', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { globalCss } from "@jujst/stitches/core";
+        import { globalCss } from "@sutairu/core";
         
         const red = globalCss({
           html: {
@@ -44,24 +39,20 @@ describe('globalCss() extraction', () => {
         })
         
         red()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['']);
   });
 
   test('object', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { globalCss } from "@jujst/stitches/core";
+        import { globalCss } from "@sutairu/core";
         
         const styles = {
           red: globalCss({
@@ -72,17 +63,13 @@ describe('globalCss() extraction', () => {
         }
         
         styles.red()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['']);
   });
 });

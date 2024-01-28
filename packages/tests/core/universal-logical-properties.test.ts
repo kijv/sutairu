@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Logical Properties', () => {
   test('marginBlock', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -27,7 +27,7 @@ describe('Logical Properties', () => {
   });
 
   test('marginInline', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -51,7 +51,7 @@ describe('Logical Properties', () => {
   });
 
   test('paddingBlock', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -75,7 +75,7 @@ describe('Logical Properties', () => {
   });
 
   test('paddingInline', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {

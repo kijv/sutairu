@@ -1,11 +1,11 @@
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 const internal = Symbol.for('jujst.sxs.internal');
 
 describe('Components', () => {
   test('The `styled` function returns an implicit span component', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component = styled();
 
     expect(component.$$typeof).toBe(Symbol.for('react.forward_ref'));
@@ -13,7 +13,7 @@ describe('Components', () => {
   });
 
   test('The `styled` function can return an explicit div component', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component = styled('div');
 
     expect(component.$$typeof).toBe(Symbol.for('react.forward_ref'));
@@ -25,7 +25,7 @@ describe('Components', () => {
       return 'text';
     }
 
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component = styled(TextComponent);
 
     expect(component.$$typeof).toBe(Symbol.for('react.forward_ref'));
@@ -38,7 +38,7 @@ describe('Components', () => {
       render: () => 'text',
     };
 
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component = styled(ForwardedComponent);
 
     expect(component.$$typeof).toBe(Symbol.for('react.forward_ref'));

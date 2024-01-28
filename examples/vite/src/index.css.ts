@@ -1,4 +1,4 @@
-import { globalCss } from '../stitches.config';
+import { globalCss } from '../sutairu.config';
 
 export const globals = globalCss({
   ':root': {

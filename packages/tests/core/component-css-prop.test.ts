@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Component with CSS prop', () => {
   test('Authors can create a component and pass it a css prop of overrides', () => {
-    const { css, toString } = createStitches({
+    const { css, toString } = createSutairu({
       media: {
         bp0: '(width < 768px)',
         bp1: '(768px <= width < 1400px)',

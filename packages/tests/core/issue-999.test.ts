@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Issue #519', () => {
   test('locally scoped token works 1 time', () => {
-    const { css, getCssText } = createStitches({ prefix: 'fusion' });
+    const { css, getCssText } = createSutairu({ prefix: 'fusion' });
 
     css({
       $$syntax: 'red',
@@ -23,7 +23,7 @@ describe('Issue #519', () => {
   });
 
   test('locally scoped prefix-free token works 1 time', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       $$syntax: 'red',
@@ -43,7 +43,7 @@ describe('Issue #519', () => {
   });
 
   test('locally scoped token works 2 times', () => {
-    const { css, getCssText } = createStitches({ prefix: 'fusion' });
+    const { css, getCssText } = createSutairu({ prefix: 'fusion' });
 
     css({
       $$syntax: 'red',
@@ -68,7 +68,7 @@ describe('Issue #519', () => {
   });
 
   test('locally scoped prefix-free token works 2 times', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       $$syntax: 'red',
@@ -93,7 +93,7 @@ describe('Issue #519', () => {
   });
 
   test('locally scoped token works 3 times', () => {
-    const { css, getCssText } = createStitches({ prefix: 'fusion' });
+    const { css, getCssText } = createSutairu({ prefix: 'fusion' });
 
     css({
       $$syntax: 'red',
@@ -123,7 +123,7 @@ describe('Issue #519', () => {
   });
 
   test('locally scoped prefix-free token works 3 times', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       $$syntax: 'red',

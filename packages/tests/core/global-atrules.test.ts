@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Support @import', () => {
   test('Authors can define an @import rule', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     const importURL = 'https://unpkg.com/sanitize.css@12.0.1/sanitize.css';
 
@@ -15,7 +15,7 @@ describe('Support @import', () => {
   });
 
   test('Authors can define multiple @import rules', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     const importURL1 = 'https://unpkg.com/sanitize.css@12.0.1/sanitize.css';
     const importURL2 = 'https://unpkg.com/sanitize.css@12.0.1/typography.css';
@@ -30,7 +30,7 @@ describe('Support @import', () => {
   });
 
   test('Authors can an @import rule without quotes', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     const importURL = 'https://unpkg.com/sanitize.css@12.0.1/sanitize.css';
 
@@ -44,7 +44,7 @@ describe('Support @import', () => {
 
 describe('Support @font-face', () => {
   test('Authors can define a @font-face rule', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       '@font-face': {
@@ -79,7 +79,7 @@ describe('Support @font-face', () => {
   });
 
   test('Authors can define multiple @font-face rules', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       '@font-face': [

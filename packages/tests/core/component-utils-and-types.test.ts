@@ -1,9 +1,9 @@
+import { PropertyValue, createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Component: Utilities & Tokens', () => {
   test('Utilities & Tokens of the same type', () => {
-    const { css, toString } = createStitches({
+    const { css, toString } = createSutairu({
       utils: {
         px: (value: PropertyValue<'paddingLeft'>) => ({
           paddingLeft: value,
@@ -22,7 +22,7 @@ describe('Component: Utilities & Tokens', () => {
   });
 
   test('Utilities & Tokens of different types', () => {
-    const { css, toString } = createStitches({
+    const { css, toString } = createSutairu({
       utils: {
         ftw: (value: PropertyValue<'color'>) => ({
           color: value,

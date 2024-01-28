@@ -1,9 +1,9 @@
+import { type PropertyValue, createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { type PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Issue #788', () => {
   test('Test that a util with the name of a selector works in globalCss', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       utils: {
         p: (value: PropertyValue<'paddingTop'>) => ({
           paddingTop: value,
@@ -26,7 +26,7 @@ describe('Issue #788', () => {
   });
 
   test('Test that a util with the name of a selector works in a component', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       utils: {
         p: (value: PropertyValue<'paddingTop'>) => ({
           paddingTop: value,

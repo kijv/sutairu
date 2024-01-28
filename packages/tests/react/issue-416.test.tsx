@@ -1,11 +1,11 @@
+import { createSutairu } from '@sutairu/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('Issue #416: Composition versus Descendancy', async () => {
   {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const BoxA = styled('main', {
       variants: {

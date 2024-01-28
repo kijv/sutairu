@@ -28,7 +28,14 @@
 			"nursery": {
 				"useGroupedTypeImport": "error",
 				"noUnusedImports": "error",
-				"useImportType": "error"
+				"useImportType": "error",
+				"useNodejsImportProtocol": "error",
+				"useFilenamingConvention": {
+					"level": "error",
+					"options": {
+						"filenameCases": ["kebab-case", "snake_case"]
+					}
+				}
 			}
 		},
 		"ignore": ["./packages/stitches/src/types/css.d.ts"]

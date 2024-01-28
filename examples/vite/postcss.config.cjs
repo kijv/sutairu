@@ -1,5 +1,5 @@
 module.exports = {
   plugins: {
-    '@jujst/stitches/postcss': {},
+    '@sutairu/postcss': {},
   },
 };

@@ -1,8 +1,8 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Serialization', () => {
-  const sheet = createStitches();
+  const sheet = createSutairu();
   const { css, getCssText, toString, createTheme } = sheet;
 
   const myComponent = css({

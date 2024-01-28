@@ -1,33 +1,33 @@
+import { type CreateSutairu, createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { type CreateStitches, createStitches } from '../../stitches/src/core';
 
 describe('Configuration', () => {
-  let stitches: ReturnType<CreateStitches>;
+  let stitches: ReturnType<CreateSutairu>;
 
-  test('createStitches()', () => {
-    const { css, globalCss } = createStitches();
-
-    expect(css).toBeInstanceOf(Function);
-    expect(globalCss).toBeInstanceOf(Function);
-  });
-
-  test('createStitches({})', () => {
-    const { css, globalCss } = createStitches({});
+  test('createSutairu()', () => {
+    const { css, globalCss } = createSutairu();
 
     expect(css).toBeInstanceOf(Function);
     expect(globalCss).toBeInstanceOf(Function);
   });
 
-  test('createStitches({ prefix: "fusion-" })', () => {
-    const { config } = createStitches({ prefix: 'fusion-' });
+  test('createSutairu({})', () => {
+    const { css, globalCss } = createSutairu({});
+
+    expect(css).toBeInstanceOf(Function);
+    expect(globalCss).toBeInstanceOf(Function);
+  });
+
+  test('createSutairu({ prefix: "fusion-" })', () => {
+    const { config } = createSutairu({ prefix: 'fusion-' });
 
     expect(config.prefix).toBe('fusion-');
   });
 
-  test('createStitches({ theme })', () => {
+  test('createSutairu({ theme })', () => {
     const themeConfig = { colors: { blue: 'dodgerblue' } };
 
-    const { config } = createStitches({ theme: themeConfig });
+    const { config } = createSutairu({ theme: themeConfig });
 
     expect(config.theme).toBe(themeConfig);
   });

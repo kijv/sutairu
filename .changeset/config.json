@@ -2,8 +2,9 @@
 	"$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
 	"changelog": "@changesets/cli/changelog",
 	"commit": false,
-	"fixed": [["@jujst/stitches"]],
+	"fixed": [["@sutairu/core", "@sutairu/react", "@sutairu/postcss"]],
 	"access": "public",
 	"baseBranch": "main",
-	"ignore": ["@repo/*"]
+	"//": "Bundler specific plugins are still experimental",
+	"ignore": ["@repo/*", "@sutairu/vite", "@sutairu/webpack"]
 }

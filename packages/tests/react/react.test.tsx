@@ -1,10 +1,10 @@
+import { createSutairu } from '@sutairu/react';
 import * as react from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('React', () => {
-  const sheet = createStitches();
+  const sheet = createSutairu();
 
   const wrapper = renderer.create(react.createElement(react.Fragment));
   const Button = sheet.styled('button', {

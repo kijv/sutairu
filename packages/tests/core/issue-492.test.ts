@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Issue #492', () => {
   test('Conditionally apply default variants as the @initial value', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component = css({
       variants: {
@@ -74,7 +74,7 @@ describe('Issue #492', () => {
   });
 
   test('Apply apply @initial styles first', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component = css({
       '--rock': true,

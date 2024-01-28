@@ -1,9 +1,9 @@
+import { type PropertyValue, createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { type PropertyValue, createStitches } from '../../stitches/src/react';
 
 describe('emerson', () => {
   test('lake', () => {
-    const { styled, toString } = createStitches({
+    const { styled, toString } = createSutairu({
       utils: {
         px: (value: PropertyValue<'paddingLeft'>) => ({
           paddingLeft: value,

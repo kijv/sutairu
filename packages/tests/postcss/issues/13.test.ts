@@ -1,34 +1,27 @@
 import path from 'node:path';
-import { describe, expect, it, suite } from 'vitest';
-import { createStitches } from '../../../stitches/src/core';
-import { extractorCore } from '../../../stitches/src/postcss/extractor/core';
+import { describe, expect, it } from 'vitest';
+import { extractorAll } from '../../../plugin/src/extractor';
 
-const emptyFile = path.join(__dirname, '..', 'empty', 'core.ts');
+const root = path.join(__dirname, '..', 'mock');
+const id = path.join(__dirname, '..', 'mock', 'core.ts');
+const sutairuPath = path.join(__dirname, 'sutairu.config.ts');
 
-suite('Issue #13', () => {
-  describe('unary expr (negative numbers)', () => {
-    const stitches = createStitches();
-
-    it('should work', async () => {
-      const extracted = await extractorCore.extract!({
-        code: `
-        import { css } from "@jujst/stitches/core";
+describe('unary expr (negative numbers)', () => {
+  it('should work', async () => {
+    const extracted = await extractorAll.extract!({
+      code: `
+        import { css } from "@sutairu/core";
         
         css({
           zIndex: -1,
         })()`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
-        original: '',
-        extracted: new Set<string>(),
-      });
-
-      expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-dbpWbT",
-      ]
-    `);
+      original: '',
+      extracted: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
+
+    expect(extracted?.tokens).toStrictEqual(['c-dbpWbT']);
   });
 });

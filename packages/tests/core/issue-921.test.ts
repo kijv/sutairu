@@ -1,9 +1,5 @@
+import { type CSS, type PropertyValue, createSutairu } from '@sutairu/core';
 import { expectTypeOf, test } from 'vitest';
-import {
-  type CSS,
-  type PropertyValue,
-  createStitches,
-} from '../../stitches/src/core';
 
 test('Issue #921', () => {
   const config = {
@@ -23,7 +19,7 @@ test('Issue #921', () => {
     },
   };
 
-  const { css, globalCss } = createStitches(config);
+  const { css, globalCss } = createSutairu(config);
 
   expectTypeOf(
     globalCss({

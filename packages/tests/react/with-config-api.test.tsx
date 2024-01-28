@@ -1,11 +1,11 @@
+import { createSutairu } from '@sutairu/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('styled.withConfig', () => {
   test('Basic css calls without a config', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const ComponentToRender = styled.withConfig()('button', {
       color: 'DodgerBlue',
@@ -21,7 +21,7 @@ describe('styled.withConfig', () => {
   });
 
   test('Creates the correct className with a componentId', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const componentConfig = {
       componentId: 'cool-id',
@@ -40,7 +40,7 @@ describe('styled.withConfig', () => {
   });
 
   test('Creates the correct className with a displayName', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const componentConfig = {
       displayName: 'my-cool-display-name',
@@ -59,7 +59,7 @@ describe('styled.withConfig', () => {
   });
 
   test('Creates the correct className with a displayName and componentId', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const componentConfig = {
       componentId: 'cool-id',
@@ -79,7 +79,7 @@ describe('styled.withConfig', () => {
   });
 
   test('Sets displayName on the component when passed as a componentConfig', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
 
     const componentConfig = {
       componentId: 'cool-id',
@@ -92,7 +92,7 @@ describe('styled.withConfig', () => {
   });
 
   test('Creates the correct className with a componentConfig while extending components', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const ComponentToExtend = styled.withConfig({
       componentId: 'component-to-extend-id',
@@ -114,7 +114,7 @@ describe('styled.withConfig', () => {
 
 describe('shouldForwardStitchesProp', () => {
   test('Forwards the variant to the underlying component when shouldForwardStitchesProp returns true', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
 
     const ReactComponent = ({ isOpen }) => {
       return React.createElement('div', {}, isOpen ? 'open' : 'closed');
@@ -147,7 +147,7 @@ describe('shouldForwardStitchesProp', () => {
   });
 
   test('Does not render the underlying ReactComponent when an as prop is provided and shouldForwardStitchesProp returns false', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
 
     const ReactComponent = ({ as: asProp }) => {
       return React.createElement(asProp || 'button', {}, 'hola from child');
@@ -173,7 +173,7 @@ describe('shouldForwardStitchesProp', () => {
   });
 
   test('Forwards the as prop to the underlying component when shouldForwardStitchesProp returns true and the asp prop was defined', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
 
     const ReactComponent = ({ as: asProp }) => {
       return React.createElement('div', {}, asProp || 'no-as-prop-found');
