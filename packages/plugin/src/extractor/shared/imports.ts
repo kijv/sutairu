@@ -6,7 +6,7 @@ import tsconfig from 'tsconfig';
 import tsconfigPaths from 'tsconfig-paths';
 import { visit } from '../../ast/visit';
 import { lazyJiti } from '../../utils/jiti';
-import { sutairuError } from '../../utils/stitches-error';
+import { sutairuError } from '../../utils/sutairu-error';
 import type { State } from '../all';
 
 export interface Import {

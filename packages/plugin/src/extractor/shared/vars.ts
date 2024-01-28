@@ -4,7 +4,7 @@ import type { CSS } from '../../../../core/src/index';
 import { DUMMY_SP, expressionToJSON } from '../../ast/util';
 import { visit, visitSync } from '../../ast/visit';
 import { lazyJiti } from '../../utils/jiti';
-import { sutairuError } from '../../utils/stitches-error';
+import { sutairuError } from '../../utils/sutairu-error';
 import type { State } from '../all';
 import { type Import, extractImports } from './imports';
 
@@ -44,7 +44,7 @@ interface InlineLoader {
   ctxt: number;
 }
 
-const stitchesInstances = new Map<
+const sutairuInstances = new Map<
   string,
   {
     mod: unknown;
@@ -52,9 +52,9 @@ const stitchesInstances = new Map<
   }
 >();
 
-export const getStitchesInstance = async (id: string) => {
+export const getSutairuInstance = async (id: string) => {
   const instance = await lazyJiti()(id);
-  stitchesInstances.set(id, instance);
+  sutairuInstances.set(id, instance);
   return instance;
 };
 
@@ -144,7 +144,7 @@ export const extractVariablesAndImports = async ({
       const isInline = inlineLoaders.some(
         (l) => l.value === calleValue && l.from === 'createSutairu',
       );
-      const sutairuInstance = await getStitchesInstance(
+      const sutairuInstance = await getSutairuInstance(
         isInline ? id : importer.resolved,
       );
       const parents: Variable['parents'] = [];

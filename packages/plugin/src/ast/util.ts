@@ -1,5 +1,5 @@
 import type { Expression, ObjectExpression } from '@swc/wasm';
-import { sutairuError } from '../utils/stitches-error';
+import { sutairuError } from '../utils/sutairu-error';
 
 export const DUMMY_SP = { start: 0, end: 0, ctxt: 0 };
 

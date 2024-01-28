@@ -3,7 +3,7 @@ import { extname } from 'node:path';
 import type * as SWC from '@swc/wasm';
 import { parse } from '@swc/wasm';
 import { expressionToJSON } from '../../ast/util';
-import { sutairuError } from '../../utils/stitches-error';
+import { sutairuError } from '../../utils/sutairu-error';
 
 const fileAstCache = new Map<
   string,

@@ -9,7 +9,7 @@ import { DUMMY_SP, expressionToJSON } from '../ast/util';
 import { visit, visitSync } from '../ast/visit';
 import type { Extractor, ResolvedConfig } from '../types';
 import { lazyJiti } from '../utils';
-import { sutairuError } from '../utils/stitches-error';
+import { sutairuError } from '../utils/sutairu-error';
 import type { Import } from './shared/imports';
 import {
   EXTENDABLE_STYLE_FUNCTIONS,

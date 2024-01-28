@@ -1,4 +1,4 @@
-import Stitches from '../../types/stitches';
+import type Stitches from '../../types/stitches';
 import { toCamelCase } from './camel-case';
 import { toHyphenCase } from './hyphen-case';
 import { toPolyfilledValue } from './polyfilled-value';
