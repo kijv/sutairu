@@ -12,7 +12,7 @@
     <img alt="" src="https://img.shields.io/npm/v/%40sutairu%2Fcore.svg?style=for-the-badge&labelColor=000000">
   </a>
   <a aria-label="License" href="https://github.com/jujitsustudio/sutairu/blob/main/LICENSE">
-    <img alt="" src="https://img.shields.io/npm/l/%40sutairu%2Fcore.svg?style=for-the-badge&labelColor=000000&color=">
+    <img alt="" src="https://img.shields.io/npm/l/%40sutairu%2Fcore.svg?style=for-the-badge&labelColor=000000">
   </a>
 </p>
 
