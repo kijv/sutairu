@@ -24,4 +24,4 @@ Visit https://jujitsu.studio/sutairu to view the full documentation.
 
 ## Acknowledgements
 
-- [StitchesCSS](https://stitches.dev)
+- Plugin Architecture by [UnoCSS](https://unocss.dev)
