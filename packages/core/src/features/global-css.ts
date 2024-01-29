@@ -75,7 +75,7 @@ export const createGlobalCssFunction = (
         }
       }
 
-      return `g-${toHash(styles)}`;
+      return '';
     };
 
     return define(render, {

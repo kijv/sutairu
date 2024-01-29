@@ -24,6 +24,7 @@ suite('createTheme() extraction', () => {
         code: def,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -37,6 +38,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.toString();`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -50,6 +52,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.className;`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -63,6 +66,7 @@ suite('createTheme() extraction', () => {
         code: def.replace(/theme$/g, 'String(theme)'),
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -91,6 +95,7 @@ suite('createTheme() extraction', () => {
         code: def,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -104,6 +109,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.toString();`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -117,6 +123,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.className;`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -130,6 +137,7 @@ suite('createTheme() extraction', () => {
         code: def.replace(/styles.theme$/g, 'String(styles.theme)'),
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id,
         sutairuPath,
@@ -142,7 +150,7 @@ suite('createTheme() extraction', () => {
   describe('custom config', async () => {
     const def = `
     import { createSutairu } from "@sutairu/core";
-    const { createTheme } = createSutairu({})
+    const { createTheme } = createSutairu()
 
     const styles = {
       theme: createTheme({
@@ -159,6 +167,7 @@ suite('createTheme() extraction', () => {
         code: def,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id: sutairuPath[0],
         sutairuPath,
@@ -172,6 +181,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.toString();`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id: sutairuPath[0],
         sutairuPath,
@@ -185,6 +195,7 @@ suite('createTheme() extraction', () => {
         code: `${def}.className;`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id: sutairuPath[0],
         sutairuPath,
@@ -198,6 +209,7 @@ suite('createTheme() extraction', () => {
         code: def.replace(/styles.theme$/g, 'String(styles.theme)'),
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
         root,
         id: sutairuPath[0],
         sutairuPath,

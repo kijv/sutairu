@@ -17,6 +17,7 @@ describe('unary expr (negative numbers)', () => {
         })()`,
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
       root,
       id,
       sutairuPath,

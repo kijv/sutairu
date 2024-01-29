@@ -382,9 +382,14 @@ export const extractVariablesAndImports = async ({
 
           if (!STYLE_FUNCTIONS.includes(actualName)) continue;
 
-          const origin = inlineLoaders.find(
-            (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
-          );
+          const origin =
+            inlineLoaders.find(
+              (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
+            ) || varInitValue === 'createSutairu'
+              ? {
+                  from: 'createSutairu',
+                }
+              : undefined;
 
           if (!origin) continue;
 
@@ -403,9 +408,14 @@ export const extractVariablesAndImports = async ({
           const name = key.value;
           if (!STYLE_FUNCTIONS.includes(name)) continue;
 
-          const origin = inlineLoaders.find(
-            (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
-          );
+          const origin =
+            inlineLoaders.find(
+              (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
+            ) || varInitValue === 'createSutairu'
+              ? {
+                  from: 'createSutairu',
+                }
+              : undefined;
 
           if (!origin) continue;
 
@@ -419,9 +429,14 @@ export const extractVariablesAndImports = async ({
           prop.type === 'RestElement' &&
           prop.argument.type === 'Identifier'
         ) {
-          const origin = inlineLoaders.find(
-            (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
-          );
+          const origin =
+            inlineLoaders.find(
+              (l) => l.value === varInitValue && l.ctxt === varDecl.span.ctxt,
+            ) || varInitValue === 'createSutairu'
+              ? {
+                  from: 'createSutairu',
+                }
+              : undefined;
 
           if (!origin) continue;
 
