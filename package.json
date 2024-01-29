@@ -4,8 +4,8 @@
   "scripts": {
     "build": "turbo build --filter=@sutairu/*{./packages/*}[main^1]",
     "test": "turbo test",
-    "changeset:release": "esno scripts/csstype.ts && turbo build && changeset publish",
-    "changeset:version": "changeset version &&  git add --all",
+    "changeset:release": "esno scripts/csstype.ts && nr build && changeset publish",
+    "changeset:version": "changeset version && git add --all",
     "csstype": "esno scripts/csstype.ts",
     "dev": "turbo dev",
     "format": "biome check . --apply-unsafe --linter-enabled false",

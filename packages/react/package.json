@@ -39,8 +39,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && NODE_ENV=production rollup -c",
-    "dev": "rollup -cw",
-    "prepublishOnly": "nr build"
+    "dev": "rollup -cw"
   },
   "dependencies": {
     "react": "^18.2.0"
