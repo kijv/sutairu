@@ -1,6 +1,6 @@
 {
   "name": "@sutairu/postcss",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "bugs": {
     "url": "https://github.com/jujitsustudio/sutairu/issues"
   },
@@ -58,7 +58,6 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
