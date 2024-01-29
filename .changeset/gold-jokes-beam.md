@@ -1,5 +1,0 @@
----
-"@sutairu/react": patch
----
-
-Technical

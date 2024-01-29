@@ -1,5 +1,11 @@
 # @sutairu/react
 
+## 0.1.2
+
+### Patch Changes
+
+- [`fc7745c`](https://github.com/jujitsustudio/sutairu/commit/fc7745c8169a1738d0258537bd85f18530e1fda8) Thanks [@kijv](https://github.com/kijv)! - Technical
+
 ## 0.1.1
 
 ### Patch Changes
