@@ -28,7 +28,7 @@ const generateType = async (packageUrl: URL) => {
 
 const generateTypes = async () => {
   // types are shared
-  await generateType(rootUrl.to('packages/stitches/src/core/'));
+  await generateType(rootUrl.to('packages/core/'));
 };
 
 class ModifiedString extends String {
