@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Polyfill prefixed values', () => {
   test('width:stretch', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       '.gro': {
@@ -17,7 +17,7 @@ describe('Polyfill prefixed values', () => {
   });
 
   test('width:fit-content', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       '.fit': {

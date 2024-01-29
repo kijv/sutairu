@@ -1,0 +1,34 @@
+diff --git a/default.js b/default.js
+index 7bd408832c9c98c34e96556d1e6bc3d45b93c519..a3352b1ad9caa9c050657fb9eee5fe56d4e735a3 100644
+--- a/default.js
++++ b/default.js
+@@ -1,14 +1,5 @@
+-export async function delay({seconds, milliseconds} = {}) {
+-	let duration;
+-	if (typeof seconds === 'number') {
+-		duration = seconds * 1000;
+-	} else if (typeof milliseconds === 'number') {
+-		duration = milliseconds;
+-	} else {
+-		throw new TypeError('Expected an object with either `seconds` or `milliseconds`.');
+-	}
++import {fileURLToPath} from 'node:url';
+ 
+-	return new Promise(resolve => {
+-		setTimeout(resolve, duration);
+-	});
++export function toPath(urlOrPath) {
++	return urlOrPath instanceof URL ? fileURLToPath(urlOrPath) : urlOrPath;
+ }
+\ No newline at end of file
+diff --git a/node.js b/node.js
+index 35fc81e9fa89a32a8d07d5f6017ddc787cfc5d0b..a3352b1ad9caa9c050657fb9eee5fe56d4e735a3 100644
+--- a/node.js
++++ b/node.js
+@@ -3,5 +3,3 @@ import {fileURLToPath} from 'node:url';
+ export function toPath(urlOrPath) {
+ 	return urlOrPath instanceof URL ? fileURLToPath(urlOrPath) : urlOrPath;
+ }
+\ No newline at end of file
+-
+-export * from './default.js';

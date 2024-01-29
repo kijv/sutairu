@@ -1,9 +1,5 @@
+import { type CSS, type PropertyValue, createSutairu } from '@sutairu/react';
 import { assertType, describe, test } from 'vitest';
-import {
-  type CSS,
-  type PropertyValue,
-  createStitches,
-} from '../../stitches/src/react';
 
 describe('Issue #921: Fix CSS type for utils overshadowing properties', () => {
   const config = {
@@ -23,7 +19,7 @@ describe('Issue #921: Fix CSS type for utils overshadowing properties', () => {
     },
   };
 
-  const { css, globalCss, styled } = createStitches(config);
+  const { css, globalCss, styled } = createSutairu(config);
 
   globalCss({
     html: {

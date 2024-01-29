@@ -1,11 +1,11 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Prefix', () => {
   const prefix = 'fusion';
 
   test('Authors can define a prefix applied to themes', () => {
-    const { createTheme, toString } = createStitches({ prefix });
+    const { createTheme, toString } = createSutairu({ prefix });
 
     expect(toString()).toBe('');
 
@@ -21,7 +21,7 @@ describe('Prefix', () => {
   });
 
   test('Authors can define a prefix not applied to named themes', () => {
-    const { createTheme, toString } = createStitches({ prefix });
+    const { createTheme, toString } = createSutairu({ prefix });
 
     expect(toString()).toBe('');
 
@@ -37,7 +37,7 @@ describe('Prefix', () => {
   });
 
   test('Authors can define a prefix applied to components', () => {
-    const { css, toString } = createStitches({ prefix });
+    const { css, toString } = createSutairu({ prefix });
 
     expect(toString()).toBe('');
 

@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Numeric Values', () => {
   test('Authors can use numeric values to assign px values', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     expect(toString()).toBe('');
 
@@ -29,7 +29,7 @@ describe('Numeric Values', () => {
   });
 
   test('Authors can use numeric values to assign numeric values', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     expect(toString()).toBe('');
 
@@ -58,7 +58,7 @@ describe('Numeric Values', () => {
 
   test('Authors can use unit-less properties as known to React', () => {
     for (let i = 0; i <= 33; i += 11) {
-      const { globalCss, getCssText } = createStitches();
+      const { globalCss, getCssText } = createSutairu();
 
       globalCss({
         div: {
@@ -119,7 +119,7 @@ describe('Numeric Values', () => {
 
     test(`Author can use the unit-only ${kebabProp} property`, () => {
       for (let i = 0; i <= 33; i += 11) {
-        const { globalCss, getCssText } = createStitches();
+        const { globalCss, getCssText } = createSutairu();
 
         globalCss({
           div: {

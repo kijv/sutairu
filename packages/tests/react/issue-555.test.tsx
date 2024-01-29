@@ -1,7 +1,7 @@
+import { createSutairu } from '@sutairu/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
   ...args: Parameters<typeof React.createElement<P>>
@@ -29,7 +29,7 @@ const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
 
 describe('Issue #555', () => {
   test('an element accepts styles via className prop', () => {
-    const { css, toString } = createStitches();
+    const { css, toString } = createSutairu();
 
     const el = css({ color: 'dodgerblue' });
 
@@ -47,7 +47,7 @@ describe('Issue #555', () => {
   });
 
   test('an element accepts styles via className prop', () => {
-    const { css, styled, toString } = createStitches();
+    const { css, styled, toString } = createSutairu();
 
     const el = css({ color: 'dodgerblue' });
     const Box = styled('div', {});

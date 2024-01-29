@@ -1,12 +1,12 @@
-import type { e as CSS } from '@jujst/stitches/types/stitches.d';
+import type * as Stitches from '@sutairu/react';
+import { type FontFace, createSutairu } from '@sutairu/react';
 // biome-ignore lint/nursery/useImportType: Needed for this test
 import * as React from 'react';
 import { assertType, suite, test } from 'vitest';
-import type * as Stitches from '../../stitches/src/react';
-import { type FontFace, createStitches } from '../../stitches/src/react';
+import type { CSS } from '../../core/types/css-util';
 
 suite('Types', () => {
-  const { css, globalCss, keyframes, styled, theme } = createStitches({
+  const { css, globalCss, keyframes, styled, theme } = createSutairu({
     utils: {
       mx: (value: Stitches.PropertyValue<'marginLeft'>) => ({
         marginLeft: value,

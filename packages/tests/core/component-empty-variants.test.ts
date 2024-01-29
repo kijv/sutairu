@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Empty Variants', () => {
   test('Empty Variants', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       variants: {
@@ -29,7 +29,7 @@ describe('Empty Variants', () => {
   });
 
   test('Empty Variants', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       variants: {

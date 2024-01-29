@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Issue #652', () => {
   test('Applying both variants from the one default variant', () => {
-    const { css } = createStitches();
+    const { css } = createSutairu();
 
     const component1 = css({
       variants: {

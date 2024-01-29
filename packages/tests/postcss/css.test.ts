@@ -1,109 +1,96 @@
 import path from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
-import { extractorCore } from '../../stitches/src/postcss/extractor/core';
+import { extractorAll } from '../../plugin/src/extractor';
 
-const emptyFile = path.join(__dirname, 'empty', 'core.ts');
+const root = path.join(__dirname, 'mock');
+const id = path.join(__dirname, 'mock', 'core.ts');
+const sutairuPath = path.join(__dirname, 'sutairu.config.ts');
 
 describe('css() extraction', () => {
-  const stitches = createStitches();
-
   test('inline', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         css({
           color: 'red',
         })()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB']);
   });
 
   test('inline with override', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         css({
           color: 'red',
         })({ css: { color: 'blue' } })`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('variable', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         const red = css({
           color: 'red',
         })
         
         red()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB']);
   });
 
   test('variable with override', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         const red = css({
           color: 'red',
         })
         
         red({ css: { color: 'blue' } })`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 
   test('object', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         const styles = {
           red: css({
@@ -112,24 +99,21 @@ describe('css() extraction', () => {
         }
         
         styles.red()`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB']);
   });
 
   test('object with override', async () => {
-    const extracted = await extractorCore.extract!({
+    const extracted = await extractorAll.extract!({
       code: `
-        import { css } from "@jujst/stitches/core";
+        import { css } from "@sutairu/core";
         
         const styles = {
           red: css({
@@ -138,17 +122,14 @@ describe('css() extraction', () => {
         }
         
         styles.red({ css: { color: 'blue' }})`,
-      id: emptyFile,
-      stitches,
-      configFileList: [],
       original: '',
       extracted: new Set<string>(),
+      dependencies: new Set<string>(),
+      root,
+      id,
+      sutairuPath,
     });
 
-    expect(extracted).toMatchInlineSnapshot(`
-      [
-        "c-gmqXFB c-gmqXFB-ikydkiA-css",
-      ]
-    `);
+    expect(extracted?.tokens).toStrictEqual(['c-gmqXFB c-gmqXFB-ikydkiA-css']);
   });
 });

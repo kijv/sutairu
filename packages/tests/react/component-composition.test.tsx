@@ -1,16 +1,16 @@
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('Composition', () => {
   test('Renders an empty component', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
     const generic = styled();
     expect(generic.render().props).toEqual({ className: 'PJLV' });
     expect(getCssText()).toBe('');
   });
 
   test('Does not render a component without an explicit rendering', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
     const red = styled({ color: 'red' });
     const size14 = styled({ fontSize: '14px' });
     const bold = styled({ fontWeight: 'bold' });
@@ -20,7 +20,7 @@ describe('Composition', () => {
   });
 
   test('Renders a component with all compositions', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
     const red = styled({ color: 'red' });
     const size14 = styled({ fontSize: '14px' });
     const bold = styled({ fontWeight: 'bold' });

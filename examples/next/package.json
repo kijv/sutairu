@@ -1,12 +1,11 @@
 {
-  "name": "next",
+  "name": "@example/next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "next": "14.0.4",
@@ -14,7 +13,9 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@jujst/stitches": "workspace:^",
+    "@sutairu/core": "workspace:^",
+    "@sutairu/postcss": "workspace:^",
+    "@sutairu/react": "workspace:^",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

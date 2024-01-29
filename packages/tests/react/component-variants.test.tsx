@@ -1,5 +1,5 @@
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('Variants', () => {
   const componentConfig = {
@@ -43,7 +43,7 @@ describe('Variants', () => {
   };
 
   test('Renders a component without any initial styles', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render();
 
@@ -52,7 +52,7 @@ describe('Variants', () => {
   });
 
   test('Renders a component with 1 matching variant', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression1 = component.render({ size: 'small' });
 
@@ -75,7 +75,7 @@ describe('Variants', () => {
   });
 
   test('Renders a component with 2 matching variants', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ size: 'small', level: 1 });
 
@@ -93,7 +93,7 @@ describe('Variants', () => {
   });
 
   test('Renders a component with a 2 matching variants and 1 matching compound', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ size: 'small', color: 'blue' });
 
@@ -157,7 +157,7 @@ describe('Variants with defaults', () => {
   };
 
   test('Renders a component with the default variant applied', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render();
 
@@ -168,7 +168,7 @@ describe('Variants with defaults', () => {
   });
 
   test('Renders a component with the default variant explicitly applied', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ size: 'small' });
 
@@ -179,7 +179,7 @@ describe('Variants with defaults', () => {
   });
 
   test('Renders a component with the non-default variant explicitly applied', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ size: 'large' });
 
@@ -190,7 +190,7 @@ describe('Variants with defaults', () => {
   });
 
   test('Renders a component with the default variant applied and a different variant explicitly applied', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ level: 1 });
 
@@ -208,7 +208,7 @@ describe('Variants with defaults', () => {
   });
 
   test('Renders a component with the default variant applied, a different variant explicitly applied, and a compound applied', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const expression = component.render({ color: 'blue' });
 
@@ -229,7 +229,7 @@ describe('Variants with defaults', () => {
   });
 
   test('Returns a component selector without the default variant applied when toString is used', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
     const component = styled('div', componentConfig);
     const selector = component.toString();
 
@@ -288,7 +288,7 @@ describe('Conditional variants', () => {
   };
 
   test('Renders a component with no variant applied', () => {
-    const { styled, toString } = createStitches(config);
+    const { styled, toString } = createSutairu(config);
     const component = styled('div', componentConfig);
     const componentClassName = 'c-PJLV';
 
@@ -297,7 +297,7 @@ describe('Conditional variants', () => {
   });
 
   test('Renders a component with one variant applied', () => {
-    const { styled, toString } = createStitches(config);
+    const { styled, toString } = createSutairu(config);
     const component = styled('div', componentConfig);
     const componentClassName = 'c-PJLV';
     const componentSmallClassName = `${componentClassName}-Gaggi-size-small`;
@@ -312,7 +312,7 @@ describe('Conditional variants', () => {
   });
 
   test('Renders a component with one conditional variant on one breakpoint applied', () => {
-    const { styled, toString } = createStitches(config);
+    const { styled, toString } = createSutairu(config);
     const component = styled('div', componentConfig);
     const componentClassName = 'c-PJLV';
     const componentSmallBp1ClassName = `${componentClassName}-fHtTAQ-size-small`;
@@ -327,7 +327,7 @@ describe('Conditional variants', () => {
   });
 
   test('Renders a component with one conditional variant on two breakpoints applied', () => {
-    const { styled, toString } = createStitches(config);
+    const { styled, toString } = createSutairu(config);
     const newLocal = 'div';
     const component = styled(newLocal, componentConfig);
     const componentClassName = 'c-PJLV';
@@ -352,7 +352,7 @@ describe('Conditional variants', () => {
   });
 
   test('Renders a component with a conditional variant repeatedly', () => {
-    const { styled, toString } = createStitches(config);
+    const { styled, toString } = createSutairu(config);
     const component = styled('div', componentConfig);
     const componentClassName = 'c-PJLV';
     const componentSmallBp1ClassName = `${componentClassName}-fHtTAQ-size-small`;

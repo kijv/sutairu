@@ -1,14 +1,10 @@
-import { css, keyframes } from '../stitches.config';
+import { css, keyframes } from '../sutairu.config';
 
 export const root = css({
   maxWidth: '1280px',
   margin: '0 auto',
   padding: '2rem',
   textAlign: 'center',
-});
-
-export const react = css({
-  '--logo': 'react',
 });
 
 export const logoSpin = keyframes({
@@ -29,14 +25,18 @@ export const logo = css({
   '&:hover': {
     filter: 'drop-shadow(0 0 2em #646cffaa)',
   },
-  [`&.${react}:hover`]: {
-    filter: 'drop-shadow(0 0 2em #61dafbaa)',
-  },
 
   '@motion-no-pref': {
     'a:nth-of-type(2) &': {
       animation: `${logoSpin} infinite 20s linear`,
     },
+  },
+});
+
+// TODO fix this bug
+export const react = css(logo, {
+  '&:hover': {
+    filter: 'drop-shadow(0 0 2em #61dafbaa)',
   },
 });
 

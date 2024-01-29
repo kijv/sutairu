@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Keyframes', () => {
   test('Expected behavior for the keyframes() method', () => {
-    const { keyframes, toString } = createStitches();
+    const { keyframes, toString } = createSutairu();
 
     const myKeyframes = keyframes({
       '0%': {

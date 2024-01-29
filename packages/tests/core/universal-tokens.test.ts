@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Tokens', () => {
   test('Authors can use a regular token #1', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         colors: {
           red: 'tomato',
@@ -27,7 +27,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use a regular token #2', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         shadows: {
           red: 'tomato',
@@ -51,7 +51,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use a relative token #1', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         colors: {
           red: 'tomato',
@@ -76,7 +76,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use a relative token #1', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         shadows: {
           red: 'tomato',
@@ -103,7 +103,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use an absolute token #1', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         colors: {
           red: 'tomato',
@@ -128,7 +128,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use an absolute token #2', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         colors: {
           red: 'tomato',
@@ -153,7 +153,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use a negative token #1', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         space: {
           sp1: '100px',
@@ -180,7 +180,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use a negative token #2', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         sizes: {
           sp1: '10px',
@@ -208,7 +208,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use tokens from the globalCss theme object', () => {
-    const { globalCss, theme, getCssText } = createStitches({
+    const { globalCss, theme, getCssText } = createSutairu({
       theme: {
         space: {
           sp1: '100px',
@@ -235,7 +235,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use tokens from a new theme object', () => {
-    const { globalCss, createTheme, getCssText } = createStitches();
+    const { globalCss, createTheme, getCssText } = createSutairu();
 
     const mytheme = createTheme('my-theme', {
       space: {
@@ -267,7 +267,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use tokens from the globalCss theme object', () => {
-    const { globalCss, theme, getCssText } = createStitches({
+    const { globalCss, theme, getCssText } = createSutairu({
       theme: {
         space: {
           sp1: '100px',
@@ -294,7 +294,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can use the class from the root theme object', () => {
-    const { theme, getCssText } = createStitches({
+    const { theme, getCssText } = createSutairu({
       prefix: 'pedro',
       theme: {
         colors: {
@@ -315,7 +315,7 @@ describe('Tokens', () => {
   });
 
   test('Authors can render custom units', () => {
-    const { globalCss, getCssText } = createStitches({
+    const { globalCss, getCssText } = createSutairu({
       theme: {
         sizes: {
           five: '5px',

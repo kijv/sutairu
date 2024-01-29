@@ -1,8 +1,8 @@
+import { createSutairu } from '@sutairu/core';
 import { expectTypeOf, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 test('Types', () => {
-  const { css, globalCss, keyframes } = createStitches({
+  const { css, globalCss, keyframes } = createSutairu({
     utils: {
       mx: () => ({
         backgroundColor: 'red',

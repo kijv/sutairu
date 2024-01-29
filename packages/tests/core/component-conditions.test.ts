@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Component Medias', () => {
   test('Authors can define medias applied to components', () => {
-    const { css, toString } = createStitches({
+    const { css, toString } = createSutairu({
       media: {
         mediumUp: '(width >= 768px)',
       },

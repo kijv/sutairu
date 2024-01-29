@@ -1,7 +1,7 @@
+import { createSutairu } from '@sutairu/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
   ...typePropsThenChildren: Parameters<typeof React.createElement<P>>
@@ -17,7 +17,7 @@ const RenderOf = <P extends React.HTMLAttributes<T>, T extends HTMLElement>(
 
 describe('Issue #450', () => {
   test('Compound variants apply to composed components (basic)', () => {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const Happy = styled('div', {
       '--is-happy': true,
@@ -59,7 +59,7 @@ describe('Issue #450', () => {
   });
 
   test('Compound variants apply to composed components (complex)', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
 
     const Tile = styled('div', {
       '--tile': 1,

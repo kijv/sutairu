@@ -1,10 +1,10 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, suite, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 suite('Issue #450', () => {
   describe('Basic Tests', () => {
     const getFreshComponents = () => {
-      const { css, getCssText } = createStitches();
+      const { css, getCssText } = createSutairu();
 
       const component1 = css({
         variants: {
@@ -123,7 +123,7 @@ suite('Issue #450', () => {
 
   describe('Basic Tests ported from the React version', () => {
     const getFreshComponents = () => {
-      const { css, getCssText } = createStitches();
+      const { css, getCssText } = createSutairu();
 
       const component1 = css({
         '--component': 1,
