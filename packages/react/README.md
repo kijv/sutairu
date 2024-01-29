@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a aria-label="jujitsu.studio" href="https://jujitsu.sutdio/">
+  <a aria-label="jujitsu.studio" href="https://jujitsu.studio/">
     <img src="https://img.shields.io/badge/MADE%20BY%20JUJITSU.STUDIO-000000.svg?style=for-the-badge&labelColor=000">
   </a>
   <a aria-label="NPM version" href="https://npmjs.com/package/@sutairu/react">
