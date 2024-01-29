@@ -38,7 +38,7 @@
 				}
 			}
 		},
-		"ignore": ["./packages/core/src/types/css.d.ts"]
+		"ignore": ["./packages/core/types/css.d.ts"]
 	},
 	"formatter": {
 		"enabled": true,
