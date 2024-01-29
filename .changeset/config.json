@@ -4,15 +4,6 @@
 		"@changesets/changelog-github",
 		{ "repo": "jujitsustudio/sutairu" }
 	],
-	"fixed": [
-		[
-			"@sutairu/core",
-			"@sutairu/react",
-			"@sutairu/vite",
-			"@sutairu/webpack",
-			"@sutairu/postcss"
-		]
-	],
 	"commit": false,
 	"access": "public",
 	"baseBranch": "main",
