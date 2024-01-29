@@ -1,10 +1,15 @@
-// @ts-check
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { createMinifier } from 'dts-minify';
+import type { Plugin } from 'rollup';
 import { defineConfig } from 'rollup';
 import dts from 'rollup-plugin-dts';
 import swc from 'rollup-plugin-swc3';
+import * as ts from 'typescript';
+
+// @ts-expect-error
+const minifier = createMinifier(ts.default);
 
 const entries = ['src/index.ts'];
 
@@ -68,6 +73,21 @@ export default defineConfig([
       },
     ],
     plugins: [
+      {
+        name: 'dts-minify',
+        renderChunk(code) {
+          return minifier.minify(code, {
+            keepJsDocs: true,
+          });
+        },
+        transform(code, id) {
+          if (id.endsWith('.d.ts')) {
+            return minifier.minify(code, {
+              keepJsDocs: true,
+            });
+          }
+        },
+      },
       dts({
         respectExternal: true,
       }),
@@ -80,9 +100,8 @@ export default defineConfig([
  * Guard the bundle size
  *
  * @param {number} limit size in kB
- * @return {import('rollup').Plugin}
  */
-function bundleSizeLimit(limit) {
+function bundleSizeLimit(limit: number): Plugin {
   return {
     name: 'bundle-limit',
     generateBundle(options, bundle) {

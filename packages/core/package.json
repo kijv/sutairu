@@ -1,6 +1,6 @@
 {
   "name": "@sutairu/core",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "bugs": {
     "url": "https://github.com/jujitsustudio/sutairu/issues"
   },
@@ -38,19 +38,19 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && NODE_ENV=production rollup -c",
-    "dev": "rollup -cw"
+    "build": "rimraf dist && NODE_ENV=production rollup -c rollup.config.ts --configPlugin swc3",
+    "dev": "rollup -cw rollup.config.ts --configPlugin swc3"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@types/safe-json-stringify": "^1.1.5",
-    "safe-json-stringify": "^1.2.0"
+    "safe-json-stringify": "^1.2.0",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
