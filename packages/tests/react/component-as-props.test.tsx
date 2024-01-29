@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('As prop', () => {
   test('The "as" property can be used or overridden', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component1 = styled();
 
     const expression1 = component1.render();
@@ -21,7 +21,7 @@ describe('As prop', () => {
   });
 
   test('The "as" property is followed during extension', () => {
-    const { styled } = createStitches();
+    const { styled } = createSutairu();
     const component1 = styled('div');
     const component2 = styled(component1);
     const expression = component2.render();

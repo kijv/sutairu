@@ -1,9 +1,9 @@
+import { type PropertyValue, createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { type PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Basic', () => {
   test('Existance of methods', () => {
-    const stitches = createStitches();
+    const stitches = createSutairu();
 
     expect(stitches).toBeInstanceOf(Object);
     expect(stitches.css).toBeInstanceOf(Function);
@@ -13,13 +13,13 @@ describe('Basic', () => {
   });
 
   test('Functionality of getCssText()', () => {
-    const { getCssText } = createStitches();
+    const { getCssText } = createSutairu();
 
     expect(getCssText()).toBe('');
   });
 
   test('Functionality of css()', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of2 = css();
     const className1of2 = `${component1of2}`;
@@ -41,7 +41,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of reset()', () => {
-    const { reset, getCssText } = createStitches();
+    const { reset, getCssText } = createSutairu();
 
     expect(reset).toBeInstanceOf(Function);
 
@@ -53,7 +53,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of globalCss()', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     const rendering1of2 = globalCss();
     const className1of2 = `${rendering1of2}`;
@@ -75,7 +75,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of keyframes()', () => {
-    const { keyframes, getCssText } = createStitches();
+    const { keyframes, getCssText } = createSutairu();
 
     const rendering1of1 = keyframes({
       '0%': {
@@ -96,7 +96,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of createTheme()', () => {
-    const { createTheme, getCssText } = createStitches();
+    const { createTheme, getCssText } = createSutairu();
 
     const rendering1of1 = createTheme({
       colors: {
@@ -116,7 +116,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of css() — css prop', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of1 = css({ color: 'DodgerBlue' });
     const className1of1 = `${component1of1({ css: { color: 'Crimson' } })}`;
@@ -135,7 +135,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of css() — variants', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of1 = css({
       fontSize: '100%',
@@ -161,7 +161,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of css() — utils', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       utils: {
         userSelect: (value: PropertyValue<'userSelect'>) => ({
           WebkitUserSelector: value,
@@ -183,7 +183,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of stringification — numeric pixel values', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of1 = css({
       width: 100,
@@ -198,7 +198,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of stringification — token values', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of1 = css({
       width: '$brand',
@@ -214,7 +214,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of stringification — local tokens', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     const component1of1 = css({
       $$brand: '500px',
@@ -231,7 +231,7 @@ describe('Basic', () => {
   });
 
   test('Functionality of stringification — local tokens prefixed', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       prefix: 'fusion',
     });
 
@@ -250,7 +250,7 @@ describe('Basic', () => {
   });
 
   test('Stringification: Utils + Local Tokens', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       utils: {
         backdropFilter: (value: PropertyValue<'backdropFilter'>) => ({
           WebkitBackdropFilter: value,
@@ -274,7 +274,7 @@ describe('Basic', () => {
   });
 
   test('Theme', () => {
-    const { getCssText } = createStitches({
+    const { getCssText } = createSutairu({
       theme: {
         colors: {
           red: 'Crimson',

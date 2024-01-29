@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Issue #943', () => {
   test('@font-face descriptors', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       '@font-face': [

@@ -1,9 +1,9 @@
+import { type PropertyValue, createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { type PropertyValue, createStitches } from '../../stitches/src/core';
 
 describe('Utils', () => {
   test('Authors can define utilties applied to components', () => {
-    const stitches = createStitches({
+    const stitches = createSutairu({
       utils: {
         bg: (value: PropertyValue<'backgroundColor'>) => ({
           backgroundColor: value,

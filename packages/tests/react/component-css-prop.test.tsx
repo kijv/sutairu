@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('React Component with CSS prop', () => {
   test('Authors can create a component and pass it a css prop of overrides', () => {
-    const { styled, toString } = createStitches();
+    const { styled, toString } = createSutairu();
 
     styled('button', {
       order: 1,
@@ -19,7 +19,7 @@ describe('React Component with CSS prop', () => {
   });
 
   test('React example from Radix', () => {
-    const { styled, toString } = createStitches({
+    const { styled, toString } = createSutairu({
       media: {
         bp2: '(min-width: 900px)',
       },

@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Issue #725', () => {
   test('Minimum reproduction of bug', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       media: {
         tablet: '(min-width: 720px)',
         wide: '(min-width: 1536px)',
@@ -29,7 +29,7 @@ describe('Issue #725', () => {
   });
 
   test('Combination with other variants', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       media: {
         mobile: '(min-width: 420px)',
         tablet: '(min-width: 720px)',
@@ -63,7 +63,7 @@ describe('Issue #725', () => {
     );
   });
   test('Test compound variants', () => {
-    const { css, getCssText } = createStitches({
+    const { css, getCssText } = createSutairu({
       media: {
         bp1: '(min-width: 720px)',
         bp2: '(min-width: 1536px)',

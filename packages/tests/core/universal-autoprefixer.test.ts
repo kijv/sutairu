@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Autoprefixer', () => {
   test('appearance', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -17,7 +17,7 @@ describe('Autoprefixer', () => {
   });
 
   test('backfaceVisibility', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -31,7 +31,7 @@ describe('Autoprefixer', () => {
   });
 
   test('backgroundClip', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -45,7 +45,7 @@ describe('Autoprefixer', () => {
   });
 
   test('clipPath', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -59,7 +59,7 @@ describe('Autoprefixer', () => {
   });
 
   test('hyphens', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -73,7 +73,7 @@ describe('Autoprefixer', () => {
   });
 
   test('maskImage', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -87,7 +87,7 @@ describe('Autoprefixer', () => {
   });
 
   test('tabSize', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -101,7 +101,7 @@ describe('Autoprefixer', () => {
   });
 
   test('textSizeAdjust', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {
@@ -115,7 +115,7 @@ describe('Autoprefixer', () => {
   });
 
   test('userSelect', () => {
-    const { globalCss, toString } = createStitches();
+    const { globalCss, toString } = createSutairu();
 
     globalCss({
       'x-element': {

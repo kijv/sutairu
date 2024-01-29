@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import * as styles from './app.css.ts';
 import { globals } from './index.css.ts';
-import './stitches.css';
-
+import './sutairu.css';
 globals();
 
 const root = document.getElementById('root')!;

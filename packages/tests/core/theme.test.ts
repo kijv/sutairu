@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Theme', () => {
   test('Expected behavior for the createTheme() method', () => {
-    const { createTheme, getCssText } = createStitches();
+    const { createTheme, getCssText } = createSutairu();
 
     const myTheme = createTheme('my', {
       colors: {
@@ -22,7 +22,7 @@ describe('Theme', () => {
 
   test('createTheme() support for non-strings', () => {
     {
-      const { getCssText } = createStitches({
+      const { getCssText } = createSutairu({
         theme: {
           sizes: {
             sm: 100,
@@ -40,7 +40,7 @@ describe('Theme', () => {
     }
 
     {
-      const { getCssText } = createStitches({
+      const { getCssText } = createSutairu({
         theme: {
           sizes: {
             sm: 100,
@@ -63,7 +63,7 @@ describe('Theme', () => {
   });
 
   test('theme.className injects the theme', () => {
-    const { getCssText, createTheme } = createStitches();
+    const { getCssText, createTheme } = createSutairu();
 
     const theme = createTheme({
       colors: {

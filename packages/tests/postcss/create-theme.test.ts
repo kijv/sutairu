@@ -1,16 +1,15 @@
 import path from 'node:path';
 import { describe, expect, suite, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
-import { extractorCore } from '../../stitches/src/postcss/extractor/core';
+import { extractorAll } from '../../plugin/src/extractor';
 
-const emptyFile = path.join(__dirname, 'empty', 'core.ts');
+const root = path.join(__dirname, 'mock');
+const id = path.join(__dirname, 'mock', 'core.ts');
+const sutairuPath = [path.join(__dirname, 'mock', 'core.config.ts')];
 
 suite('createTheme() extraction', () => {
-  const stitches = createStitches();
-
   describe('variable', async () => {
     const def = `
-    import { createTheme } from "@jujst/stitches/core";
+    import { createTheme } from "@sutairu/core";
 
     const theme = createTheme({
       colors: {
@@ -21,73 +20,65 @@ suite('createTheme() extraction', () => {
     theme`;
 
     test('no call, just defining it', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: def,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot('[]');
+      expect(extracted?.tokens).toStrictEqual([]);
     });
 
     test('toString()', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: `${def}.toString();`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('className', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: `${def}.className;`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('String primitive', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: def.replace(/theme$/g, 'String(theme)'),
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
   });
 
   describe('object', async () => {
     const def = `
-    import { createTheme } from "@jujst/stitches/core";
+    import { createTheme } from "@sutairu/core";
 
     const styles = {
       theme: createTheme({
@@ -100,141 +91,131 @@ suite('createTheme() extraction', () => {
     styles.theme`;
 
     test('no call, just defining it', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: def,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot('[]');
+      expect(extracted?.tokens).toStrictEqual([]);
     });
 
     test('toString()', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: `${def}.toString();`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('className', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: `${def}.className;`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('String primitive', async () => {
-      const extracted = await extractorCore.extract!({
+      const extracted = await extractorAll.extract!({
         code: def.replace(/styles.theme$/g, 'String(styles.theme)'),
-        id: emptyFile,
-        stitches,
-        configFileList: [],
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id,
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
   });
 
-  describe('called in object', async () => {
+  describe('custom config', async () => {
     const def = `
-    import { createTheme } from "@jujst/stitches/core";
+    import { createSutairu } from "@sutairu/core";
+    const { createTheme } = createSutairu()
 
-    const theme = createTheme({
-      colors: {
-        foreground: 'red',
-        }
-    })`;
+    const styles = {
+      theme: createTheme({
+        colors: {
+          foreground: 'red',
+          }
+      })
+    }
+    
+    styles.theme`;
 
-    test('toString()', async () => {
-      const extracted = await extractorCore.extract!({
-        code: `${def}
-        
-        const obj = {
-          theme: theme.toString(),
-        }`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
+    test('no call, just defining it', async () => {
+      const extracted = await extractorAll.extract!({
+        code: def,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id: sutairuPath[0],
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual([]);
+    });
+
+    test('toString()', async () => {
+      const extracted = await extractorAll.extract!({
+        code: `${def}.toString();`,
+        original: '',
+        extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id: sutairuPath[0],
+        sutairuPath,
+      });
+
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('className', async () => {
-      const extracted = await extractorCore.extract!({
-        code: `${def}
-        
-        const obj = {
-          theme: theme.className,
-        }`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
+      const extracted = await extractorAll.extract!({
+        code: `${def}.className;`,
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id: sutairuPath[0],
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
 
     test('String primitive', async () => {
-      const extracted = await extractorCore.extract!({
-        code: `${def}
-        
-        const obj = {
-          theme: String(theme),
-        }`,
-        id: emptyFile,
-        stitches,
-        configFileList: [],
+      const extracted = await extractorAll.extract!({
+        code: def.replace(/styles.theme$/g, 'String(styles.theme)'),
         original: '',
         extracted: new Set<string>(),
+        dependencies: new Set<string>(),
+        root,
+        id: sutairuPath[0],
+        sutairuPath,
       });
 
-      expect(extracted).toMatchInlineSnapshot(`
-        [
-          "t-bdqcWd",
-        ]
-      `);
+      expect(extracted?.tokens).toStrictEqual(['t-bdqcWd']);
     });
   });
 });

@@ -1,5 +1,5 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 const styleRule = '--sxs { --sxs:1 lTyTw fJmROo; }';
 // @jujst/stitches uses @layer directive instead of @margin for grouping
@@ -30,7 +30,7 @@ const createStylesheet = (...preloadedStyles: string[]) => {
 
 describe('Issue #908', () => {
   test('Getting hydratable stylesheet', () => {
-    const { getCssText } = createStitches({
+    const { getCssText } = createSutairu({
       root: {
         // @ts-expect-error This is hidden from types
         styleSheets: [createStylesheet(styleRule, layerRule)],

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 
+import { createSutairu } from '@sutairu/react';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 const RenderOf = (...args) => {
   let Rendered;
@@ -24,7 +24,7 @@ describe('React Component with CSS prop', () => {
   });
 
   test('XYZ', () => {
-    const { styled, toString } = createStitches({
+    const { styled, toString } = createSutairu({
       media: {
         bp2: '(min-width: 900px)',
       },

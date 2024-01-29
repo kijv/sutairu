@@ -1,0 +1,57 @@
+{
+  "name": "@sutairu/core",
+  "version": "0.1.0",
+  "bugs": {
+    "url": "https://github.com/jujitsustudio/sutairu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jujitsustudio/sutairu.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "author": "KIJVCN <kijv999@gmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "LICENSE",
+    "dist"
+  ],
+  "scripts": {
+    "build": "rimraf dist && NODE_ENV=production rollup -c",
+    "dev": "rollup -cw",
+    "prepublishOnly": "nr build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/safe-json-stringify": "^1.1.5",
+    "safe-json-stringify": "^1.2.0"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

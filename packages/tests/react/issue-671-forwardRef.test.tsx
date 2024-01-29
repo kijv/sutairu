@@ -1,11 +1,11 @@
+import { createSutairu } from '@sutairu/react';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/react';
 
 describe('Issue #671 - forwardRef', () => {
   {
-    const { styled, getCssText } = createStitches();
+    const { styled, getCssText } = createSutairu();
 
     const StyledBase = styled('div', { color: 'black' });
     const ForwardRefReactComponent = React.forwardRef((props, ref) =>

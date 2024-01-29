@@ -1,9 +1,9 @@
+import { createSutairu } from '@sutairu/core';
 import { describe, expect, test } from 'vitest';
-import { createStitches } from '../../stitches/src/core';
 
 describe('Nesting', () => {
   test('Authors can define globalCss nesting rules', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       'body > a': {
@@ -19,7 +19,7 @@ describe('Nesting', () => {
   });
 
   test('Authors can define component nesting rules', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       '&:not(:hover)': {
@@ -33,7 +33,7 @@ describe('Nesting', () => {
   });
 
   test('Authors can define recursive globalCss nesting rules', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       p: {
@@ -50,7 +50,7 @@ describe('Nesting', () => {
   });
 
   test('Authors can define recursive component nesting rules', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       margin: 0,
@@ -65,7 +65,7 @@ describe('Nesting', () => {
   });
 
   test('Authors can define complex recursive globalCss nesting rules', () => {
-    const { globalCss, getCssText } = createStitches();
+    const { globalCss, getCssText } = createSutairu();
 
     globalCss({
       'body > p, body > ul': {
@@ -86,7 +86,7 @@ describe('Nesting', () => {
   });
 
   test('Authors can define complex recursive component nesting rules', () => {
-    const { css, getCssText } = createStitches();
+    const { css, getCssText } = createSutairu();
 
     css({
       '& > p, & > ul': {
