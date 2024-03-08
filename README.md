@@ -22,7 +22,7 @@ Sutairu is an extended version of Stitches that has bundle-time server support. 
 
 ## Documentation
 
-Visit https://jujitsu.studio/sutairu to view the full documentation.
+Visit https://jujitsu.studio/sutairu (TODO) to view the full documentation.
 
 ## Acknowledgements
 
